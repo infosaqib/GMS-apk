@@ -1,0 +1,7 @@
+node_modules
+bin
+config
+*.txt
+*.json
+*.md
+*.config.js
