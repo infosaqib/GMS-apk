@@ -2,8 +2,8 @@
 function formValidate() {
   // Name Validation
   let name = document.myForm.name.value;
-  if (name.length < 5) {
-    setError("name", "Name is too short");
+  if (name.length == null || "") {
+    setError("name", "Enter Your name");
 
     return false;
   }

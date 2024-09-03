@@ -33,13 +33,14 @@ function hideAddProduct() {
 //Product list Generator
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        response = await fetch('/api')
+        response = await fetch('/products')
         const products = await response.json()
 
         products.forEach(product => {
 
 
             let productContainer = document.getElementById('product-container');
+            let { _id, product_name, cleaning_price, granding_price, total_price } = product
             return productContainer.innerHTML += `
            <div id="myProduct"
                class=" h-[22em] scale-95 flex flex-col justify-center border border-gray-300 bg-white  rounded-lg py-4 px-5">
@@ -53,9 +54,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                        </svg>
                    </div>
-                   <div onclick = "document.getElementById('myProduct').remove()"
-                       class="flex flex-row items-center justify-center cursor-pointer border border-red-500 hover:bg-gray-50  rounded-[100px] px-3 py-1 gap-3">
-                       <p class="text-red-500 text-base font-semibold">Delete</p> <svg
+                   <div data-id="${_id}"
+                       class="deleteButton flex flex-row items-center justify-center cursor-pointer border border-red-500 hover:bg-gray-50  rounded-[100px] px-3 py-1 gap-3">
+                       <button class="text-red-500 text-base font-semibold">Delete</button> <svg
                            class="size-4 text-red-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none"
                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                            <path stroke-linecap="round" stroke-linejoin="round"
@@ -65,28 +66,62 @@ document.addEventListener('DOMContentLoaded', async () => {
                </div>
                <div class="flex flex-row justify-between items-center px-3 py-4">
                    <h1 class="text-gray-400 text-base">Product name</h1>
-                   <p class="text-black text-base font-semibold">${product.product_name}</p>
+                   <p class="text-black text-base font-semibold">${product_name}</p>
                </div>
                <hr>
                <div class="flex flex-row justify-between items-center px-3 py-4">
                    <h1 class="text-gray-400 text-base">Cleaning price</h1>
-                   <p class="text-black text-base font-semibold">${product.cleaning_price} pkr</p>
+                   <p class="text-black text-base font-semibold">Rs. ${cleaning_price}</p>
                </div>
                <hr>
                <div class="flex flex-row justify-between items-center px-3 py-4">
                    <h1 class="text-gray-400 text-base">Granding price</h1>
-                   <p class="text-black text-base font-semibold">${product.granding_price} pkr</p>
+                   <p class="text-black text-base font-semibold">Rs. ${granding_price}</p>
                </div>
                <hr>
                <div class="flex flex-row justify-between items-center px-3 py-4">
                    <h1 class="text-gray-400 text-lg font-semibold">Total price</h1>
-                   <p class="text-black text-lg font-semibold">${product.total_price} pkr</p>
+                   <p class="text-black text-lg font-semibold">Rs. ${total_price}</p>
                </div>
        </div> `
 
         });
     } catch (error) {
         console.error('Error fetching products', error);
+    }
+
+
+    let deleteButton = document.querySelectorAll('.deleteButton');
+    deleteButton.forEach(button => { button.addEventListener('click', deleteProduct) })
+
+
+
+    function deleteProduct(event) {
+        const productId = event.currentTarget.dataset.id
+        const productDiv = event.target.closest('#myProduct')
+
+        const userAction = confirm('Are you sure to delete this product?')
+        if (userAction) {
+
+            fetch(`/product/${productId}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        return response.text().then(text => {
+                            throw new Error(text)
+                        })
+                    }
+                })
+                .then(() => {
+                    productDiv.remove();
+                })
+                .catch(error => {
+                    console.error('Error:', error)
+                })
+        } else {
+            console.log('Product not deleted');
+        }
     }
 })
 

@@ -1,38 +1,47 @@
+const { format } = require("morgan");
 const mongoose = require('mongoose');
-const { format } = require('morgan');
 
-mongoose.connect('mongodb://127.0.0.1:27017/gms-db');
+//* Database Connection
+const connectDB = require('../db');
+connectDB();
 
-const id = `#${String(Math.floor(Math.random() * 1000000)).padStart(6, 0)}`
+//? Schema
+const generateUniqueId = () => {
+  const timestamp = Date.now().toString();
+  const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+  const uniqueId = (timestamp + randomNum).slice(-7); // Ensure the ID is 7 digits long
+  return uniqueId;
+};
 
-const userSchema = new mongoose.Schema({
-  id:{
-    type: String,
-    required: true,
-    unique: true, 
-    default: id
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  date: {
-    type: Date,
-    format: 'yyyy-mm-dd',
-    default: Date.now
-  },
-  item_name: {
-    type: String,
-    required: true
-  },
-  item_weight: {
-    type: Number,
-    required: true
-  },
-  total_price:  {
-    type: Number,
-    required: true
-  },
-})
 
-module.exports = mongoose.model('user', userSchema);
+const userSchema = new mongoose.Schema(
+  {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+      default: generateUniqueId
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    item_name: {
+      type: String,
+      required: true,
+    },
+    item_weight: {
+      type: Number,
+      required: true,
+    },
+    total_price: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+module.exports = mongoose.model("user", userSchema);

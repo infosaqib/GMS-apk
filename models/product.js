@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/gms-db');
+//* Database Connection
+const connectDB = require('../db');
+connectDB();
 
+//? Schema
 const productSchema = new mongoose.Schema({
   product_name: {
     type: String,
