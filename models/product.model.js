@@ -13,11 +13,22 @@ const productSchema = new mongoose.Schema({
   },
   cleaning_price: {
     type: Number,
-    required: true
   },
   granding_price: {
     type: Number,
-    required: true
+    required: true,
+  },
+  chrai_price: {
+    type: Number,
+  },
+  pinjai_price: {
+    type: Number,
+  },
+  filling_price: {
+    type: Number,
+  },
+  stiching_price: {
+    type: Number,
   },
   total_price: {
     type: Number,
