@@ -6,11 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style.css">
   <style>
-    .label-red::after{
+    .label-red::after {
       content: " *";
       color: red;
       font-size: large;
     }
+
     #side-container.toggle {
       display: block;
       left: 0;
@@ -155,14 +156,14 @@
 
         <div class="flex flex-col col-span-1 mr-8" id="contact">
           <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
-          <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-            type="number" name="contact" required>
+          <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
+            name="contact" required>
           <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
         </div>
         <div class="flex flex-col col-span-1 mr-8" id="cnic">
           <label class=" label-red my-1 text-gray-500 font-semibold required" for="cnic">CNIC</label>
-          <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-            type="number" name="cnic" required>
+          <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
+            name="cnic" required>
           <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
         </div>
       </div>
@@ -178,17 +179,15 @@
         </div>
         <div class="flex flex-col col-span-1 mr-8" id="weight">
           <label class="label-red my-1 text-gray-500 font-semibold required" for="weight">Item weight</label>
-          <input oninput="totalWeight()"
-            class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+          <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
             id="item-weight" type="number" name="weight" min="1" required>
           <span id="error" class="error text-red-500 text-[12px]   ml-2 mt-1"></span>
         </div>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
         <div class="flex flex-col col-span-1 mr-8">
-          <label class= "label-red my-1 text-gray-500 font-semibold  " for="cutting">Cutt off weight</label>
-          <input oninput="totalWeight()"
-            class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
+          <label class="label-red my-1 text-gray-500 font-semibold  " for="cutting">Cutt off weight</label>
+          <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
             name="cutting" id="cutting" min="0" value="0">
         </div>
         <div class="flex flex-col col-span-1 mr-8">
@@ -199,7 +198,9 @@
         </div>
       </div>
       <hr class="my-3 mr-8">
-      <div class="grid grid-cols-1 my-2">
+
+      <!--? Pinjai -->
+      <!-- <div class="grid grid-cols-1 my-2">
         <p class="my-3  text-gray-500 font-semibold"> Pinjai of product?</p>
         <div class=" grid grid-cols-2 gap-16">
           <div class="flex items-center ps-4 border-[.2px] border-gray-300 rounded">
@@ -215,8 +216,10 @@
               class="w-full py-2 ms-2 text-sm font-semibold text-gray-500 dark:text-gray-500">No</label>
           </div>
         </div>
-        
-      </div>
+
+      </div> -->
+
+      <!--? Type of Pinjai -->
       <div class="grid grid-cols-1 my-2">
         <p class="my-3  text-gray-500 font-semibold">Type of Pinjai:</p>
         <div class=" grid grid-cols-3 gap-16">
@@ -240,6 +243,38 @@
           </div>
         </div>
       </div>
+
+      <!--? Filling -->
+      <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+        <div class="flex flex-col col-span-1 mr-8">
+          <label class="my-1 text-gray-500 font-semibold" for="filling-price">Filling price</label>
+          <input
+            class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
+            type="number" name="filling-price" id="filling-price" value="0" readonly>
+        </div>
+        <div class="flex flex-col col-span-1 mr-8">
+          <label class="my-1 text-gray-500 font-semibold" for="filling-quantity">Add Quantity</label>
+          <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
+            name="filling-quantity" id="filling-quantity">
+        </div>
+      </div>
+      <!--? Stiching -->
+      <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+        <div class="flex flex-col col-span-1 mr-8">
+          <label class="my-1 text-gray-500 font-semibold" for="stiching-price">Stiching price</label>
+          <input
+            class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
+            type="number" name="stiching-price" id="stiching-price" value="0" readonly>
+        </div>
+        <div class="flex flex-col col-span-1 mr-8">
+          <label class="my-1 text-gray-500 font-semibold" for="stiching-quantity">Add Quantity</label>
+          <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
+            name="stiching-quantity" id="stiching-quantity">
+        </div>
+      </div>
+
+      <hr class="my-3 mr-8">
+      <!--? Cleaning & Granding -->
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
         <div class="flex flex-col col-span-1 mr-8">
           <label class="my-1 text-gray-500 font-semibold" for="cleaning-price">Cleaning price</label>
@@ -254,6 +289,8 @@
             type="number" name="granding-price" id="granding-price" readonly>
         </div>
       </div>
+
+      <!--? Chrai & Pinjai -->
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
         <div class="flex flex-col col-span-1 mr-8">
           <label class="my-1 text-gray-500 font-semibold" for="chrai-price">Chrai price</label>
@@ -292,7 +329,7 @@
           <label class="my-1 text-gray-500 font-semibold" for="total">Total price</label>
           <input
             class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-            type="text" name="total" id="total" readonly>
+            type="text" name="total" id="total" value="0" readonly>
         </div>
       </div>
       <div class="flex flex-col col-span-3 mr-8 my-6">
@@ -306,8 +343,7 @@
   <!-- SIDEBAR ... END-->
 
   <!-- INVOICE RECIEPT -->
-  <div id="invoice-view"
-    class="container bg-white w-[90vw] md:w-[45vw] rounded p-3 fixed top-[4.5em] md:top-7  hidden">
+  <div id="invoice-view" class="container bg-white w-[90vw] md:w-[45vw] rounded p-3 fixed top-[4.5em] md:top-7  hidden">
 
   </div>
   <!-- INVOICE RECIEPT ... END -->

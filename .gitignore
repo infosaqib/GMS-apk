@@ -1,6 +1,6 @@
-node_modules
+/node_modules
 config
 *.txt
-*.json
 *.md
 *.config.js
+.env

@@ -21,12 +21,12 @@
         @keyframes dialog {
             from {
                 opacity: 0;
-                transform: scale(0.60);
+                transform: scale(0.55);
             }
 
             to {
                 opacity: 1;
-                transform: scale(0.75);
+                transform: scale(0.70);
             }
 
         }
@@ -69,7 +69,7 @@
         <!--! ADD PRODUCT FORM-->
 
         <div id="add-product-page"
-            class="w-[85 md:w-[70vw] fixed hidden bg-white scale-75 p-12 top-[-60px] left-[6em] rounded-lg">
+            class="w-[85 md:w-[70vw] fixed hidden bg-white scale-[0.70] p-12 top-[-120px] left-[8em] rounded-lg">
             <div class="flex flex-row items-center justify-between mb-4">
                 <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Product
                 </h1>
@@ -125,7 +125,7 @@
                         <label class="my-1 text-gray-400 font-light text-xl" for="pinjaiPrice">Pinjai
                             price</label>
                         <input type="number" name="pinjaiPrice"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                            class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
                             min="0" value="0">
                     </div>
                 </div>
@@ -164,7 +164,7 @@
         <!--! Update PRODUCT FORM-->
 
         <div id="update-product-page"
-            class="w-[85vw] md:w-[70vw] fixed hidden bg-white scale-75 p-12 top-[-60px] left-[6em] rounded-lg">
+            class="w-[85vw] md:w-[70vw] fixed hidden bg-white scale-[0.70] p-12 top-[-120px] left-[8em] rounded-lg">
             <div class="flex flex-row items-center justify-between mb-4">
                 <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update Product
                 </h1>
@@ -218,12 +218,12 @@
                         <label class="my-1 text-gray-400 font-light text-xl" for="up_pinjai-price">Pinjai
                             price</label>
                         <input type="number" name="up_pinjai_price"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                          class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
                             min="0" value="">
                     </div>
                 </div>
-                <!--? Stiching and filling price -->
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                <!--? Filling and Stiching price -->
+                <div class="grid grid-cols-1 md:grid-cols-2 my-2" id="stichFill">
                     <div id="product-filling" class="flex flex-col col-span-1 mr-8 gap-2">
                         <label class="my-1 text-gray-400 font-light text-xl" for="up_filling-price">Filling
                             price</label>

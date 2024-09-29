@@ -1,7 +1,120 @@
 
 //Global variables
 let productMenu = document.getElementById("productMenu");
+let cuttWeight = document.myForm.cutting;
+let remainingWeight = document.myForm.remaining;
+let itemWeight = document.myForm.weight;
+let cleaningPriceInput = document.getElementById("cleaning-price");
+let grandingPriceInput = document.getElementById("granding-price");
+let stichingPriceInput = document.getElementById("stiching-price");
+let stichingQuantityInput = document.getElementById("stiching-quantity");
+let fillingPriceInput = document.getElementById("filling-price");
+let fillingQuantityInput = document.getElementById("filling-quantity");
+let chraiPriceInput = document.getElementById("chrai-price");
+let pinjaiPriceInput = document.getElementById("pinjai-price");
 let totalPrice = document.myForm.total;
+
+// Helper function to parse float and return 0 if NaN
+const parseFloatSafe = (value) => {
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? 0 : parsed;
+};
+
+// Calculate remaining weight
+const calculateRemainingWeight = () => {
+  const itemWeightValue = parseFloatSafe(itemWeight.value);
+  const cuttWeightValue = parseFloatSafe(cuttWeight.value);
+  return Math.max(itemWeightValue - cuttWeightValue, 0);
+};
+
+// Calculate total price based on selected options
+const calculateTotalPrice = () => {
+  const remainingWeight = calculateRemainingWeight();
+  let price = 0;
+
+  // Base price calculation
+  const cleaningPrice = parseFloatSafe(cleaningPriceInput.value);
+  const grandingPrice = parseFloatSafe(grandingPriceInput.value);
+  const chraiPrice = parseFloatSafe(chraiPriceInput.value);
+  const pinjaiPrice = parseFloatSafe(pinjaiPriceInput.value);
+
+  price += (cleaningPrice + grandingPrice + chraiPrice + pinjaiPrice) * remainingWeight;
+
+  // Additional services
+  const stichingQuantity = parseFloatSafe(stichingQuantityInput.value);
+  const stichingPrice = parseFloatSafe(stichingPriceInput.value);
+  price += stichingQuantity * stichingPrice;
+
+  const fillingQuantity = parseFloatSafe(fillingQuantityInput.value);
+  const fillingPrice = parseFloatSafe(fillingPriceInput.value);
+  price += fillingQuantity * fillingPrice;
+
+  return price;
+};
+
+// Update UI
+const updateUI = () => {
+  remainingWeight.value = calculateRemainingWeight();
+  totalPrice.value = calculateTotalPrice().toFixed(2);
+};
+
+// Event listeners
+const inputElements = [
+  itemWeight, cuttWeight, cleaningPriceInput, grandingPriceInput,
+  chraiPriceInput, pinjaiPriceInput, stichingQuantityInput,
+  stichingPriceInput, fillingQuantityInput, fillingPriceInput
+];
+
+inputElements.forEach(element => {
+  element.addEventListener('input', updateUI);
+});
+
+// Initial UI update
+updateUI();
+
+//Total weigtht
+// let totalWeight = () => {
+//   remainingWeight.value = itemWeight.value - cuttWeight.value;
+//   console.log(remainingWeight.value);
+//   totalGrandingPrice();
+//   totalCleaningGrandingPrice();
+//   totalCleaningGrandingChraiPrice();
+//   totalPinjaiPrice();
+//   totalFillingPinjaiPrice()
+//   totalStichingPinjaiPrice()
+// };
+
+// itemWeight.addEventListener('input', totalWeight)
+// cuttWeight.addEventListener('input', totalWeight)
+
+//Total Checkout
+// function totalGrandingPrice() {
+//   totalPrice.value = parseFloat(grandingPriceInput.value) * parseFloat(remainingWeight.value)
+// }
+// function totalCleaningGrandingPrice() {
+//   totalPrice.value = (parseFloat(cleaningPriceInput.value) + parseFloat(grandingPriceInput.value)) * parseFloat(remainingWeight.value)
+//   console.log(totalPrice.value);
+
+// }
+// function totalCleaningGrandingChraiPrice() {
+//   totalPrice.value = (parseFloat(cleaningPriceInput.value) + parseFloat(grandingPriceInput.value) + parseFloat(chraiPriceInput.value)) * parseFloat(remainingWeight.value)
+// }
+// function totalPinjaiPrice() {
+//   totalPrice.value = parseFloat(pinjaiPriceInput.value) * parseFloat(remainingWeight.value)
+// }
+
+// function totalStichingPrice() {
+//   totalPrice.value = parseFloat(totalPrice.value) + (parseFloat(stichingQuantityInput.value) * parseFloat(stichingPriceInput.value))
+// }
+// function totalFillingPrice() {
+//   totalPrice.value = parseFloat(totalPrice.value) + (parseFloat(fillingQuantityInput.value) * parseFloat(fillingPriceInput.value))
+// }
+
+// stichingQuantityInput.addEventListener('input', totalStichingPrice)
+// fillingQuantityInput.addEventListener('input', totalFillingPrice)
+
+
+
 
 //Sidebar Events
 let sideBar = document.getElementById("side-container");
@@ -171,21 +284,6 @@ async function deleteInvoice(event) {
 
 
 
-//Remaining weigtht
-let cuttWeight = document.myForm.cutting;
-let remainingWeight = document.myForm.remaining;
-let itemWeight = document.myForm.weight;
-
-let totalWeight = () => {
-  remainingWeight.value = itemWeight.value - cuttWeight.value;
-  console.log(remainingWeight.value);
-  let totalCheckout =
-    parseFloat(remainingWeight.value) * parseFloat(totalPrice.value);
-  console.log(totalCheckout);
-  totalPrice.value = totalCheckout;
-};
-
-//Total price
 // let extraPrice = document.myForm.extra;
 // let discount = document.myForm.discount;
 // let totalPrice = document.myForm.total;
@@ -204,9 +302,6 @@ let totalWeight = () => {
 //   totalPrice.value = newPrice;
 // }
 
-// function totalCheckout() {
-//   totalPrice.value * itemWeight.value
-// }
 
 //Auto update cleaning and granding price
 
@@ -215,8 +310,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     response = await fetch("/api/products");
     const products = await response.json();
 
-    let cleaningPriceInput = document.getElementById("cleaning-price");
-    let grandingPriceInput = document.getElementById("granding-price");
 
     productMenu.addEventListener("change", () => {
       document.getElementById("select-item").setAttribute("disabled", true);
@@ -226,9 +319,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (selectedProduct) {
         cleaningPriceInput.value = selectedProduct.cleaning_price;
         grandingPriceInput.value = selectedProduct.granding_price;
+        fillingPriceInput.value = selectedProduct.filling_price;
+        stichingPriceInput.value = selectedProduct.stiching_price;
+        chraiPriceInput.value = selectedProduct.chrai_price;
+        pinjaiPriceInput.value = selectedProduct.pinjai_price;
 
-        totalPrice.value =
-          selectedProduct.cleaning_price + selectedProduct.granding_price;
+        // totalPrice.value =
+        //   selectedProduct.cleaning_price + selectedProduct.granding_price + selectedProduct.filling_price + selectedProduct.stiching_price + selectedProduct.chrai_price + selectedProduct.pinjai_price;
       }
     });
 

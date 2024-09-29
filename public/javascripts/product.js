@@ -12,8 +12,9 @@ function addProduct() {
 
     const form = document.addProductForm;
 
-    const { cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice, totalPrice } = form;
-    const allInputs = [cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice];
+    const { cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice, fillingPrice, stichingPrice, totalPrice } = form;
+
+    const allInputs = [cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice, fillingPrice, stichingPrice];
 
     const updateTotal = () => {
         const total = allInputs.reduce((sum, input) => sum + parseFloat(input.value) || 0, 0);
@@ -22,6 +23,61 @@ function addProduct() {
     allInputs.forEach(input => input.addEventListener('input', updateTotal));
     updateTotal();
 }
+
+//?PINJAI PRICE FUNCTION
+function updateStichFillDisplay() {
+    const pinjaiPriceInputs = document.querySelectorAll('.pinjaiPrice');
+    const stichFillElement = document.getElementById('stichFill');
+
+    if (!stichFillElement) {
+        console.error("Element with id 'stichFill' not found!");
+        return;
+    }
+
+    // Function to check and update display
+    function checkAndUpdateDisplay() {
+        let totalPinjaiPrice = 0;
+
+        // Sum up all pinjaiPrice values
+        pinjaiPriceInputs.forEach(input => {
+            const price = parseFloat(input.value) || 0;
+            totalPinjaiPrice += price;
+        });
+
+        console.log("Total Pinjai Price:", totalPinjaiPrice);
+
+        if (totalPinjaiPrice > 0) {
+            console.log("Setting display to 'grid'");
+            stichFillElement.style.display = 'grid';
+        } else {
+            console.log("Setting display to 'none'");
+            stichFillElement.style.display = 'none';
+        }
+
+        console.log("Current stichFill display:", stichFillElement.style.display);
+    }
+
+    // Add event listeners to all pinjaiPrice inputs
+    pinjaiPriceInputs.forEach(input => {
+        input.addEventListener('input', checkAndUpdateDisplay);
+    });
+
+    // Check initial values when page loads
+    console.log("Initial check on page load");
+    checkAndUpdateDisplay();
+}
+
+// Call the function when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM content loaded");
+    updateStichFillDisplay();
+});
+
+// Also check after a short delay to catch any dynamic content changes
+setTimeout(() => {
+    console.log("Delayed check");
+    updateStichFillDisplay();
+}, 500);
 
 //CREATE API FUNCTION
 document.addProductForm.addEventListener('submit', async (e) => {
@@ -125,10 +181,18 @@ async function updateProduct(event) {
 
         const product = await response.json();
 
-        const { product_name, granding_price, cleaning_price, chrai_price, pinjai_price, total_price } = product;
+        const { product_name, granding_price, cleaning_price, chrai_price, pinjai_price, filling_price, stiching_price, total_price } = product;
+
+
+        // Check pinjai_price and set stichFill display
+        const stichFillElement = document.getElementById('stichFill');
+        if (stichFillElement) {
+            stichFillElement.style.display = parseFloat(pinjai_price) > 0 ? 'grid' : 'none';
+        }
+
 
         const form = document.updateProductForm;
-        const priceFields = ['up_granding_price', 'up_cleaning_price', 'up_chrai_price', 'up_pinjai_price'];
+        const priceFields = ['up_granding_price', 'up_cleaning_price', 'up_chrai_price', 'up_pinjai_price', 'up_filling_price', 'up_stiching_price'];
 
         const updateTotal = () => {
             const total = priceFields.reduce((sum, field) => sum + (parseFloat(form[field].value) || 0), 0);
@@ -141,6 +205,8 @@ async function updateProduct(event) {
             up_cleaning_price: cleaning_price,
             up_chrai_price: chrai_price,
             up_pinjai_price: pinjai_price,
+            up_filling_price: filling_price,
+            up_stiching_price: stiching_price,
             up_total_price: total_price
         }).forEach(([key, value]) => {
             form[key].value = value;
@@ -149,7 +215,7 @@ async function updateProduct(event) {
             }
         });
 
-        updateTotal(); 
+        updateTotal();
 
         // Add event listener to the form submission
         form.onsubmit = async (e) => {
@@ -198,10 +264,6 @@ function hideUpdateProduct() {
 
 //------------------------END UPDATE PRODUCT----------------------------------
 
-function hideUpdateProduct() {
-    updatePage.classList.remove('show')
-    overlay.classList.remove('show')
-}
 
 //Product list Generator
 document.addEventListener('DOMContentLoaded', async () => {
@@ -210,14 +272,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         const products = await response.json();
         const productContainer = document.getElementById('product-container');
 
-        productContainer.innerHTML = products.map(product => {
-            const { _id, product_name, cleaning_price, granding_price, chrai_price, pinjai_price, total_price } = product;
+        productContainer.innerHTML += products.map(product => {
+            const { _id, product_name, cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price, total_price } = product;
 
             const priceFields = [
                 ['Cleaning price', cleaning_price],
                 ['Granding price', granding_price],
                 ['Chrai price', chrai_price],
-                ['Pinjai price', pinjai_price]
+                ['Pinjai price', pinjai_price],
+                ['Filling price', filling_price],
+                ['Stiching price', stiching_price]
             ];
 
             return `
