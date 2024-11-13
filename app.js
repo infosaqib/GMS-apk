@@ -5,9 +5,20 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 require('dotenv').config();
 
+// In app.js, before mounting routes
+app.use((req, res, next) => {
+  console.log('Incoming request:', {
+      method: req.method,
+      url: req.originalUrl,
+      body: req.body
+  });
+  next();
+});
+
 let indexRouter = require('./routes/index.route');
 const productRouter = require('./routes/product.route')
 let usersRouter = require('./routes/user.route');
+let profileRouter = require('./routes/profile.route');
 
 let app = express();
 
@@ -25,11 +36,15 @@ app.use(express.static(path.join(__dirname, 'src')));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/products', productRouter)
+app.use('/api/profiles', profileRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
+  res.status(404).send('Route not found');
   next(createError(404));
 });
+
+
 
 // error handler
 app.use(function (err, req, res, next) {

@@ -491,10 +491,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
             <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b>${id}</p>
             <p class="text-gray-400 text-sm lg:text-sm">${formattedDate}</p>
-            <p class="text-gray-400 text-sm lg:text-sm">${name}</p>
+            <p class="text-gray-400 text-sm lg:text-sm capitalize">${name}</p>
+          </div>
+          <div>
+          <p class="text-green-400 text-lg lg:text-sm"></p>
           </div>
           <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-            <p class="text-gray-400 text-sm lg:text-sm">${item_name}</p>
+            <p class="text-gray-400 text-sm lg:text-sm capitalize">${item_name}</p>
             <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.${total_price}</b></p>
             <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd"/>

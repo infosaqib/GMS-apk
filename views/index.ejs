@@ -59,12 +59,12 @@
     @keyframes dialog {
       from {
         opacity: 0;
-        transform: scale(0.75);
+        /* transform: scale(0.75); */
       }
 
       to {
         opacity: 1;
-        transform: scale(1);
+        /* transform: scale(1); */
       }
 
     }
@@ -77,13 +77,13 @@
       border-color: rgb(126, 34, 206);
     }
 
-    .svgicon {
+    /* .svgicon {
       opacity: 0;
     }
 
     #invoice-list:hover .svgicon {
       opacity: 1;
-    }
+    } */
 
     @media(max-width: 640px) {
       #invoice-list:hover .svgicon {
@@ -91,31 +91,31 @@
       }
     }
   </style>
-  <title>Invoice App</title>
+  <title>Invoices - GMS</title>
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center">
+  <div class=" w-[90vw] grid items-center justify-center ">
+    <%-include('header', {activeOption: 'index' })%>
+      <header class=" flex flex-row items-center justify-around py-12 gap-8">
+        <h1 class="text-black text-xl md:text-3xl font-bold">Invoices</h1>
+        <a id="new-btn" onclick="showSidebar()"
+          class="rounded-full flex flex-row gap-4 items-center cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white py-2 px-4 md:px-6 md:py-3">
+          <!-- <img class="w-6 md:w-9" src="./public/icons/plus-icon.png"> -->
+          <svg class="size-6 md:size-10 text-white font-extrabold rounded-[50%]" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          </svg>
 
-  <div class="container w-[90vw] md:w-[70vw]">
-    <header class=" flex flex-row items-center justify-around py-12 gap-8">
-      <h1 class="text-black text-xl md:text-3xl font-bold">Invoices</h1>
-      <a id="new-btn" onclick="showSidebar()"
-        class="rounded-full flex flex-row gap-4 items-center cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white py-2 px-4 md:px-6 md:py-3">
-        <!-- <img class="w-6 md:w-9" src="./public/icons/plus-icon.png"> -->
-        <svg class="size-6 md:size-10 text-white font-extrabold rounded-[50%]" xmlns="http://www.w3.org/2000/svg"
-          fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-        </svg>
-
-        <p class="text-white text-sm md:text-lg font-bold">New invoice</p>
-        <a href="/product"
-          class="bg-slate-100 hover:bg-purple-600 border-[2px] border-purple-600 rounded-[100px] text-xl text-purple-700 hover:text-white p-3">View
-          All Products</a>
-      </a>
-    </header>
-    <hr class="my-5">
-    <div class="p-4" id="invoice-coll">
-    </div>
+          <p class="text-white text-sm md:text-lg font-bold">New invoice</p>
+          <a href="/products"
+            class="bg-slate-100 hover:bg-purple-600 border-[2px] border-purple-600 rounded-[100px] text-xl text-purple-700 hover:text-white p-3 hidden"></a>
+        </a>
+      </header>
+      <hr class="my-5">
+      <div class="p-4 w-[90vw] md:w-[70vw]" id="invoice-coll">
+      </div>
   </div>
 
   <!-- OVERLAY -->
@@ -124,7 +124,7 @@
   </div>
   <!-- SIDEBAR -->
   <div id="side-container"
-    class=" container bg-white w-[90vw] md:w-[50vw] h-screen overflow-scroll border fixed top-0 left-[-730px] hidden transition-all">
+    class=" container bg-white w-[90vw] lg:w-[50vw] h-screen overflow-scroll border fixed top-0 left-[-730px] hidden transition-all">
     <div class="flex flex-row items-center justify-between">
       <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Create
         Invoice
@@ -343,7 +343,8 @@
   <!-- SIDEBAR ... END-->
 
   <!-- INVOICE RECIEPT -->
-  <div id="invoice-view" class="container bg-white w-[90vw] md:w-[45vw] rounded p-3 fixed top-[4.5em] md:top-7  hidden">
+  <div id="invoice-view"
+    class="container bg-white w-[90vw] md:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[50%]  hidden">
 
   </div>
   <!-- INVOICE RECIEPT ... END -->

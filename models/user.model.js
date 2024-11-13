@@ -50,6 +50,11 @@ const userSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    status:{
+      type: String,
+      required: true,
+      default: "Processing"
+    }
   },
   {
     timestamps: true,

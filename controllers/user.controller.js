@@ -31,12 +31,12 @@ const getUserById = async (req, res) => {
 const createUser = async (req, res) => {
     try {
 
-        const { name, fatherName, contact, cnic, items, remaining, total } = req.body
+        const { name, father_name, contact, cnic, items, remaining, total } = req.body
         const userData = new User({
-            name: name,
-            father_name: fatherName,
-            contact: contact,
-            cnic: cnic,
+            name,
+            father_name,
+            contact,
+            cnic,
             item_name: items,
             item_weight: remaining,
             total_price: total
@@ -48,26 +48,44 @@ const createUser = async (req, res) => {
     }
 }
 
-// const updateUser = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const user = await User.findByIdAndUpdate(id, {
-//             name: req.body.name,
-//             item_name: req.body.items,
-//             item_weight: req.body.remaining,
-//             total_price: req.body.total
-//         }, { new: true })
+const updateUser = async (req, res) => {
+    const {id} = req.params;
+    const { status } = req.body;
 
-//         if (!user) {
-//             return res.status(404).json({ message: "User not found" });
-//         }
+    // Validate ObjectId format
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).json({
+    //         message: 'Invalid user ID format',
+    //         details: `ID ${userId} is not a valid MongoDB ObjectId`
+    //     });
+    // }
 
-//         res.status(200)
-//     }
-//     catch (error) {
-//         res.status(400).json({ message: error.message })
-//     }
-// }
+    try {
+        const result = await User.findByIdAndUpdate(
+            id, { status }, { new: true }
+        );
+
+        if (!result) {
+            console.log(`User not found with ID: ${userId}`);
+            return res.status(404).json({
+                message: 'User not found',
+                details: `No user exists with ID ${userId}`
+            });
+        }
+
+        console.log('User updated successfully:', result);
+        return res.status(200).json({
+            message: 'Status updated successfully',
+            user: result
+        });
+    } catch (error) {
+        console.error("Error updating user status:", error);
+        return res.status(500).json({
+            message: 'Internal Server Error',
+            details: error.message
+        });
+    }
+};
 
 const deleteUser = async (req, res) => {
     try {
@@ -85,4 +103,4 @@ const deleteUser = async (req, res) => {
     }
 }
 
-module.exports = { getUsers, getUserById, createUser, deleteUser }
+module.exports = { getUsers, getUserById, createUser, deleteUser, updateUser }

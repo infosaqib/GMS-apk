@@ -14,8 +14,14 @@ connectDB();
 router.get('/', function (req, res) {
   res.render('index')
 });
-router.get('/product', function (req, res) {
+router.get('/products', function (req, res) {
   res.render('product');
+});
+router.get('/tracking', function (req, res) {
+  res.render('tracking');
+});
+router.get('/profiles', function (req, res) {
+  res.render('profile');
 });
 
 
