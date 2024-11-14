@@ -14,13 +14,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getFullYear()}`;
 
             const options = [
+                { value: "ordered", text: "Ordered" },
+                { value: "verified", text: "Verified" },
                 { value: "processing", text: "Processing" },
-                { value: "overview", text: "Overview" },
-                { value: "orders", text: "Orders" },
-                { value: "returns", text: "Returns" },
-                { value: "inventory", text: "Inventory" },
-                { value: "analytics", text: "Analytics" },
-                { value: "settings", text: "Settings" }
+                { value: "packed", text: "Packed" },
+                { value: "returned", text: "Returned" },
             ];
 
             const optionsHtml = options.map(option => {

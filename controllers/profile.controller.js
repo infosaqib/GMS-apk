@@ -36,8 +36,8 @@ const createProfile = async (req, res) => {
 
 
         await profileData.save();
-        res.status(201);
-        // res.redirect('http://localhost:3000/profile')
+        // res.status(201);
+        res.redirect('/profiles')
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({ message: "Profile with this name already exists" })
@@ -54,9 +54,9 @@ const updateProfile = async (req, res) => {
         const { up_name, up_fatherName, up_contact, up_cnic } = req.body;
 
         // Input validation
-        if (!up_name || !up_fatherName || [up_contact || up_cnic].some(isNaN)) {
-            return res.status(400).json({ message: 'Invalid input data' });
-        }
+        // if (!up_name || !up_fatherName || [up_contact || up_cnic].some(isNaN)) {
+        //     return res.status(400).json({ message: 'Invalid input data' });
+        // }
 
         const profile = await Profile.findByIdAndUpdate(id, {
             name: up_name,

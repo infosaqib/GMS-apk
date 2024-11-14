@@ -513,3 +513,63 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error fetching users", error);
   }
 });
+
+
+
+//AUTO-FILL JS FUNCTIONALITY
+function debounce(func, wait) {
+
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  let users = [];
+
+  fetch('/api/profiles')
+    .then(response => response.json())
+    .then(data => users = data)
+    .catch(error => console.log('Error fetching user data:', error))
+
+  const nameInput = document.myForm.name
+  const fatherNameInput = document.myForm.father_name
+  const contactInput = document.myForm.contact
+  const cnicInput = document.myForm.cnic
+
+  const handleInput = () => {
+
+    const inputValue = nameInput.value.trim();
+
+// Ensure at least 3 chracters are entered
+if(inputValue.length < 3){
+  fatherNameInput.value = '';
+  contactInput.value = '';
+  cnicInput.value = '';
+  return;
+}
+
+    // Create a regex to match the input value (case insensitive)
+    const regex = new RegExp(`^${inputValue.substring(0, 3)}`, 'i');
+
+    // Find the user that matches the input name using regex
+    const user = users.find(user => regex.test(user.name));
+
+    if (user) {
+      // Auto-fill the Father's Name and Email fields
+      nameInput.value = user.name;
+      fatherNameInput.value = user.fatherName;
+      contactInput.value = user.contact;
+      cnicInput.value = user.cnic;
+    } else {
+      // Clear the fields if no match is found
+      fatherNameInput.value = '';
+      contactInput.value = '';
+      cnicInput.value = '';
+    }
+  }
+
+  // Add event listener to the Name input field with debounce
+  nameInput.addEventListener('input', debounce(handleInput, 300));
+})

@@ -11,19 +11,19 @@ const profileSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+          
         },
         fatherName: {
             type: String,
-            required: true,
+        
         },
         contact: {
             type: Number,
-            required: true,
+         unique: true
         },
         cnic: {
             type: Number,
-            required: true,
+            unique: true
         }
     },
     {

@@ -6,14 +6,14 @@ let logger = require('morgan');
 require('dotenv').config();
 
 // In app.js, before mounting routes
-app.use((req, res, next) => {
-  console.log('Incoming request:', {
-      method: req.method,
-      url: req.originalUrl,
-      body: req.body
-  });
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log('Incoming request:', {
+//       method: req.method,
+//       url: req.originalUrl,
+//       body: req.body
+//   });
+//   next();
+// });
 
 let indexRouter = require('./routes/index.route');
 const productRouter = require('./routes/product.route')
