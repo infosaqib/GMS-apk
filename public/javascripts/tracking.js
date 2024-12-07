@@ -1,14 +1,14 @@
 //! Tracking Card Generator
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch("/api/users");
+        const response = await fetch("/api/invoices");
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const users = await response.json();
+        const invoices = await response.json();
 
-        users.forEach((user) => {
-            let { _id, id, name, item_name, updatedAt, status } = user;
+        invoices.forEach((invoice) => {
+            let { _id, id, name, item_name, updatedAt, status } = invoice;
 
             const date = new Date(updatedAt);
             const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getFullYear()}`;
@@ -51,28 +51,28 @@ document.addEventListener("DOMContentLoaded", async () => {
             trackingGrid.innerHTML += trackingCardTemplate;
         });
     } catch (error) {
-        console.error("Error fetching users", error);
+        console.error("Error fetching invoices", error);
     }
 });
 async function updateStatus(event) {
     const selectElement = event.target;
-    const userId = selectElement.getAttribute("data-id");
+    const invoiceId = selectElement.getAttribute("data-id");
     const newStatus = selectElement.value;
 
     // Debug logging
-    console.log('Updating status for user:', {
-        userId,
+    console.log('Updating status for invoice:', {
+        invoiceId,
         newStatus,
-        requestUrl: `/api/users/${userId}`
+        requestUrl: `/api/invoices/${invoiceId}`
     });
 
     try {
-        // Validate userId
-        if (!userId) {
-            throw new Error('User ID is missing');
+        // Validate invoiceId
+        if (!invoiceId) {
+            throw new Error('invoice ID is missing');
         }
 
-        const response = await fetch(`/api/users/${userId}`, {
+        const response = await fetch(`/api/invoices/${invoiceId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -92,15 +92,15 @@ async function updateStatus(event) {
             throw new Error(`HTTP error! status: ${response.status}, body: ${responseData}`);
         }
 
-        console.log(`Successfully updated user ${userId} status to ${newStatus}`);
+        console.log(`Successfully updated invoice ${invoiceId} status to ${newStatus}`);
         window.location.reload();
     } catch (error) {
         console.error("Error updating status", {
             error: error.message,
-            userId,
+            invoiceId,
             newStatus
         });
-        // Optionally show user feedback
+        // Optionally show invoice feedback
         alert(`Failed to update status: ${error.message}`);
     }
 }

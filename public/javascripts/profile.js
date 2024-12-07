@@ -255,8 +255,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const profileId = event.target.closest('#myProfile').dataset.id;
         const profileDiv = event.target.closest('#myProfile')
 
-        const userAction = confirm('Are you sure to delete this profile?')
-        if (userAction) {
+        const clientAction = confirm('Are you sure to delete this profile?')
+        if (clientAction) {
             try {
                 const response = await fetch(`/api/profiles/${profileId}`, { method: 'DELETE' })
                 if (!response.ok) {

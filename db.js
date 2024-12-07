@@ -8,7 +8,7 @@ const connectDB = async () => {
     } catch (error) {
         console.error('-_- Internal server Error, please try again:::', error);
         process.exit(1);
-    }
+    };
 };
 
-module.exports = connectDB;
+module.exports = connectDB

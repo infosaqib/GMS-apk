@@ -144,10 +144,10 @@ async function openInvoice(event) {
   invoiceView.classList.add("toggle");
   overlay.classList.add("toggle");
   document.body.style.overflowY = 'hidden'
-  const userId = event.target.dataset.id;
+  const invoiceId = event.target.dataset.id;
 
   try {
-    const response = await fetch(`/api/users/${userId}`);
+    const response = await fetch(`/api/invoices/${invoiceId}`);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -156,9 +156,9 @@ async function openInvoice(event) {
       );
     }
 
-    const user = await response.json();
+    const invoice = await response.json();
 
-    let { _id, id, name, item_name, item_weight, total_price, updatedAt } = user;
+    let { _id, id, name, item_name, item_weight, total_price, updatedAt } = invoice;
 
     // Convert updatedAt to a readable date format DD-MM-YYYY
     const date = new Date(updatedAt);
@@ -246,13 +246,13 @@ async function deleteInvoice(event) {
     return;
   }
 
-  const userId = event.currentTarget.dataset.id;
-  console.log(userId);
+  const invoiceId = event.currentTarget.dataset.id;
+  console.log(invoiceId);
 
-  const userAction = confirm('Are you sure to delete this user?')
-  if (userAction) {
+  const invoiceAction = confirm('Are you sure to delete this invoice?')
+  if (invoiceAction) {
     try {
-      const response = await fetch(`/api/users/${userId}`, { method: 'DELETE' })
+      const response = await fetch(`/api/invoices/${invoiceId}`, { method: 'DELETE' })
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -270,11 +270,11 @@ async function deleteInvoice(event) {
 
 
     } catch (error) {
-      console.error("Error deleteing user:", error.message);
+      console.error("Error deleteing invoice:", error.message);
       if (error.message.includes("404")) {
-        alert("User not Found")
+        alert("invoice not Found")
       } else {
-        console.error("Error deleteing user:" + error.message);
+        console.error("Error deleteing invoice:" + error.message);
       }
     }
   }
@@ -339,16 +339,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.myForm.onsubmit = async (e) => {
   e.preventDefault();
 
-  const userData = new FormData(document.myForm);
-  const newUser = Object.fromEntries(userData.entries());
+  const invoiceData = new FormData(document.myForm);
+  const newinvoice = Object.fromEntries(invoiceData.entries());
 
   try {
-    const response = await fetch('/api/users/', {
+    const response = await fetch('/api/invoices/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(newUser),
+      body: JSON.stringify(newinvoice),
     });
 
     if (!response.ok) {
@@ -356,15 +356,15 @@ document.myForm.onsubmit = async (e) => {
       throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
     }
 
-    const newUserData = await response.json();
-    console.log('user added successfully:', newUserData);
+    const newinvoiceData = await response.json();
+    console.log('invoice added successfully:', newinvoiceData);
 
     //refresh the product list here
     hideSidebar();
     document.myForm.reset();
     window.location.reload();
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error('Error creating invoice:', error);
   }
 };
 
@@ -394,7 +394,7 @@ document.myForm.onsubmit = async (e) => {
 
 //       const formData = new FormData(form);
 //       try {
-//         const response = await fetch('/api/users', {
+//         const response = await fetch('/api/invoices', {
 //           method: 'POST',
 //           body: formData
 //         });
@@ -404,18 +404,18 @@ document.myForm.onsubmit = async (e) => {
 //         }
 
 //         const result = await response.json();
-//         console.log('User created:', result);
+//         console.log('invoice created:', result);
 
 //         // Clear form and show success message
 //         form.reset();
-//         alert('User created successfully!');
+//         alert('invoice created successfully!');
 
 //         // Reset the product selection
 //         productMenu.removeAttribute("disabled");
 //         resetPriceInputs();
 //       } catch (error) {
-//         console.error('Error creating user:', error);
-//         alert('Error creating user. Please try again.');
+//         console.error('Error creating invoice:', error);
+//         alert('Error creating invoice. Please try again.');
 //       }
 //     });
 
@@ -468,15 +468,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 //! Invoice Card Generator
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    response = await fetch("/api/users");
+    response = await fetch("/api/invoices");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const users = await response.json();
+    const invoices = await response.json();
 
-    users.forEach((user) => {
+    invoices.forEach((invoice) => {
       let { _id, id, name, item_name, item_weight, total_price, updatedAt } =
-        user;
+        invoice;
 
       // Convert updatedAt to a readable date format DD-MM-YYYY
       const date = new Date(updatedAt);
@@ -510,7 +510,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       invoiceGrid.innerHTML += invoiceCardTemplate;
     });
   } catch (error) {
-    console.error("Error fetching users", error);
+    console.error("Error fetching invoices", error);
   }
 });
 
@@ -526,12 +526,12 @@ function debounce(func, wait) {
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
-  let users = [];
+  let profiles = [];
 
   fetch('/api/profiles')
     .then(response => response.json())
-    .then(data => users = data)
-    .catch(error => console.log('Error fetching user data:', error))
+    .then(data => profiles = data)
+    .catch(error => console.log('Error fetching client data:', error))
 
   const nameInput = document.myForm.name
   const fatherNameInput = document.myForm.father_name
@@ -540,36 +540,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const handleInput = () => {
 
-    const inputValue = nameInput.value.trim();
+    const inputValue = contactInput.value.trim();
 
 // Ensure at least 3 chracters are entered
-if(inputValue.length < 3){
+if(inputValue.length < 10){
   fatherNameInput.value = '';
-  contactInput.value = '';
+  nameInput.value = '';
   cnicInput.value = '';
   return;
 }
 
     // Create a regex to match the input value (case insensitive)
-    const regex = new RegExp(`^${inputValue.substring(0, 3)}`, 'i');
+    const regex = new RegExp(`^${inputValue}`, 'i');
 
-    // Find the user that matches the input name using regex
-    const user = users.find(user => regex.test(user.name));
+    // Find the invoice that matches the input name using regex
+    const client = profiles.find(client => regex.test(client.contact));
 
-    if (user) {
+    if (client) {
       // Auto-fill the Father's Name and Email fields
-      nameInput.value = user.name;
-      fatherNameInput.value = user.fatherName;
-      contactInput.value = user.contact;
-      cnicInput.value = user.cnic;
+      nameInput.value = invoice.name;
+      fatherNameInput.value = invoice.fatherName;
+      cnicInput.value = invoice.cnic;
     } else {
       // Clear the fields if no match is found
+      nameInput.value = '';
       fatherNameInput.value = '';
-      contactInput.value = '';
       cnicInput.value = '';
     }
   }
 
   // Add event listener to the Name input field with debounce
-  nameInput.addEventListener('input', debounce(handleInput, 300));
+  contactInput.addEventListener('input', debounce(handleInput, 300));
 })

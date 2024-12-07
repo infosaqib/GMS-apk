@@ -135,7 +135,7 @@
           <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
         </svg> </button>
     </div> <!-- <p class="text-purple-400 text-lg my-3 mx-2"></p> -->
-    <form id="myForm" name="myForm" method="POST" action="/api/users" class=" flex flex-col pt-4 px-12">
+    <form id="myForm" name="myForm" method="POST" action="/api/invoices" class=" flex flex-col pt-4 px-12">
       <hr class="my-3 mr-8">
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
         <div class="flex flex-col col-span-1 mr-8" id="name">
@@ -344,9 +344,10 @@
 
   <!-- INVOICE RECIEPT -->
   <div id="invoice-view"
-    class="container bg-white w-[90vw] md:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[50%]  hidden">
+    class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
 
   </div>
+  
   <!-- INVOICE RECIEPT ... END -->
 
   <script>
@@ -370,7 +371,7 @@
   </script>
 
   <!-- <script src="../javascripts/generator.js"></script> -->
-  <script src="./javascripts/script.js"></script>
+  <script src="./javascripts/invoice.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>

@@ -18,11 +18,11 @@ const profileSchema = new mongoose.Schema(
         
         },
         contact: {
-            type: Number,
+            type: String,
          unique: true
         },
         cnic: {
-            type: Number,
+            type: String,
             unique: true
         }
     },

@@ -14,7 +14,7 @@ const generateUniqueId = () => {
 };
 
 
-const userSchema = new mongoose.Schema(
+const invoiceSchema = new mongoose.Schema(
   {
     id: {
       type: String,
@@ -31,11 +31,11 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     contact: {
-      type: Number,
+      type: String,
       required: true,
     },
     cnic: {
-      type: Number,
+      type: String,
       required: true,
     },
     item_name: {
@@ -61,4 +61,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("invoice", invoiceSchema);

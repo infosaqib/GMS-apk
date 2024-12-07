@@ -17,7 +17,7 @@ require('dotenv').config();
 
 let indexRouter = require('./routes/index.route');
 const productRouter = require('./routes/product.route')
-let usersRouter = require('./routes/user.route');
+let invoicesRouter = require('./routes/invoice.route');
 let profileRouter = require('./routes/profile.route');
 
 let app = express();
@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'src')));
 
 app.use('/', indexRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/invoices', invoicesRouter);
 app.use('/api/products', productRouter)
 app.use('/api/profiles', profileRouter)
 
