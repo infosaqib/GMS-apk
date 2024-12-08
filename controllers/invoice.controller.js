@@ -43,14 +43,38 @@ const createInvoice = async (req, res) => {
             total_price: total
         })
         await invoiceData.save()
-        res.redirect('http://localhost:3000/')
+
+        // Generate QR Code
+        await invoiceData.generateQRCode();
+
+        res.status(201).json({
+            message: 'Invoice created successfully',
+            invoice: invoiceData,
+            qr_code: invoiceData.qr_code
+        });
+
+        // res.redirect('http://localhost:3000/')
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+}
+
+const scanQRCode = async (req, res) => {
+    try {
+        const { qr_data } = req.body;
+        const updatedInvoice = await Invoice.updateStatusByQRCode(qr_data);
+
+        res.status(200).json({
+            message: 'Invoice status updated successfully',
+            invoice: updatedInvoice
+        });
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
 }
 
 const updateInvoice = async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     const { status } = req.body;
 
     // Validate ObjectId format
@@ -104,4 +128,4 @@ const deleteInvoice = async (req, res) => {
     }
 }
 
-module.exports = { getInvoices, getInvoiceById, createInvoice, deleteInvoice, updateInvoice }
+module.exports = { getInvoices, getInvoiceById, createInvoice, scanQRCode, deleteInvoice, updateInvoice }

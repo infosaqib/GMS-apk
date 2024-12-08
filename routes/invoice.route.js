@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getInvoices, getInvoiceById, createInvoice,scanQRCode, deleteInvoice, updateInvoice } = require('../controllers/invoice.controller');
+const { getInvoices, getInvoiceById, createInvoice, scanQRCode, deleteInvoice, updateInvoice } = require('../controllers/invoice.controller');
 
 // Test route
 router.get('/test', (req, res) => {

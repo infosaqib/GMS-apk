@@ -158,10 +158,10 @@ async function openInvoice(event) {
 
     const invoice = await response.json();
 
-    let { _id, id, name, item_name, item_weight, total_price, updatedAt } = invoice;
+    let { _id, id, name, item_name, item_weight, total_price, createdAt, qr_code } = invoice;
 
     // Convert updatedAt to a readable date format DD-MM-YYYY
-    const date = new Date(updatedAt);
+    const date = new Date(createdAt);
     const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
       date.getMonth() + 1
     )
@@ -183,17 +183,23 @@ async function openInvoice(event) {
                      onclick="deleteInvoice(event)">Delete</button>
              </div>
          </header>
-         <main id="invoice-img " class="bg-white p-2 md:p-4 rounded-lg">
+         <main id="invoice-img " class="bg-white px-4 py-2 md:px-8 md:py-4 rounded-lg">
              <div class="flex flex-col  justify-between">
-                 <div class="flex flex-col gap-4 md:block">
-                     <div class="flex flex-col">
-                         <p class="text-black text-xs md:text-lg"><b class="text-blue-300">#</b>${id}</p>
-                         <p class="text-gray-400 text-xs md:text-base">Mr. ${name}</p>
-                     </div>
-                     <div class="flex flex-col py-3">
-                         <p class="text-gray-400 text-xs md:text-lg  font-thin">Invoice Date</p>
-                         <p class="text-black font-bold text-xs md:text-base">${formattedDate}</p>
-                     </div>
+             <div class="flex flex-row justify-between">
+             <div class="flex flex-col gap-4 md:block">
+             <div class="flex flex-col">
+             <p class="text-black text-xs md:text-lg"><b class="text-blue-300">#</b>${id}</p>
+             <p class="text-gray-400 text-xs md:text-base">Mr. ${name}</p>
+             </div>
+             <div class="flex flex-col py-3">
+             <p class="text-gray-400 text-xs md:text-lg  font-thin">Invoice Date</p>
+             <p class="text-black font-bold text-xs md:text-base">${formattedDate}</p>
+             </div>
+             </div>
+             <div class="flex flex-col">
+             <img src="${qr_code}" class="w-24">
+             </div>
+
                      <!-- <div class="flex flex-col py-3">
                      <p class="text-gray-400 text-xs md:text-lg font-thin">Payment method</p>
                      <p class="text-black font-bold text-xs md:text-base">Cash on dilivery</p>
@@ -494,7 +500,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p class="text-gray-400 text-sm lg:text-sm capitalize">${name}</p>
           </div>
           <div>
-          <p class="text-green-400 text-lg lg:text-sm"></p>
+         <p class="text-green-400 text-lg lg:text-sm"></p>
           </div>
           <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
             <p class="text-gray-400 text-sm lg:text-sm capitalize">${item_name}</p>
@@ -558,9 +564,9 @@ if(inputValue.length < 10){
 
     if (client) {
       // Auto-fill the Father's Name and Email fields
-      nameInput.value = invoice.name;
-      fatherNameInput.value = invoice.fatherName;
-      cnicInput.value = invoice.cnic;
+      nameInput.value = client.name;
+      fatherNameInput.value = client.fatherName;
+      cnicInput.value = client.cnic;
     } else {
       // Clear the fields if no match is found
       nameInput.value = '';
