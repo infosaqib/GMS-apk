@@ -1,6 +1,2 @@
 /node_modules
-config
 *.txt
-*.md
-*.config.js
-.env
