@@ -31,47 +31,132 @@ const getInvoiceById = async (req, res) => {
 //This is the controller function for creating an invoice, you can add implemnetation code of qr code here
 const createInvoice = async (req, res) => {
     try {
-
-        const { name, father_name, contact, cnic, items, remaining, total } = req.body
-        const invoiceData = new Invoice({
-            name,
-            father_name,
-            contact,
-            cnic,
-            item_name: items,
-            item_weight: remaining,
-            total_price: total
-        })
-        await invoiceData.save()
-
-        // Generate QR Code
-        await invoiceData.generateQRCode();
-
-        res.status(201).json({
-            message: 'Invoice created successfully',
-            invoice: invoiceData,
-            qr_code: invoiceData.qr_code
-        });
-
-        // res.redirect('http://localhost:3000/')
+      const { name, father_name, contact, cnic, items, remaining, total } = req.body;
+      const invoiceData = new Invoice({
+        name,
+        father_name,
+        contact,
+        cnic,
+        item_name: items,
+        item_weight: remaining,
+        total_price: total
+      });
+      await invoiceData.save();
+  
+      // Generate Barcode
+      await invoiceData.generateBarcode();
+  
+      res.status(201).json({
+        success: true,
+        invoice: invoiceData
+      });
     } catch (error) {
-        res.status(400).json({ message: error.message })
+      res.status(400).json({ success: false, message: error.message });
     }
-}
+  };
 
-const scanQRCode = async (req, res) => {
+
+  const scanBarcode = async (req, res) => {
     try {
-        const { qr_data } = req.body;
-        const updatedInvoice = await Invoice.updateStatusByQRCode(qr_data);
-
-        res.status(200).json({
-            message: 'Invoice status updated successfully',
-            invoice: updatedInvoice
+      const { barcode_data } = req.body;
+  
+      if (!barcode_data) {
+        return res.status(400).json({ 
+          success: false,
+          message: 'Barcode data is required' 
         });
+      }
+  
+      const invoice = await Invoice.findById(barcode_data);
+  
+      if (!invoice) {
+        return res.status(404).json({ 
+          success: false,
+          message: 'Invoice not found' 
+        });
+      }
+  
+      const statusProgression = ["Ordered", "Working", "Packed", "Delivered"];
+      const currentIndex = statusProgression.indexOf(invoice.status);
+  
+      if (currentIndex < statusProgression.length - 1) {
+        invoice.status = statusProgression[currentIndex + 1];
+        await invoice.save();
+      }
+  
+      res.status(200).json({
+        success: true,
+        message: 'Status updated successfully',
+        currentStatus: invoice.status
+      });
     } catch (error) {
-        res.status(400).json({ message: error.message })
+      res.status(500).json({ 
+        success: false,
+        message: 'Error updating status',
+        error: error.message 
+      });
     }
-}
+  };
+// const scanQRCode = async (req, res) => {
+//     try {
+//         const { qr_data } = req.body;
+
+//         // Validate input
+//         if (!qr_data) {
+//             return res.status(400).json({ 
+//                 message: 'QR code data is required' 
+//             });
+//         }
+
+//         // Extract invoice ID from QR data 
+//         const invoiceId = JSON.parse(qr_data).invoice_id;
+
+//         // Find the invoice
+//         const invoice = await Invoice.findOne({ id: invoiceId });
+
+//         if (!invoice) {
+//             return res.status(404).json({ 
+//                 message: 'Invoice not found' 
+//             });
+//         }
+
+//         // Status progression
+//         const statusProgression = [
+//             "Processing", 
+//             "Ordered", 
+//             "Shipped", 
+//             "Delivered", 
+//             "Completed"
+//         ];
+
+//         // Find current status index
+//         const currentIndex = statusProgression.indexOf(invoice.status);
+
+//         // Move to next status if not at the end
+//         if (currentIndex < statusProgression.length - 1) {
+//             invoice.status = statusProgression[currentIndex + 1];
+//             await invoice.save();
+//         }
+
+//         // Respond with updated invoice
+//         res.status(200).json({
+//             message: 'Invoice status updated successfully',
+//             invoice: {
+//                 id: invoice.id,
+//                 name: invoice.name,
+//                 item_name: invoice.item_name,
+//                 previous_status: statusProgression[currentIndex],
+//                 current_status: invoice.status
+//             }
+//         });
+//     } catch (error) {
+//         console.error('QR Code Scan Error:', error);
+//         res.status(500).json({ 
+//             message: 'Error processing QR code',
+//             error: error.message 
+//         });
+//     }
+// };
 
 const updateInvoice = async (req, res) => {
     const { id } = req.params;
@@ -128,4 +213,4 @@ const deleteInvoice = async (req, res) => {
     }
 }
 
-module.exports = { getInvoices, getInvoiceById, createInvoice, scanQRCode, deleteInvoice, updateInvoice }
+module.exports = { getInvoices, getInvoiceById, createInvoice, scanBarcode, deleteInvoice, updateInvoice }

@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
-const QRCode = require('qrcode');
+const bwipjs = require('bwip-js');
 
 //* Database Connection
 const connectDB = require('../db');
 connectDB();
-
 //? Schema
 const generateUniqueId = () => {
   const timestamp = Date.now().toString();
@@ -53,10 +52,10 @@ const invoiceSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      default: "Processing",
-      enum: ["Processing", "Ordered", "Shipped", "Delivered", "Completed"]
+      default: "Ordered",
+      enum: ["Ordered", "Working", "Packed", "Delivered"]
     },
-    qr_code: {
+    barcode: {
       type: String,
       default: null
     }
@@ -66,77 +65,33 @@ const invoiceSchema = new mongoose.Schema(
   }
 );
 
-
-
-// Method to generate QR code
-invoiceSchema.methods.generateQRCode = async function() {
-  const qrData = {
-    invoice_id: this.id,
-    customer_name: this.name,
-    contact: this.contact,
-    father_name: this.father_name,
-    product_name: this.item_name,
-    product_weight: this.item_weight,
-    current_status: this.status,
-    date: this.createdAt.toISOString(),
-    total_amount: this.total_price
-  };
-
-  // Create formatted text for QR code
-  const formattedText = `
-Invoice Details
-------------------------------
-Invoice ID: #${qrData.invoice_id}
-Date: ${new Date(qrData.date).toLocaleDateString()}
-Customer Name: ${qrData.customer_name}
-Father's Name: ${qrData.father_name}
-Contact: ${qrData.contact}
-Product: ${qrData.product_name}
-Total Weight: ${qrData.product_weight} kg
-Total Price: Rs: ${qrData.total_amount.toFixed(2)}
-Current Status: ${qrData.current_status}
-  `.trim();
-
+// Method to generate Barcode
+invoiceSchema.methods.generateBarcode = async function() {
   try {
-    // Generate QR code from formatted text
-    this.qr_code = await QRCode.toDataURL(formattedText);
+    // Just use MongoDB's _id for the barcode
+    const barcodeText = this._id.toString();
+
+    // Generate barcode using bwip-js
+    const barcodeBuffer = await new Promise((resolve, reject) => {
+      bwipjs.toBuffer({
+        bcid: 'code128',
+        text: barcodeText,
+        scale: 3,
+        height: 10,
+        includetext: true,
+        textxalign: 'center',
+      }, (err, png) => {
+        if (err) reject(err);
+        else resolve(png);
+      });
+    });
+
+    this.barcode = `data:image/png;base64,${barcodeBuffer.toString('base64')}`;
     await this.save();
-    return this.qr_code;
+    return this.barcode;
   } catch (error) {
-    console.error('QR Code generation error:', error);
+    console.error('Barcode generation error:', error);
     return null;
-  }
-};
-
-// Static method to update status by scanning QR code
-invoiceSchema.statics.updateStatusByQRCode = async function(qrCodeData) {
-  try {
-    const invoiceData = JSON.parse(qrCodeData);
-    const invoice = await this.findOne({ id: invoiceData.invoice_id });
-
-    if (!invoice) {
-      throw new Error('Invoice not found');
-    }
-
-    // Define status progression
-    const statusProgression = [
-      "Processing", 
-      "Ordered", 
-      "Shipped", 
-      "Delivered", 
-      "Completed"
-    ];
-
-    const currentIndex = statusProgression.indexOf(invoice.status);
-    if (currentIndex < statusProgression.length - 1) {
-      invoice.status = statusProgression[currentIndex + 1];
-      await invoice.save();
-    }
-
-    return invoice;
-  } catch (error) {
-    console.error('QR Code status update error:', error);
-    throw error;
   }
 };
 

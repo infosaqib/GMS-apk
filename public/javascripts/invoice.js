@@ -158,7 +158,7 @@ async function openInvoice(event) {
 
     const invoice = await response.json();
 
-    let { _id, id, name, item_name, item_weight, total_price, createdAt, qr_code } = invoice;
+    let { _id, id, name, item_name, item_weight, total_price, createdAt, barcode } = invoice;
 
     // Convert updatedAt to a readable date format DD-MM-YYYY
     const date = new Date(createdAt);
@@ -185,20 +185,16 @@ async function openInvoice(event) {
          </header>
          <main id="invoice-img " class="bg-white px-4 py-2 md:px-8 md:py-4 rounded-lg">
              <div class="flex flex-col  justify-between">
-             <div class="flex flex-row justify-between">
-             <div class="flex flex-col gap-4 md:block">
-             <div class="flex flex-col">
+             <div class="flex flex-row justify-around ">
+             <div class="flex flex-col justify-center">
              <p class="text-black text-xs md:text-lg"><b class="text-blue-300">#</b>${id}</p>
              <p class="text-gray-400 text-xs md:text-base">Mr. ${name}</p>
              </div>
-             <div class="flex flex-col py-3">
+             <div class="flex flex-col py-3 justify-center">
              <p class="text-gray-400 text-xs md:text-lg  font-thin">Invoice Date</p>
              <p class="text-black font-bold text-xs md:text-base">${formattedDate}</p>
              </div>
-             </div>
-             <div class="flex flex-col">
-             <img src="${qr_code}" class="w-24">
-             </div>
+           
 
                      <!-- <div class="flex flex-col py-3">
                      <p class="text-gray-400 text-xs md:text-lg font-thin">Payment method</p>
@@ -229,6 +225,9 @@ async function openInvoice(event) {
              <div class="flex flex-row items-center justify-between bg-gray-700 p-3 md:p-6 rounded-lg">
                  <h1 class="text-white text-sm md:text-lg font-bold">Amount Due</h1>
                  <p class="text-white text-sm md:text-lg font-bold">Rs.${total_price}</p>
+             </div>
+               <div class="flex flex-col justify-center items-center my-4">
+             <img src="${barcode}" class="w-96">
              </div>
          </main> `;
 

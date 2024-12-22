@@ -23,6 +23,9 @@ router.get('/tracking', function (req, res) {
 router.get('/profiles', function (req, res) {
   res.render('profile');
 });
+router.get('/scan', function (req, res) {
+  res.render('qr_scanner');
+});
 
 
 //* Middlewares

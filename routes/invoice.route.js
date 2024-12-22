@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getInvoices, getInvoiceById, createInvoice, scanQRCode, deleteInvoice, updateInvoice } = require('../controllers/invoice.controller');
+const { getInvoices, getInvoiceById, createInvoice, scanBarcode, deleteInvoice, updateInvoice } = require('../controllers/invoice.controller');
 
 // Test route
 router.get('/test', (req, res) => {
@@ -20,7 +20,7 @@ router.get('/:id', getInvoiceById)
 router.post('/', createInvoice)
 
 //SCAN QR CODE API
-router.post('/qr', scanQRCode)
+router.post('/scan', scanBarcode)
 
 //DELETE API
 router.delete('/:id', deleteInvoice);
