@@ -16,7 +16,6 @@ const productSchema = new mongoose.Schema({
   },
   granding_price: {
     type: Number,
-    required: true,
   },
   chrai_price: {
     type: Number,
@@ -30,9 +29,14 @@ const productSchema = new mongoose.Schema({
   stiching_price: {
     type: Number,
   },
+  stocked_qty: {
+    type: Number,
+  },
+  product_price: {
+    type: Number,
+  },
   total_price: {
     type: Number,
-    required: true
   },
 })
 

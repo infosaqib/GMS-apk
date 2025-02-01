@@ -35,231 +35,267 @@
 
 <body class="flex items-center justify-center bg-gray-100 relative">
     <main id="container" class="w-[90vw] flex flex-col place-content-center">
-        <%-include('header', {activeOption: 'products'})%>
-        <div class="flex flex-row items-center justify-between">
-            <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Products
-                Catalog
-            </h1>
-            <!-- <a href="/"> <button
+        <%-include('header', {activeOption: 'products' })%>
+            <div class="flex flex-row items-center justify-between">
+                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Products
+                    Catalog
+                </h1>
+                <!-- <a href="/"> <button
                     class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4 flex flex-row items-center justify-center gap-2">
                     Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
                     </svg> </button></a> -->
-        </div>
-        <hr class="my-3 mr-8">
-        <div id="product-container"
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-8 w-[90%] p-8">
-
-
-            <div onclick="return addProduct()"
-                class=" h-[22em] scale-95 flex flex-col justify-center items-center gap-y-4 border-[3px] border-dashed border-purple-400 bg-white  rounded-lg py-4 px-5 cursor-pointer">
-                <svg class="size-12 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-                </svg>
-
-
-
-                <h1 class="text-gray-500 text-2xl font-semibold">Add new Product</h1>
-
             </div>
-        </div>
+            <hr class="my-3 mr-8">
+            <div id="product-container"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-8 w-[90%] p-8">
 
 
-        <!--! ADD PRODUCT FORM-->
+                <div onclick="return addProduct()"
+                    class=" h-[22em] scale-95 flex flex-col justify-center items-center gap-y-4 border-[3px] border-dashed border-purple-400 bg-white  rounded-lg py-4 px-5 cursor-pointer">
+                    <svg class="size-12 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
 
-        <div id="add-product-page"
-            class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
-            <div class="flex flex-row items-center justify-between mb-4">
-                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Product
-                </h1>
-                <button onclick="hideAddProduct()"
-                    class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
-                    Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-                    </svg> </button>
+
+
+                    <h1 class="text-gray-500 text-2xl font-semibold">Add new Product</h1>
+
+                </div>
             </div>
-            <hr class="my-3 mr-8 h-[.2px]">
 
-            <form method="POST" action="/api/products" name="addProductForm"
-                class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
 
-                <!--? Product Name -->
-                <div id="product-granding" class="flex flex-col col-span-1 mr-8">
-                    <label class="my-1 text-gray-400 text-xl font-light" for="product-name">Product name</label>
-                    <input type="text" name="productName"
-                        class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                        required>
+            <!--! ADD PRODUCT FORM-->
+
+            <div id="add-product-page"
+                class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
+                <div class="flex flex-row items-center justify-between mb-4">
+                    <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Product
+                    </h1>
+                    <button onclick="hideAddProduct()"
+                        class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
+                        Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
+                        </svg> </button>
                 </div>
+                <hr class="my-3 mr-8 h-[.2px]">
 
-                <!--? Granding and Cleaning price -->
+                <form method="POST" action="/api/products" name="addProductForm"
+                    class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-                    <div id="product-granding" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="grandingPrice">Granding
-                            price</label>
-                        <input type="number" name="grandingPrice"
+                    <!--? Product Name -->
+                    <div id="product-granding" class="flex flex-col col-span-1 mr-8">
+                        <label class="my-1 text-gray-400 text-xl font-light" for="product-name">Product name</label>
+                        <input type="text" name="product_name"
                             class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="0">
+                        autocapitalize="words"    required>
                     </div>
-                    <div id="product-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="cleaningPrice">Cleaning
-                            price</label>
-                        <input type="number" name="cleaningPrice"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="0">
+
+                    <!--? Granding and Cleaning price -->
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="product-granding" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="grandingPrice">Granding
+                                price</label>
+                            <input type="number" name="granding_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
+                        <div id="product-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="cleaningPrice">Cleaning
+                                price</label>
+                            <input type="number" name="cleaning_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
                     </div>
-                </div>
 
-                <!--? Chrai and Pinjai price -->
+                    <!--? Chrai and Pinjai price -->
 
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-                    <div id="product-chrai" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="chraiPrice">Chrai
-                            price</label>
-                        <input type="number" name="chraiPrice"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="0">
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="product-chrai" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="chraiPrice">Chrai
+                                price</label>
+                            <input type="number" name="chrai_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
+                        <div id="pinjai-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="pinjaiPrice">Pinjai
+                                price</label>
+                            <input type="number" name="pinjai_price"
+                                class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
                     </div>
-                    <div id="pinjai-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="pinjaiPrice">Pinjai
-                            price</label>
-                        <input type="number" name="pinjaiPrice"
-                            class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="0">
+
+                    <!--? Filling and Stiching price -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="product-filling" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="fillingPrice">Filling
+                                price</label>
+                            <input type="number" name="filling_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+
+                        </div>
+                        <div id="product-stiching" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="stichingPrice">Stiching
+                                price</label>
+                            <input type="number" name="stiching_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
                     </div>
-                </div>
 
-                <!--? Filling and Stiching price -->
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-                    <div id="product-filling" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="fillingPrice">Filling
-                            price</label>
-                        <input type="number" name="fillingPrice"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="0">
+                    <!--? Stocked quantity -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="stocked-qty" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="stocked_qty">Stocked
+                                Qty</label>
+                            <input type="number" name="stocked_qty"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
+                        <!--? Product price -->
+                        <div id="product-price" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="product_price">Product
+                                price</label>
+                            <input type="number" name="product_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
                     </div>
-                    <div id="product-stiching" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="stichingPrice">Stiching
-                            price</label>
-                        <input type="number" name="stichingPrice"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="0">
+                    <!--? Total price -->
+                    <div id="product-total" class="flex flex-col col-span-1 mr-8 gap-2">
+                        <label class="my-1 text-gray-400 font-light text-xl" for="total-price">Total price</label>
+                        <input type="number" name="total_price"
+                            class="bg-gray-100 border-gray-300  border-[.2px] py-1 md:py-3 px-4 rounded-lg  focus:outline-gray-300 focus:bg-gray-100"
+                            readonly>
                     </div>
-                </div>
-
-                <!--? Total price -->
-                <div id="product-total" class="flex flex-col col-span-1 mr-8 gap-2">
-                    <label class="my-1 text-gray-400 font-light text-xl" for="total-price">Total price</label>
-                    <input type="number" name="totalPrice"
-                        class="bg-gray-100 border-gray-300  border-[.2px] py-1 md:py-3 px-4 rounded-lg  focus:outline-gray-300 focus:bg-gray-100"
-                        readonly>
-                </div>
-                <input onclick="hideAddProduct()"
-                    class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
-                    type="submit" value="+ Add new Product">
-            </form>
-        </div>
-
-        <!--! Update PRODUCT FORM-->
-
-        <div id="update-product-page"
-            class="w-[85vw] md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
-            <div class="flex flex-row items-center justify-between mb-4">
-                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update Product
-                </h1>
-                <button onclick="hideUpdateProduct()"
-                    class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
-                    Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-                    </svg> </button>
+                    <input onclick="hideAddProduct()"
+                        class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
+                        type="submit" value="+ Add new Product">
+                </form>
             </div>
-            <hr class="my-3 mr-8 h-[.2px]">
 
-            <form name="updateProductForm" method="POST" class=" gap-4 flex flex-col pt-4 px-12">
+            <!--! Update PRODUCT FORM-->
 
-                <!--? Product Name -->
-                <div id="product-name" class="flex flex-col col-span-1 mr-8">
-                    <label class="my-1 text-gray-400 text-xl font-light" for="up_product-name">Product name</label>
-                    <input type="text" name="up_product_name"
-                        class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                        required value="">
+            <div id="update-product-page"
+                class="w-[85vw] md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
+                <div class="flex flex-row items-center justify-between mb-4">
+                    <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update Product
+                    </h1>
+                    <button onclick="hideUpdateProduct()"
+                        class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
+                        Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
+                        </svg> </button>
                 </div>
+                <hr class="my-3 mr-8 h-[.2px]">
 
-                <!--? Granding and Cleaning price -->
+                <form name="updateProductForm" method="POST" class=" gap-4 flex flex-col pt-4 px-12">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-                    <div id="product-granding" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="up_granding-price">Granding
-                            price</label>
-                        <input type="number" name="up_granding_price"
+                    <!--? Product Name -->
+                    <div id="product-name" class="flex flex-col col-span-1 mr-8">
+                        <label class="my-1 text-gray-400 text-xl font-light" for="up_product-name">Product name</label>
+                        <input type="text" name="up_product_name"
                             class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="" required>
+                            required autocapitalize="words" value="">
                     </div>
-                    <div id="product-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="up_cleaning-price">Cleaning
-                            price</label>
-                        <input type="number" name="up_cleaning_price"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="">
-                    </div>
-                </div>
 
-                <!--? Chrai and Pinjai price -->
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-                    <div id="product-chrai" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="up_chrai-price">Chrai
-                            price</label>
-                        <input type="number" name="up_chrai_price"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="">
-                    </div>
-                    <div id="product-pinjai" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="up_pinjai-price">Pinjai
-                            price</label>
-                        <input type="number" name="up_pinjai_price"
-                          class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="">
-                    </div>
-                </div>
-                <!--? Filling and Stiching price -->
-                <div class="grid grid-cols-1 md:grid-cols-2 my-2" id="stichFill">
-                    <div id="product-filling" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="up_filling-price">Filling
-                            price</label>
-                        <input type="number" name="up_filling_price"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="">
-                    </div>
-                    <div id="product-stiching" class="flex flex-col col-span-1 mr-8 gap-2">
-                        <label class="my-1 text-gray-400 font-light text-xl" for="up_stiching-price">Stiching
-                            price</label>
-                        <input type="number" name="up_stiching_price"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                            min="0" value="">
-                    </div>
-                </div>
+                    <!--? Granding and Cleaning price -->
 
-                <!--? Total Price -->
-                <div id="product-total" class="flex flex-col col-span-1 mr-8 gap-2">
-                    <label class="my-1 text-gray-400 font-light text-xl" for="up_total-price">Total price</label>
-                    <input type="number" name="up_total_price"
-                        class="bg-gray-100 border-gray-300  border-[.2px] py-1 md:py-3 px-4 rounded-lg  focus:outline-gray-300 focus:bg-gray-100"
-                        value="" readonly>
-                </div>
-                <input id=""
-                    class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
-                    type="submit" value="Save changes">
-            </form>
-        </div>
-        <!-- OVERLAY -->
-        <div onclick="hideAddProduct();hideUpdateProduct()" id="overlay"
-            class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
-        </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="product-granding" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_granding-price">Granding
+                                price</label>
+                            <input type="number" name="up_granding_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="" required>
+                        </div>
+                        <div id="product-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_cleaning-price">Cleaning
+                                price</label>
+                            <input type="number" name="up_cleaning_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="">
+                        </div>
+                    </div>
+
+                    <!--? Chrai and Pinjai price -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="product-chrai" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_chrai-price">Chrai
+                                price</label>
+                            <input type="number" name="up_chrai_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="">
+                        </div>
+                        <div id="product-pinjai" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_pinjai-price">Pinjai
+                                price</label>
+                            <input type="number" name="up_pinjai_price"
+                                class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="">
+                        </div>
+                    </div>
+                    <!--? Filling and Stiching price -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2" id="stichFill">
+                        <div id="product-filling" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_filling-price">Filling
+                                price</label>
+                            <input type="number" name="up_filling_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="">
+                        </div>
+                        <div id="product-stiching" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_stiching-price">Stiching
+                                price</label>
+                            <input type="number" name="up_stiching_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="">
+                        </div>
+                    </div>
+                    <!--? Stocked quantity -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+                        <div id="stocked-qty" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_stocked_qty">Stocked
+                                Qty</label>
+                            <input type="number" name="up_stocked_qty"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
+                        <!--? Product price -->
+                        <div id="product-price" class="flex flex-col col-span-1 mr-8 gap-2">
+                            <label class="my-1 text-gray-400 font-light text-xl" for="up_product_price">Product
+                                price</label>
+                            <input type="number" name="up_product_price"
+                                class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                                min="0" value="0">
+                        </div>
+                    </div>
+                    <!--? Total Price -->
+                    <div id="product-total" class="flex flex-col col-span-1 mr-8 gap-2">
+                        <label class="my-1 text-gray-400 font-light text-xl" for="up_total-price">Total price</label>
+                        <input type="number" name="up_total_price"
+                            class="bg-gray-100 border-gray-300  border-[.2px] py-1 md:py-3 px-4 rounded-lg  focus:outline-gray-300 focus:bg-gray-100"
+                            value="" readonly>
+                    </div>
+                    <input id=""
+                        class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
+                        type="submit" value="Save changes">
+                </form>
+            </div>
+            <!-- OVERLAY -->
+            <div onclick="hideAddProduct();hideUpdateProduct()" id="overlay"
+                class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
+            </div>
     </main>
-    <script src="./javascripts/product.js"></script>
-    <script src="./javascripts/script.js"></script>
+    <script src="/javascripts/product.js"></script>
+    <script src="/javascripts/script.js"></script>
     <!-- <script src="./javascripts/data.js"></script> -->
     <!-- <script src="./javascripts/generator.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>

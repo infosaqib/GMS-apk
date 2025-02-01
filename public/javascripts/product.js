@@ -12,21 +12,21 @@ function addProduct() {
 
     const form = document.addProductForm;
 
-    const { cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice, fillingPrice, stichingPrice, totalPrice } = form;
+    const { cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price, total_price } = form;
 
-    const allInputs = [cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice, fillingPrice, stichingPrice];
+    const allInputs = [cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price];
 
     const updateTotal = () => {
         const total = allInputs.reduce((sum, input) => sum + parseFloat(input.value) || 0, 0);
-        totalPrice.value = total;
+        total_price.value = total;
     };
-    allInputs.forEach(input => input.addEventListener('input', updateTotal));
+    allInputs.forEach(input => input.addEventListener('input', async (event) => await updateTotal(event)));
     updateTotal();
 }
 
 //?PINJAI PRICE FUNCTION
 function updateStichFillDisplay() {
-    const pinjaiPriceInputs = document.querySelectorAll('.pinjaiPrice');
+    const pinjai_priceInputs = document.querySelectorAll('.pinjai_price');
     const stichFillElement = document.getElementById('stichFill');
 
     if (!stichFillElement) {
@@ -36,17 +36,17 @@ function updateStichFillDisplay() {
 
     // Function to check and update display
     function checkAndUpdateDisplay() {
-        let totalPinjaiPrice = 0;
+        let totalPinjai_price = 0;
 
-        // Sum up all pinjaiPrice values
-        pinjaiPriceInputs.forEach(input => {
+        // Sum up all pinjai_price values
+        pinjai_priceInputs.forEach(input => {
             const price = parseFloat(input.value) || 0;
-            totalPinjaiPrice += price;
+            totalPinjai_price += price;
         });
 
-        console.log("Total Pinjai Price:", totalPinjaiPrice);
+        console.log("Total Pinjai Price:", totalPinjai_price);
 
-        if (totalPinjaiPrice > 0) {
+        if (totalPinjai_price > 0) {
             console.log("Setting display to 'grid'");
             stichFillElement.style.display = 'grid';
         } else {
@@ -57,8 +57,8 @@ function updateStichFillDisplay() {
         console.log("Current stichFill display:", stichFillElement.style.display);
     }
 
-    // Add event listeners to all pinjaiPrice inputs
-    pinjaiPriceInputs.forEach(input => {
+    // Add event listeners to all pinjai_price inputs
+    pinjai_priceInputs.forEach(input => {
         input.addEventListener('input', checkAndUpdateDisplay);
     });
 
@@ -273,7 +273,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const productContainer = document.getElementById('product-container');
 
         productContainer.innerHTML += products.map(product => {
-            const { _id, product_name, cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price, total_price } = product;
+            const {
+                _id,
+                product_name,
+                cleaning_price,
+                granding_price,
+                chrai_price,
+                pinjai_price,
+                filling_price,
+                stiching_price,
+                stocked_qty,
+                product_price,
+                total_price
+            } = product;
 
             const priceFields = [
                 ['Cleaning price', cleaning_price],
@@ -281,7 +293,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ['Chrai price', chrai_price],
                 ['Pinjai price', pinjai_price],
                 ['Filling price', filling_price],
-                ['Stiching price', stiching_price]
+                ['Stiching price', stiching_price],
+               
             ];
 
             return `
@@ -305,6 +318,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <p class="text-black text-base font-semibold">${product_name}</p>
                 </div>
                 <hr>
+                <div class="flex flex-row justify-between items-center px-3 py-4">
+                    <h1 class="text-gray-400 text-base">Stocked Qty</h1>
+                    <p class="text-black text-base font-semibold">${stocked_qty} Kg</p>
+                </div>
+                <hr>
                 ${priceFields.map(([label, price]) =>
                 price > 0 && price !== null && price !== '' ? `
                         <div class="flex flex-row justify-between items-center px-3 py-4">
@@ -314,6 +332,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <hr>
                     ` : ''
             ).join('')}
+            <div class="flex flex-row justify-between items-center px-3 py-4">
+                <h1 class="text-gray-400 text-lg font-semibold">Product price <span class="text-xs">(per kg)</span> </h1>
+                <p class="text-black text-lg font-semibold">Rs. ${product_price}</p>
+            </div>
                 <div class="flex flex-row justify-between items-center px-3 py-4">
                     <h1 class="text-gray-400 text-lg font-semibold">Total price</h1>
                     <p class="text-black text-lg font-semibold">Rs. ${total_price}</p>
@@ -321,7 +343,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>`;
         }).join('');
 
-        document.querySelectorAll('.deleteButton').forEach(button => button.addEventListener('click', deleteProduct));
+        document.querySelectorAll('.deleteButton').forEach(button => button.addEventListener('click', async (event) => await deleteProduct(event)));
     } catch (error) {
         console.error('Error fetching products', error);
     }

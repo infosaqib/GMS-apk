@@ -31,16 +31,30 @@ const getProductById = async (req, res) => {
 const createProduct = async (req, res) => {
     try {
 
-        const { productName, cleaningPrice, grandingPrice, chraiPrice, pinjaiPrice, fillingPrice, stichingPrice, totalPrice } = req.body
+        const {
+            product_name,
+            cleaning_price,
+            granding_price,
+            chrai_price,
+            pinjai_price,
+            filling_price,
+            stiching_price,
+            stocked_qty,
+            product_price,
+            total_price
+        } = req.body;
+
         const productData = new Product({
-            product_name: productName,
-            cleaning_price: cleaningPrice,
-            granding_price: grandingPrice,
-            chrai_price: chraiPrice,
-            filling_price: fillingPrice,
-            stiching_price: stichingPrice,
-            pinjai_price: pinjaiPrice,
-            total_price: totalPrice,
+            product_name,
+            cleaning_price,
+            granding_price,
+            chrai_price,
+            pinjai_price,
+            filling_price,
+            stiching_price,
+            stocked_qty,
+            product_price,
+            total_price
         })
         await productData.save();
         // res.status(201);
@@ -58,7 +72,18 @@ const createProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const { up_product_name, up_cleaning_price, up_granding_price, up_chrai_price, up_pinjai_price, up_filling_price, up_stiching_price, up_total_price } = req.body;
+        const {
+            up_product_name,
+            up_cleaning_price,
+            up_granding_price,
+            up_chrai_price,
+            up_pinjai_price,
+            up_filling_price,
+            up_stiching_price,
+            up_stocked_qty,
+            up_product_price,
+            up_total_price
+        } = req.body;
 
         // Input validation
         if (!up_product_name || [up_cleaning_price || up_granding_price || up_chrai_price || up_pinjai_price || up_filling_price || up_stiching_price || up_total_price].some(isNaN)) {
@@ -73,6 +98,8 @@ const updateProduct = async (req, res) => {
             filling_price: up_filling_price,
             stiching_price: up_stiching_price,
             pinjai_price: up_pinjai_price,
+            stocked_qty: up_stocked_qty,
+            product_price: up_product_price,
             total_price: up_total_price,
         }, { new: true })
 
@@ -103,4 +130,10 @@ const deleteProduct = async (req, res) => {
     }
 }
 
-module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct }
+module.exports = {
+    getProducts,
+    getProductById,
+    createProduct,
+    updateProduct,
+    deleteProduct
+}

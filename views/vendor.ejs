@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profiles Catalog</title>
+    <title>Vendor Profiles Catalog</title>
     <link rel="stylesheet" href="./style.css">
     <style>
         #overlay.show {
@@ -35,9 +35,9 @@
 
 <body class="flex items-center justify-center bg-gray-100 relative">
     <main id="container" class="w-[90vw] flex flex-col place-content-center">
-        <%-include('header', {activeOption: 'clients' })%>
+        <%-include('header', {activeOption: 'vendors' })%>
             <div class="flex flex-row items-center justify-between">
-                <h1 class=" text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Clients'
+                <h1 class=" text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Vendors'
                     Profiles
 
                 </h1>
@@ -57,18 +57,18 @@
 
 
 
-                    <h1 class="text-gray-500 text-2xl font-semibold">Add new Client</h1>
+                    <h1 class="text-gray-500 text-2xl font-semibold">Add new Vendor</h1>
 
                 </div>
             </div>
 
 
-            <!--! ADD PROfile FORM-->
+            <!--! ADD Vendor FORM-->
 
             <div id="add-profile-page"
                 class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
                 <div class="flex flex-row items-center justify-between mb-4">
-                    <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Client
+                    <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Vendor
                     </h1>
                     <button onclick="hideAddProfile()"
                         class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
@@ -78,7 +78,7 @@
                 </div>
                 <hr class="my-3 mr-8 h-[.2px]">
 
-                <form method="POST" action="/api/profiles" name="addProfileForm"
+                <form method="POST" action="/api/vendors" name="addProfileForm"
                     class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
 
 
@@ -124,15 +124,15 @@
                     <!-- BUTTON -->
                     <input onclick="hideAddProfile()"
                         class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
-                        type="submit" value="+ Add new Profile">
+                        type="submit" value="+ Add new Vendor">
                 </form>
             </div>
 
-            <!--! Update PROfile FORM-->
+            <!--! Update Vendor FORM-->
             <div id="update-profile-page"
             class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
             <div class="flex flex-row items-center justify-between mb-4">
-                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update profile
+                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update Vendor Profile
                 </h1>
                 <button onclick="hideUpdateProfile()"
                     class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
@@ -199,7 +199,7 @@
     </main>
 
 
-    <script src="/javascripts/profile.js"></script>
+    <script src="/javascripts/vendor.js"></script>
     <!-- <script src="./javascripts/data.js"></script> -->
     <!-- <script src="./javascripts/generator.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
