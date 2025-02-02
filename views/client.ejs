@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profiles Catalog</title>
+    <title>Clients Catalog</title>
     <link rel="stylesheet" href="./style.css">
     <style>
         #overlay.show {
             display: block;
         }
 
-        #add-profile-page.show,
-        #update-profile-page.show {
+        #add-client-page.show,
+        #update-client-page.show {
             display: block;
             animation: dialog 250ms linear 1;
             z-index: 1
@@ -38,16 +38,16 @@
         <%-include('header', {activeOption: 'clients' })%>
             <div class="flex flex-row items-center justify-between">
                 <h1 class=" text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Clients'
-                    Profiles
+                    Clients
 
                 </h1>
             </div>
             <hr class="my-3 mr-8">
-            <div id="profile-container"
+            <div id="client-container"
                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-8 w-[90%] p-8">
 
 
-                <div onclick="return addProfile()"
+                <div onclick="return addClient()"
                     class=" h-[22em] scale-95 flex flex-col justify-center items-center gap-y-4 border-[3px] border-dashed border-purple-400 bg-white  rounded-lg py-4 px-5 cursor-pointer">
                     <svg class="size-12 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -63,14 +63,14 @@
             </div>
 
 
-            <!--! ADD PROfile FORM-->
+            <!--! ADD client FORM-->
 
-            <div id="add-profile-page"
+            <div id="add-client-page"
                 class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
                 <div class="flex flex-row items-center justify-between mb-4">
                     <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Client
                     </h1>
-                    <button onclick="hideAddProfile()"
+                    <button onclick="hideAddClient()"
                         class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
                         Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
@@ -78,7 +78,7 @@
                 </div>
                 <hr class="my-3 mr-8 h-[.2px]">
 
-                <form method="POST" action="/api/profiles" name="addProfileForm"
+                <form method="POST" action="/api/clients" name="addClientForm"
                     class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
 
 
@@ -122,19 +122,19 @@
                     </div>
 
                     <!-- BUTTON -->
-                    <input onclick="hideAddProfile()"
+                    <input onclick="hideAddClient()"
                         class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
-                        type="submit" value="+ Add new Profile">
+                        type="submit" value="+ Add new Client">
                 </form>
             </div>
 
-            <!--! Update PROfile FORM-->
-            <div id="update-profile-page"
+            <!--! Update client FORM-->
+            <div id="update-client-page"
             class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
             <div class="flex flex-row items-center justify-between mb-4">
-                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update profile
+                <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update client
                 </h1>
-                <button onclick="hideUpdateProfile()"
+                <button onclick="hideUpdateClient()"
                     class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
                     Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
@@ -142,7 +142,7 @@
             </div>
             <hr class="my-3 mr-8 h-[.2px]">
 
-            <form method="POST" name="updateProfileForm"
+            <form method="POST" name="updateClientForm"
                 class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
 
 
@@ -186,20 +186,20 @@
                 </div>
 
                 <!-- BUTTON -->
-                <input onclick="hideUpdateProfile()"
+                <input onclick="hideUpdateClient()"
                     class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
                     type="submit" value="Save changes">
             </form>
         </div>
 
             <!-- OVERLAY -->
-            <div onclick="hideAddProfile();hideUpdateProfile() " id="overlay"
+            <div onclick="hideAddClient();hideUpdateClient() " id="overlay"
                 class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
             </div>
     </main>
 
 
-    <script src="/javascripts/profile.js"></script>
+    <script src="/javascripts/client.js"></script>
     <!-- <script src="./javascripts/data.js"></script> -->
     <!-- <script src="./javascripts/generator.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>

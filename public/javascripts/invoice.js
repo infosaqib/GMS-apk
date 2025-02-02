@@ -1,18 +1,79 @@
 
 //Global variables
-let productMenu = document.getElementById("productMenu");
-let cuttWeight = document.myForm.cutting;
-let remainingWeight = document.myForm.remaining;
-let itemWeight = document.myForm.weight;
-let cleaningPriceInput = document.getElementById("cleaning-price");
-let grandingPriceInput = document.getElementById("granding-price");
-let stichingPriceInput = document.getElementById("stiching-price");
-let stichingQuantityInput = document.getElementById("stiching-quantity");
-let fillingPriceInput = document.getElementById("filling-price");
-let fillingQuantityInput = document.getElementById("filling-quantity");
-let chraiPriceInput = document.getElementById("chrai-price");
-let pinjaiPriceInput = document.getElementById("pinjai-price");
-let totalPrice = document.myForm.total;
+let productMenu = document.getElementById("productMenu"),
+  cuttWeight = document.myForm.cutting,
+  remainingWeight = document.myForm.remaining,
+  itemWeight = document.myForm.weight,
+  //Inputs
+  cleaningPriceInput = document.getElementById("cleaning-price"),
+  grandingPriceInput = document.getElementById("granding-price"),
+  stichingPriceInput = document.getElementById("stiching-price"),
+  stichingQuantityInput = document.getElementById("stiching-quantity"),
+  fillingPriceInput = document.getElementById("filling-price"),
+  fillingQuantityInput = document.getElementById("filling-quantity"),
+  chraiPriceInput = document.getElementById("chrai-price"),
+  pinjaiPriceInput = document.getElementById("pinjai-price"),
+  productPriceInput = document.getElementById("product-price"),
+  totalPrice = document.myForm.total,
+  //Grids' input
+  pinjaiGrid = document.getElementById('pinjaiGrid'),
+  fillingGrid = document.getElementById('fillingGrid'),
+  stichingGrid = document.getElementById('stichingGrid'),
+  cleaningGrid = document.querySelectorAll('.cleaningGrid'),
+  grandingGrid = document.getElementById('grandingGrid'),
+  chraiGrid = document.getElementById('chraiGrid'),
+  productPriceGrid = document.getElementById('productPriceGrid')
+
+  //Default scripting
+  cleaningGrid.forEach(element => {
+    element.style.display = 'none'
+  });
+
+
+//Auto update prices
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch("/api/products");
+    const products = await response.json();
+
+    productMenu.addEventListener("change", () => {
+      document.getElementById("select-item").setAttribute("disabled", true);
+      const selectedProduct = products.find(
+        (product) => product.product_name === productMenu.value
+      );
+
+      if (selectedProduct) {
+        cleaningPriceInput.value = selectedProduct.cleaning_price;
+        grandingPriceInput.value = selectedProduct.granding_price;
+        fillingPriceInput.value = selectedProduct.filling_price;
+        stichingPriceInput.value = selectedProduct.stiching_price;
+        chraiPriceInput.value = selectedProduct.chrai_price;
+        pinjaiPriceInput.value = selectedProduct.pinjai_price;
+        productPriceInput.value = selectedProduct.product_price;
+
+        // Show or hide grids based on price values
+        pinjaiGrid.style.display = selectedProduct.pinjai_price > 0 ? 'grid' : 'none';
+        fillingGrid.style.display = selectedProduct.filling_price > 0 ? 'grid' : 'none';
+        stichingGrid.style.display = selectedProduct.stiching_price > 0 ? 'grid' : 'none';
+        grandingGrid.style.display = selectedProduct.granding_price > 0 ? 'grid' : 'none';
+        chraiGrid.style.display = selectedProduct.chrai_price > 0 ? 'flex' : 'none';
+        productPriceGrid.style.display = selectedProduct.product_price > 0 ? 'flex' : 'none';
+
+        // Apply forEach to cleaningGrid (assuming it's a NodeList or HTMLCollection)
+        cleaningGrid.forEach(grid => {
+          grid.style.display = selectedProduct.cleaning_price > 0 ? 'flex' : 'none';
+        });
+      }
+    });
+  } catch (error) {
+    console.log("Error fetching product: " + error);
+  }
+});
+
+
+
+
+
 
 // Helper function to parse float and return 0 if NaN
 const parseFloatSafe = (value) => {
@@ -37,8 +98,9 @@ const calculateTotalPrice = () => {
   const grandingPrice = parseFloatSafe(grandingPriceInput.value);
   const chraiPrice = parseFloatSafe(chraiPriceInput.value);
   const pinjaiPrice = parseFloatSafe(pinjaiPriceInput.value);
+  const productPrice = parseFloatSafe(productPriceInput.value);
 
-  price += (cleaningPrice + grandingPrice + chraiPrice + pinjaiPrice) * remainingWeight;
+  price += (cleaningPrice + grandingPrice + chraiPrice + pinjaiPrice + productPrice) * remainingWeight;
 
   // Additional services
   const stichingQuantity = parseFloatSafe(stichingQuantityInput.value);
@@ -308,37 +370,7 @@ async function deleteInvoice(event) {
 // }
 
 
-//Auto update cleaning and granding price
 
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    response = await fetch("/api/products");
-    const products = await response.json();
-
-
-    productMenu.addEventListener("change", () => {
-      document.getElementById("select-item").setAttribute("disabled", true);
-      const selectedProduct = products.find(
-        (product) => product.product_name === productMenu.value
-      );
-      if (selectedProduct) {
-        cleaningPriceInput.value = selectedProduct.cleaning_price;
-        grandingPriceInput.value = selectedProduct.granding_price;
-        fillingPriceInput.value = selectedProduct.filling_price;
-        stichingPriceInput.value = selectedProduct.stiching_price;
-        chraiPriceInput.value = selectedProduct.chrai_price;
-        pinjaiPriceInput.value = selectedProduct.pinjai_price;
-
-        // totalPrice.value =
-        //   selectedProduct.cleaning_price + selectedProduct.granding_price + selectedProduct.filling_price + selectedProduct.stiching_price + selectedProduct.chrai_price + selectedProduct.pinjai_price;
-      }
-    });
-
-
-  } catch (error) {
-    console.log("Error fethcing product:" + error)
-  }
-});
 
 //CREATE API FUNCTION
 document.myForm.onsubmit = async (e) => {
@@ -531,11 +563,11 @@ function debounce(func, wait) {
   }
 }
 document.addEventListener('DOMContentLoaded', () => {
-  let profiles = [];
+  let clients = [];
 
-  fetch('/api/profiles')
+  fetch('/api/clients')
     .then(response => response.json())
-    .then(data => profiles = data)
+    .then(data => clients = data)
     .catch(error => console.log('Error fetching client data:', error))
 
   const nameInput = document.myForm.name
@@ -547,19 +579,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const inputValue = contactInput.value.trim();
 
-// Ensure at least 3 chracters are entered
-if(inputValue.length < 10){
-  fatherNameInput.value = '';
-  nameInput.value = '';
-  cnicInput.value = '';
-  return;
-}
+    // Ensure at least 3 chracters are entered
+    if (inputValue.length < 10) {
+      fatherNameInput.value = '';
+      nameInput.value = '';
+      cnicInput.value = '';
+      return;
+    }
 
     // Create a regex to match the input value (case insensitive)
     const regex = new RegExp(`^${inputValue}`, 'i');
 
     // Find the invoice that matches the input name using regex
-    const client = profiles.find(client => regex.test(client.contact));
+    const client = clients.find(client => regex.test(client.contact));
 
     if (client) {
       // Auto-fill the Father's Name and Email fields

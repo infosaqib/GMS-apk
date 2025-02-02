@@ -12,16 +12,28 @@
       font-size: large;
     }
 
-    #side-container.toggle {
-      display: block;
-      left: 0;
-      /* animation: slider 600ms linear 1; */
-      /* transition: all ease 600ms; */
-    }
-
     #side-container {
       overflow-x: hidden;
       overflow-y: scroll;
+    }
+
+    #side-container.toggle {
+      display: block;
+      left: 0;
+      animation: slider 400ms linear 1;
+    }
+
+    @keyframes slider {
+      from {
+        left: -300px;
+        opacity: 0.5;
+      }
+
+      to {
+        left: 0;
+        opacity: 1;
+      }
+
     }
 
     #overlay.toggle {
@@ -31,7 +43,7 @@
 
     #invoice-view.toggle {
       display: block;
-      animation: dialog 250ms linear 1;
+      animation: dialog 500ms linear 1;
 
     }
 
@@ -59,7 +71,7 @@
     @keyframes dialog {
       from {
         opacity: 0;
-        /* transform: scale(0.75); */
+        /* transform: scale(0.95); */
       }
 
       to {
@@ -89,6 +101,15 @@
       #invoice-list:hover .svgicon {
         opacity: 0;
       }
+    }
+
+    #pinjaiGrid,
+    #fillingGrid,
+    #stichingGrid,
+    #grandingGrid,
+    #chraiGrid,
+    #productPriceGrid {
+      display: none;
     }
   </style>
   <title>Invoices - GMS</title>
@@ -152,7 +173,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
 
         <div class="flex flex-col col-span-1 mr-8" id="contact">
           <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
@@ -167,7 +188,6 @@
           <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
         </div>
       </div>
-      <hr class="my-3 mr-8">
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
         <div class="flex flex-col col-span-1 mr-8" id="items">
           <label class=" label-red my-1 text-gray-500 font-semibold required" for="items">Select item</label>
@@ -184,7 +204,7 @@
           <span id="error" class="error text-red-500 text-[12px]   ml-2 mt-1"></span>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
         <div class="flex flex-col col-span-1 mr-8">
           <label class="label-red my-1 text-gray-500 font-semibold  " for="cutting">Cutt off weight</label>
           <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400" type="number"
@@ -197,7 +217,6 @@
             type="text" name="remaining" id="remaining" readonly>
         </div>
       </div>
-      <hr class="my-3 mr-8">
 
       <!--? Pinjai -->
       <!-- <div class="grid grid-cols-1 my-2">
@@ -220,9 +239,9 @@
       </div> -->
 
       <!--? Type of Pinjai -->
-      <div class="grid grid-cols-1 my-2">
+      <div class="grid grid-cols-1 border-b-[1px] border-b-gray-200 py-3 my-2" id="pinjaiGrid">
         <p class="my-3  text-gray-500 font-semibold">Type of Pinjai:</p>
-        <div class=" grid grid-cols-3 gap-16">
+        <div class=" grid grid-cols-1 lg:grid-cols-3  gap-4 my-4">
           <div class="flex items-center ps-4 border-[.2px] border-gray-300 rounded ">
             <input id="type-radio-1" type="radio" value="pillow" name="type-radio"
               class="w-4 h-4 text-purple-400 bg-gray-100 border-gray-300 focus:ring-purple-400 dark:focus:ring-purple-400 ">
@@ -242,10 +261,15 @@
               class="w-full py-2 ms-2 text-sm font-semibold text-gray-500 dark:text-gray-500">Gadda</label>
           </div>
         </div>
+        <div class="flex flex-col col-span-1 mr-8">
+          <label class="my-1 text-gray-500 font-semibold" for="pinjai-price">Pinjai price</label>
+          <input
+            class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
+            type="number" name="pinjai-price" id="pinjai-price" readonly>
+        </div>
       </div>
-
       <!--? Filling -->
-      <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 my-2" id="fillingGrid">
         <div class="flex flex-col col-span-1 mr-8">
           <label class="my-1 text-gray-500 font-semibold" for="filling-price">Filling price</label>
           <input
@@ -259,7 +283,7 @@
         </div>
       </div>
       <!--? Stiching -->
-      <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2" id="stichingGrid">
         <div class="flex flex-col col-span-1 mr-8">
           <label class="my-1 text-gray-500 font-semibold" for="stiching-price">Stiching price</label>
           <input
@@ -273,16 +297,23 @@
         </div>
       </div>
 
-      <hr class="my-3 mr-8">
+
       <!--? Cleaning & Granding -->
+      <div class="cleaningGrid flex items-start mb-5 ">
+        <label for="remember" class="me-2 text-sm font-medium text-gray-500">Cleaning of Product</label>
+        <div class="flex items-center h-5">
+          <input id="remember" type="checkbox" value=""
+            class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
+        </div>
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-        <div class="flex flex-col col-span-1 mr-8">
+        <div class="cleaningGrid flex flex-col col-span-1 mr-8">
           <label class="my-1 text-gray-500 font-semibold" for="cleaning-price">Cleaning price</label>
           <input
             class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
             type="number" name="cleaning-price" id="cleaning-price" readonly>
         </div>
-        <div class="flex flex-col col-span-1 mr-8">
+        <div class="flex flex-col col-span-1 mr-8" id="grandingGrid">
           <label class="my-1 text-gray-500 font-semibold" for="granding-price">Granding price</label>
           <input
             class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
@@ -290,19 +321,19 @@
         </div>
       </div>
 
-      <!--? Chrai & Pinjai -->
+      <!--? Chrai & Product price -->
       <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-        <div class="flex flex-col col-span-1 mr-8">
+        <div class="flex flex-col col-span-1 mr-8" id="chraiGrid">
           <label class="my-1 text-gray-500 font-semibold" for="chrai-price">Chrai price</label>
           <input
             class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
             type="number" name="chrai-price" id="chrai-price" readonly>
         </div>
-        <div class="flex flex-col col-span-1 mr-8">
-          <label class="my-1 text-gray-500 font-semibold" for="pinjai-price">Pinjai price</label>
+        <div class="flex flex-col col-span-1 mr-8" id="productPriceGrid">
+          <label class="my-1 text-gray-500 font-semibold" for="product-price">Product price</label>
           <input
             class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-            type="number" name="pinjai-price" id="pinjai-price" readonly>
+            type="number" name="product-price" id="product-price" readonly>
         </div>
       </div>
       <!-- <div class="md:grid   md:grid-cols-2 my-4">
@@ -347,7 +378,7 @@
     class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
 
   </div>
-  
+
   <!-- INVOICE RECIEPT ... END -->
 
   <script>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class=" w-[90vw] grid items-center justify-center ">
+        <%-include('header', {activeOption: 'clients' })%>
+          <header class=" flex flex-row items-center justify-around py-12 gap-8">
+            <h1 class="text-black text-xl md:text-3xl font-bold">Client Profile</h1>
+          </header>
+          <hr class="my-5">
+          <div class="p-4 w-[90vw] md:w-[70vw] flex flex-col-reverse " id="invoice-coll">
+
+          </div>
+      </div>
+      <script src="/javascripts/client-profile.js"></script>
+      <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>

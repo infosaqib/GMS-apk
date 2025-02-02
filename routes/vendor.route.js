@@ -3,24 +3,24 @@
 const express = require('express');
 const router = express.Router();
 
-const { getVendorProfiles, getVendorProfileById, createVendorProfile, updateVendorProfile, deleteVendorProfile } = require('../controllers/vendor.controller');
+const { getVendors, getVendorById, createVendor, updateVendor, deleteVendor } = require('../controllers/vendor.controller');
 
 
 //READ ALL
-router.get('/', getVendorProfiles)
+router.get('/', getVendors)
 
 //READ BY ID
-router.get('/:id', getVendorProfileById)
+router.get('/:id', getVendorById)
 
 
 //CREATE API
-router.post('/', createVendorProfile)
+router.post('/', createVendor)
 
 //UPDATE API
-router.put('/:id', updateVendorProfile)
+router.put('/:id', updateVendor)
 
 
 //DELETE API
-router.delete('/:id', deleteVendorProfile);
+router.delete('/:id', deleteVendor);
 
 module.exports = router;

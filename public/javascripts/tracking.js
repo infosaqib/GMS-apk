@@ -13,17 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             const date = new Date(updatedAt);
             const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getFullYear()}`;
 
-            // const options = [
-            //     { value: "ordered", text: "Ordered" },
-            //     { value: "verified", text: "Verified" },
-            //     { value: "processing", text: "Processing" },
-            //     { value: "packed", text: "Packed" },
-            //     { value: "returned", text: "Returned" },
-            // ];
-
-            // const optionsHtml = options.map(option => {
-            //     return `<option value="${option.value}" ${option.value === status ? 'selected' : ''}>${option.text}</option>`;
-            // }).join('');
 
             const trackingCardTemplate = `
                 <div data-id="${_id}" class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 p-4 bg-white gap-7">

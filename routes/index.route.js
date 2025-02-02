@@ -20,11 +20,17 @@ router.get('/products', function (req, res) {
 router.get('/tracking', function (req, res) {
   res.render('tracking');
 });
-router.get('/profiles', function (req, res) {
-  res.render('profile');
+router.get('/clients', function (req, res) {
+  res.render('client');
+});
+router.get('/clients/client-profile', function (req, res) {
+  res.render('clientProfile');
 });
 router.get('/vendors', function (req, res) {
   res.render('vendor');
+});
+router.get('/vendors/vendor-profile', function (req, res) {
+  res.render('vendorProfile');
 });
 router.get('/scan', function (req, res) {
   res.render('qr_scanner');

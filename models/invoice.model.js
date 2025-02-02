@@ -21,6 +21,14 @@ const invoiceSchema = new mongoose.Schema(
       unique: true,
       default: generateUniqueId
     },
+    client: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "profile",
+    },
+    vendor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "vendorProfile",
+    },
     name: {
       type: String,
       required: true,

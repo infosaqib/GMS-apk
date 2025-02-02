@@ -1,46 +1,46 @@
 "use strict";
 
-const vendorProfile = require('../models/vendor.model')
+const vendorModel = require('../models/vendor.model')
 
-const getVendorProfiles = async (req, res) => {
+const getVendors = async (req, res) => {
     try {
-        const vendorProfileData = await vendorProfile.find();
-        res.status(200).json(vendorProfileData);
+        const vendor = await vendorModel.find();
+        res.status(200).json(vendor);
 
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-const getVendorProfileById = async (req, res) => {
+const getVendorById = async (req, res) => {
     try {
         const { id } = req.params;
-        const vendorProfileData = await vendorProfile.findById(id)
+        const vendor = await vendorModel.findById(id)
 
-        if (!vendorProfileData) {
-            return res.status(404).json({ message: "Vendor Profile not found" })
+        if (!vendor) {
+            return res.status(404).json({ message: "Vendor not found" })
         }
 
-        res.status(200).json(vendorProfileData);
+        res.status(200).json(vendor);
     }
     catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
-const createVendorProfile = async (req, res) => {
+const createVendor = async (req, res) => {
     try {
 
         const { name, fatherName, contact, cnic } = req.body
-        const vendorProfileData = new vendorProfile({ name, fatherName, contact, cnic })
+        const vendor = new vendorModel({ name, fatherName, contact, cnic })
 
 
-        await vendorProfileData.save();
+        await vendor.save();
         // res.status(201);
         res.redirect('/vendors')
     } catch (error) {
         if (error.code === 11000) {
-            res.status(400).json({ message: "Vendor Profile with this name already exists" })
+            res.status(400).json({ message: "Vendor with this name already exists" })
             return;
         } else {
             res.status(500).json({ message: error.message })
@@ -48,7 +48,7 @@ const createVendorProfile = async (req, res) => {
     }
 }
 
-const updateVendorProfile = async (req, res) => {
+const updateVendor = async (req, res) => {
     try {
         const { id } = req.params;
         const { up_name, up_fatherName, up_contact, up_cnic } = req.body;
@@ -58,33 +58,33 @@ const updateVendorProfile = async (req, res) => {
         //     return res.status(400).json({ message: 'Invalid input data' });
         // }
 
-        const vendorProfileData = await vendorProfile.findByIdAndUpdate(id, {
+        const vendor = await vendorModel.findByIdAndUpdate(id, {
             name: up_name,
             fatherName: up_fatherName,
             contact: up_contact,
             cnic: up_cnic
         }, { new: true })
 
-        if (!vendorProfileData) {
-            return res.status(404).json('Vendor Profile not found')
+        if (!vendor) {
+            return res.status(404).json('Vendor not found')
         }
-        res.status(201).json(vendorProfileData)
-        // res.redirect('/vendorprofile')
+        res.status(201).json(vendor)
+        // res.redirect('/vendors')
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
 }
 
-const deleteVendorProfile = async (req, res) => {
+const deleteVendor = async (req, res) => {
     try {
         const { id } = req.params;
-        const vendorProfileData = await vendorProfile.findByIdAndDelete(id)
+        const vendor = await vendorModel.findByIdAndDelete(id)
 
-        if (!vendorProfileData) {
-            return res.status(404).json({ message: "vendorProfile not found" })
+        if (!vendor) {
+            return res.status(404).json({ message: "vendor not found" })
         }
 
-        res.status(200).json({ message: "Vendor Profile deleted successfully" })
+        res.status(200).json({ message: "Vendor deleted successfully" })
     }
     catch (error) {
         // console.error("Server error:", error);
@@ -92,4 +92,4 @@ const deleteVendorProfile = async (req, res) => {
     }
 }
 
-module.exports = { getVendorProfiles, getVendorProfileById, createVendorProfile, updateVendorProfile, deleteVendorProfile }
+module.exports = { getVendors, getVendorById, createVendor, updateVendor, deleteVendor }

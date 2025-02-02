@@ -7,7 +7,7 @@ connectDB();
 
 
 
-const profileSchema = new mongoose.Schema(
+const clientSchema = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -24,11 +24,15 @@ const profileSchema = new mongoose.Schema(
         cnic: {
             type: String,
             unique: true
-        }
+        },
+        invoices:[{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'invoice'
+        }]
     },
     {
         timestamps: true,
     }
 );
 
-module.exports = mongoose.model("profile", profileSchema);
+module.exports = mongoose.model("Client", clientSchema);

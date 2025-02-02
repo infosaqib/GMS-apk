@@ -7,28 +7,32 @@ connectDB();
 
 
 
-const vendorProfileSchema = new mongoose.Schema(
+const vendorSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-          
+
         },
         fatherName: {
             type: String,
-        
+
         },
         contact: {
             type: String,
-         unique: true
+            unique: true
         },
         cnic: {
             type: String,
             unique: true
-        }
+        },
+        invoices: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'invoice'
+        }]
     },
     {
         timestamps: true,
     }
 );
 
-module.exports = mongoose.model("vendorProfile", vendorProfileSchema);
+module.exports = mongoose.model("Vendor", vendorSchema);
