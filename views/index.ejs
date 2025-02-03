@@ -135,9 +135,32 @@
         </a>
       </header>
       <hr class="my-5">
-      <div class="p-4 w-[90vw] md:w-[70vw] flex flex-col-reverse " id="invoice-coll">
-      </div>
-  </div>
+      <!-- Fetching invoices -->
+      <% invoices.forEach(({ _id, id, name, item_name, item_weight, total_price, updatedAt }) => { 
+        const date = new Date(updatedAt);
+        const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}-${date.getFullYear()}`;
+      %>
+        <div onclick="openInvoice(event)" data-id="<%= _id %>" class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
+          <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
+            <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b><%= id %></p>
+            <p class="text-gray-400 text-sm lg:text-sm"><%= formattedDate %></p>
+            <p class="text-gray-400 text-sm lg:text-sm capitalize"><%= name %></p>
+          </div>
+          <div>
+            <p class="text-green-400 text-lg lg:text-sm"></p>
+          </div>
+          <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
+            <p class="text-gray-400 text-sm lg:text-sm capitalize"><%= item_name %></p>
+            <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.<%= total_price %></b></p>
+            <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+      <% }); %>
+      
 
   <!-- OVERLAY -->
   <div id="overlay" onclick="hideSidebar();closeInvoice() "
@@ -373,7 +396,7 @@
 
   <!-- SIDEBAR ... END-->
 
-  <!-- INVOICE RECIEPT -->
+  <!-- INVOICE REVIEW -->
   <div id="invoice-view"
     class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
 

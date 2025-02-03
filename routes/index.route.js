@@ -7,12 +7,20 @@ const bodyParser = require('body-parser')
 
 //* Database Connection
 const connectDB = require('../db');
+const clientModel = require('../models/client.model');
+const invoiceModel = require('../models/invoice.model');
 connectDB();
 
 
 //* Routes
-router.get('/', function (req, res) {
-  res.render('index')
+router.get('/', async function (req, res) {
+  try {
+    const invoices = await invoiceModel.find(); // Fetch all users
+    res.render("index", { invoices });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 router.get('/products', function (req, res) {
   res.render('product');
@@ -20,9 +28,17 @@ router.get('/products', function (req, res) {
 router.get('/tracking', function (req, res) {
   res.render('tracking');
 });
-router.get('/clients', function (req, res) {
-  res.render('client');
+
+router.get("/clients", async function (req, res) {
+  try {
+    const clients = await clientModel.find(); // Fetch all users
+    res.render("client", { clients });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
+
 router.get('/clients/client-profile', function (req, res) {
   res.render('clientProfile');
 });

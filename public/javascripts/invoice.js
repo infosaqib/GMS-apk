@@ -503,53 +503,53 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 //! Invoice Card Generator
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    response = await fetch("/api/invoices");
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const invoices = await response.json();
+// document.addEventListener("DOMContentLoaded", async () => {
+//   try {
+//     response = await fetch("/api/invoices");
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
+//     const invoices = await response.json();
 
-    invoices.forEach((invoice) => {
-      let { _id, id, name, item_name, item_weight, total_price, updatedAt } =
-        invoice;
+//     invoices.forEach((invoice) => {
+//       let { _id, id, name, item_name, item_weight, total_price, updatedAt } =
+//         invoice;
 
-      // Convert updatedAt to a readable date format DD-MM-YYYY
-      const date = new Date(updatedAt);
-      const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
-        date.getMonth() + 1
-      )
-        .toString()
-        .padStart(2, "0")}-${date.getFullYear()}`;
+//       // Convert updatedAt to a readable date format DD-MM-YYYY
+      // const date = new Date(updatedAt);
+      // const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
+      //   date.getMonth() + 1
+      // )
+      //   .toString()
+      //   .padStart(2, "0")}-${date.getFullYear()}`;
 
-      const invoiceCardTemplate = `
-         <div onclick="openInvoice(event)" data-id="${_id}" class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
-          <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-            <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b>${id}</p>
-            <p class="text-gray-400 text-sm lg:text-sm">${formattedDate}</p>
-            <p class="text-gray-400 text-sm lg:text-sm capitalize">${name}</p>
-          </div>
-          <div>
-         <p class="text-green-400 text-lg lg:text-sm"></p>
-          </div>
-          <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-            <p class="text-gray-400 text-sm lg:text-sm capitalize">${item_name}</p>
-            <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.${total_price}</b></p>
-            <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd"/>
-            </svg>
-          </div>
-        </div>
-        `;
+//       const invoiceCardTemplate = `
+//          <div onclick="openInvoice(event)" data-id="${_id}" class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
+//           <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
+//             <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b>${id}</p>
+//             <p class="text-gray-400 text-sm lg:text-sm">${formattedDate}</p>
+//             <p class="text-gray-400 text-sm lg:text-sm capitalize">${name}</p>
+//           </div>
+//           <div>
+//          <p class="text-green-400 text-lg lg:text-sm"></p>
+//           </div>
+//           <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
+//             <p class="text-gray-400 text-sm lg:text-sm capitalize">${item_name}</p>
+//             <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.${total_price}</b></p>
+//             <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+//               <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd"/>
+//             </svg>
+//           </div>
+//         </div>
+//         `;
 
-      let invoiceGrid = document.getElementById("invoice-coll");
-      invoiceGrid.innerHTML += invoiceCardTemplate;
-    });
-  } catch (error) {
-    console.error("Error fetching invoices", error);
-  }
-});
+//       let invoiceGrid = document.getElementById("invoice-coll");
+//       invoiceGrid.innerHTML += invoiceCardTemplate;
+//     });
+//   } catch (error) {
+//     console.error("Error fetching invoices", error);
+//   }
+// });
 
 
 
