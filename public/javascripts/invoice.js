@@ -15,6 +15,7 @@ let productMenu = document.getElementById("productMenu"),
   pinjaiPriceInput = document.getElementById("pinjai-price"),
   productPriceInput = document.getElementById("product-price"),
   totalPrice = document.myForm.total,
+  cleaningCheckbox = document.getElementById('remember'),
   //Grids' input
   pinjaiGrid = document.getElementById('pinjaiGrid'),
   fillingGrid = document.getElementById('fillingGrid'),
@@ -24,10 +25,10 @@ let productMenu = document.getElementById("productMenu"),
   chraiGrid = document.getElementById('chraiGrid'),
   productPriceGrid = document.getElementById('productPriceGrid')
 
-  //Default scripting
-  cleaningGrid.forEach(element => {
-    element.style.display = 'none'
-  });
+//Default scripting
+cleaningGrid.forEach(element => {
+  element.style.display = 'none'
+});
 
 
 //Auto update prices
@@ -42,8 +43,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         (product) => product.product_name === productMenu.value
       );
 
+      // When a product is selected and checkbox is checked, set the cleaning price
+      cleaningCheckbox.addEventListener('change', function () {
+        if (this.checked && selectedProduct) {
+          cleaningPriceInput.value = selectedProduct.cleaning_price;
+        } else {
+          cleaningPriceInput.value = '';
+        }
+        calculateTotalPrice();
+      });
+
+
       if (selectedProduct) {
-        cleaningPriceInput.value = selectedProduct.cleaning_price;
         grandingPriceInput.value = selectedProduct.granding_price;
         fillingPriceInput.value = selectedProduct.filling_price;
         stichingPriceInput.value = selectedProduct.stiching_price;
@@ -516,12 +527,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 //         invoice;
 
 //       // Convert updatedAt to a readable date format DD-MM-YYYY
-      // const date = new Date(updatedAt);
-      // const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
-      //   date.getMonth() + 1
-      // )
-      //   .toString()
-      //   .padStart(2, "0")}-${date.getFullYear()}`;
+// const date = new Date(updatedAt);
+// const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
+//   date.getMonth() + 1
+// )
+//   .toString()
+//   .padStart(2, "0")}-${date.getFullYear()}`;
 
 //       const invoiceCardTemplate = `
 //          <div onclick="openInvoice(event)" data-id="${_id}" class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">

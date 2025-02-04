@@ -35,7 +35,7 @@
 
 <body class="flex items-center justify-center bg-gray-100 relative">
     <main id="container" class="w-[90vw] flex flex-col place-content-center">
-        <%-include('header', {activeOption: 'clients' })%>
+        <%-include('aside', {activeOption: 'clients' })%>
             <div class="flex flex-row items-center justify-between">
                 <h1 class=" text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">
                     Clients'
@@ -58,7 +58,6 @@
                  </svg>
 
 
-
                  <h1 class="text-gray-500 text-2xl font-semibold">Add new Client</h1>
 
              </div>
@@ -70,7 +69,7 @@
                             <div class="mr-auto border border-gray-200  px-3 py-2 rounded-md ">
 
                                 <a href="/clients/client-profile"
-                                   class="client-profile-btn" class="flex flex-row gap-2 items-center justify-center cursor-pointer">
+                                   class="client-profile-btn flex flex-row gap-2 items-center justify-center cursor-pointer">
                                     <svg class="size-6 cursor-pointer" viewBox="0 0 512 512"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill="#9333ea"
@@ -147,7 +146,7 @@
                         <div class="flex flex-col col-span-1 mr-8" id="name">
                             <label class=" label-red my-1 text-gray-500 font-semibold  " for="name">Name</label>
                             <input
-                                class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
                                 type="text" name="name" autocapitalize="words" required>
                             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
                         </div>
@@ -156,7 +155,7 @@
                             <label class=" label-red my-1 text-gray-500 font-semibold  " for="fatherName">Father
                                 name</label>
                             <input
-                                class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
                                 type="text" name="fatherName" autocapitalize="words" required>
                             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
                         </div>
@@ -255,10 +254,15 @@
             </div>
     </main>
 
-
+    <script type="module">
+        import { capitalizeText } from '/javascripts/utils.js';
+    
+        // Select all inputs with the class "capitalize-input"
+        document.querySelectorAll(".capitalize-input").forEach(input => {
+            input.addEventListener("input", capitalizeText);
+        });
+    </script>
     <script src="/javascripts/client.js"></script>
-    <!-- <script src="./javascripts/data.js"></script> -->
-    <!-- <script src="./javascripts/generator.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
 </body>
 

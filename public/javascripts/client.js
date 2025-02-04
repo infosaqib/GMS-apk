@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let button = document.querySelectorAll(".client-profile-btn");
   button.forEach(btn => btn.addEventListener("click", (event) => {
     const clientId = event.target.closest("#myClient").dataset.id;
-    localStorage.setItem("clientId", clientId);
+    sessionStorage.setItem("clientId", clientId);
   }))
 })
 

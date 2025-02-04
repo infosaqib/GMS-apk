@@ -154,19 +154,19 @@ function closeInvoice() {
     }
     return;
   }
-// Fetch invoices for the specific client ID
-const clientId = sessionStorage.getItem("clientId");
+// Fetch invoices for the specific vendor ID
+const vendorId = sessionStorage.getItem("vendorId");
 
 document.addEventListener("DOMContentLoaded", async () => {
     const invoiceContainer = document.getElementById("invoice-collection");
 
-    if (!clientId) {
-        invoiceContainer.innerHTML = "<p class='text-gray-500 text-center'>Client ID not found</p>";
+    if (!vendorId) {
+        invoiceContainer.innerHTML = "<p class='text-gray-500 text-center'>vendor ID not found</p>";
         return;
     }
 
     try {
-        const response = await fetch(`/api/invoices?client=${encodeURIComponent(clientId)}`);
+        const response = await fetch(`/api/invoices?vendor=${encodeURIComponent(vendorId)}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -175,13 +175,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         const invoices = await response.json();
 
         if (!invoices.length) {
-            invoiceContainer.innerHTML = "<p class='text-gray-500 text-center'>No invoices found for this client</p>";
+            invoiceContainer.innerHTML = "<p class='text-gray-500 text-center'>No invoices found for this vendor</p>";
             return;
         }
 
         // Generate invoice cards dynamically
         invoiceContainer.innerHTML = invoices
-            .filter(invoice => invoice.client === clientId) // Additional client-side filtering
+            .filter(invoice => invoice.vendor === vendorId) // Additional vendor-side filtering
             .map(invoice => {
                 const {
                     _id,
@@ -231,26 +231,26 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-//Client Information
-let clientName = document.getElementById('clientName'),
-    clientFatherName = document.getElementById('clientFatherName'),
-    clientPhone = document.getElementById('clientPhone'),
-    clientCnic = document.getElementById('clientCnic');
+//vendor Information
+let vendorName = document.getElementById('vendorName'),
+    vendorFatherName = document.getElementById('vendorFatherName'),
+    vendorPhone = document.getElementById('vendorPhone'),
+    vendorCnic = document.getElementById('vendorCnic');
 
     document.addEventListener('DOMContentLoaded', async ()=>{
         try {
             
-            const response = await fetch(`/api/clients/${clientId}`);
+            const response = await fetch(`/api/vendors/${vendorId}`);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
     
-            const client = await response.json();
-            clientName.textContent = client.name
-            clientFatherName.textContent = client.fatherName
-            clientPhone.textContent = client.contact
-            clientCnic.textContent = client.cnic
+            const vendor = await response.json();
+            vendorName.textContent = vendor.name
+            vendorFatherName.textContent = vendor.fatherName
+            vendorPhone.textContent = vendor.contact
+            vendorCnic.textContent = vendor.cnic
     
         } catch (error) {
             

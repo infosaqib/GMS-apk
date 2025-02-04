@@ -35,7 +35,7 @@
 
 <body class="flex items-center justify-center bg-gray-100 relative">
     <main id="container" class="w-[90vw] flex flex-col place-content-center">
-        <%-include('header', {activeOption: 'products' })%>
+        <%-include('aside', {activeOption: 'products' })%>
             <div class="flex flex-row items-center justify-between">
                 <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Products
                     Catalog
@@ -86,10 +86,10 @@
                     class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
 
                     <!--? Product Name -->
-                    <div id="product-granding" class="flex flex-col col-span-1 mr-8">
+                    <div id="product-name" class="flex flex-col col-span-1 mr-8">
                         <label class="my-1 text-gray-400 text-xl font-light" for="product-name">Product name</label>
                         <input type="text" name="product_name"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                            class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
                         autocapitalize="words"    required>
                     </div>
 
@@ -202,7 +202,7 @@
                     <div id="product-name" class="flex flex-col col-span-1 mr-8">
                         <label class="my-1 text-gray-400 text-xl font-light" for="up_product-name">Product name</label>
                         <input type="text" name="up_product_name"
-                            class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
+                            class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
                             required autocapitalize="words" value="">
                     </div>
 
@@ -294,10 +294,15 @@
                 class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
             </div>
     </main>
+    <script type="module">
+        import { capitalizeText } from '/javascripts/utils.js';
+    
+        // Select all inputs with the class "capitalize-input"
+        document.querySelectorAll(".capitalize-input").forEach(input => {
+            input.addEventListener("input", capitalizeText);
+        });
+    </script>
     <script src="/javascripts/product.js"></script>
-    <script src="/javascripts/script.js"></script>
-    <!-- <script src="./javascripts/data.js"></script> -->
-    <!-- <script src="./javascripts/generator.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
 </body>
 

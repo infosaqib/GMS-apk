@@ -7,8 +7,9 @@ const bodyParser = require('body-parser')
 
 //* Database Connection
 const connectDB = require('../db');
-const clientModel = require('../models/client.model');
 const invoiceModel = require('../models/invoice.model');
+const clientModel = require('../models/client.model');
+const vendorModel = require('../models/vendor.model');
 connectDB();
 
 
@@ -42,8 +43,14 @@ router.get("/clients", async function (req, res) {
 router.get('/clients/client-profile', function (req, res) {
   res.render('clientProfile');
 });
-router.get('/vendors', function (req, res) {
-  res.render('vendor');
+router.get('/vendors', async function (req, res) {
+  try {
+    const vendors = await vendorModel.find(); // Fetch all users
+    res.render("vendor", { vendors });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 router.get('/vendors/vendor-profile', function (req, res) {
   res.render('vendorProfile');

@@ -12,9 +12,9 @@ function addProduct() {
 
     const form = document.addProductForm;
 
-    const { cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price, total_price } = form;
+    const { cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price, product_price, total_price } = form;
 
-    const allInputs = [cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price];
+    const allInputs = [cleaning_price, granding_price, chrai_price, pinjai_price, filling_price, stiching_price, product_price];
 
     const updateTotal = () => {
         const total = allInputs.reduce((sum, input) => sum + parseFloat(input.value) || 0, 0);
@@ -294,7 +294,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ['Pinjai price', pinjai_price],
                 ['Filling price', filling_price],
                 ['Stiching price', stiching_price],
-               
             ];
 
             return `
@@ -332,10 +331,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <hr>
                     ` : ''
             ).join('')}
-            <div class="flex flex-row justify-between items-center px-3 py-4">
-                <h1 class="text-gray-400 text-lg font-semibold">Product price <span class="text-xs">(per kg)</span> </h1>
-                <p class="text-black text-lg font-semibold">Rs. ${product_price}</p>
-            </div>
+            ${product_price && product_price > 0 ? `
+                <div class="flex flex-row justify-between items-center px-3 py-4">
+                    <h1 class="text-gray-400 text-lg font-semibold">Product price <span class="text-xs">(per kg)</span> </h1>
+                    <p class="text-black text-lg font-semibold">Rs. ${product_price}</p>
+                </div>
+            ` : ''}
                 <div class="flex flex-row justify-between items-center px-3 py-4">
                     <h1 class="text-gray-400 text-lg font-semibold">Total price</h1>
                     <p class="text-black text-lg font-semibold">Rs. ${total_price}</p>
@@ -348,14 +349,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching products', error);
     }
 
-
     let deleteButton = document.querySelectorAll('.deleteButton');
     deleteButton.forEach(button => { button.addEventListener('click', deleteProduct) })
 
-
-
     async function deleteProduct(event) {
-
         event.preventDefault();
 
         if (!event || !event.target) {
