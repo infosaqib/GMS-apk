@@ -15,11 +15,11 @@ require('dotenv').config();
 //   next();
 // });
 
-let indexRouter = require('./routes/index.route');
-const productRouter = require('./routes/product.route')
-let invoicesRouter = require('./routes/invoice.route');
-let clientRouter = require('./routes/client.route');
-let vendorRouter = require('./routes/vendor.route');
+let indexRoute = require('./routes/index.route');
+const productRoute = require('./routes/product.route')
+let clientInvoicesRoute = require('./routes/client-invoice.route');
+let clientRoute = require('./routes/client.route');
+let vendorRoute = require('./routes/vendor.route');
 
 let app = express();
 
@@ -34,11 +34,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'src')));
 
-app.use('/', indexRouter);
-app.use('/api/invoices', invoicesRouter);
-app.use('/api/products', productRouter)
-app.use('/api/clients', clientRouter)
-app.use('/api/vendors', vendorRouter)
+app.use('/', indexRoute);
+app.use('/api/client-invoices', clientInvoicesRoute);
+app.use('/api/products', productRoute)
+app.use('/api/clients', clientRoute)
+app.use('/api/vendors', vendorRoute)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

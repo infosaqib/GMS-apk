@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch(`/api/invoices?client=${encodeURIComponent(clientId)}`);
+        const response = await fetch(`/api/client-invoices?client=${encodeURIComponent(clientId)}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

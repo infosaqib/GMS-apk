@@ -27,7 +27,7 @@ const clientSchema = new mongoose.Schema(
         },
         invoices:[{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'invoice'
+            ref: 'client-invoice'
         }]
     },
     {

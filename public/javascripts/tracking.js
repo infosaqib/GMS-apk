@@ -1,7 +1,7 @@
 //! Tracking Card Generator
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        const response = await fetch("/api/invoices");
+        const response = await fetch("/api/client-invoices");
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 //     console.log('Updating status for invoice:', {
 //         invoiceId,
 //         newStatus,
-//         requestUrl: `/api/invoices/${invoiceId}`
+//         requestUrl: `/api/client-invoices/${invoiceId}`
 //     });
 
 //     try {

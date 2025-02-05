@@ -16,7 +16,7 @@ async function openInvoice(event) {
 
 
     try {
-        const response = await fetch(`/api/invoices/${invoiceId}`);
+        const response = await fetch(`/api/vendor-invoices/${invoiceId}`);
     
         if (!response.ok) {
           const errorData = await response.json();
@@ -126,7 +126,7 @@ function closeInvoice() {
     const invoiceAction = confirm('Are you sure to delete this invoice?')
     if (invoiceAction) {
       try {
-        const response = await fetch(`/api/invoices/${invoiceId}`, { method: 'DELETE' })
+        const response = await fetch(`/api/vendor-invoices/${invoiceId}`, { method: 'DELETE' })
   
         if (!response.ok) {
           const errorData = await response.json();
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        const response = await fetch(`/api/invoices?vendor=${encodeURIComponent(vendorId)}`);
+        const response = await fetch(`/api/vendor-invoices?vendor=${encodeURIComponent(vendorId)}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

@@ -13,7 +13,7 @@ const generateUniqueId = () => {
 };
 
 
-const invoiceSchema = new mongoose.Schema(
+const ClientinvoiceSchema = new mongoose.Schema(
   {
     id: {
       type: String,
@@ -23,11 +23,7 @@ const invoiceSchema = new mongoose.Schema(
     },
     client: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "profile",
-    },
-    vendor: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "vendorProfile",
+      ref: "Client",
     },
     name: {
       type: String,
@@ -74,7 +70,7 @@ const invoiceSchema = new mongoose.Schema(
 );
 
 // Method to generate Barcode
-invoiceSchema.methods.generateBarcode = async function() {
+ClientinvoiceSchema.methods.generateBarcode = async function() {
   try {
     // Just use MongoDB's _id for the barcode
     const barcodeText = this._id.toString();
@@ -103,4 +99,4 @@ invoiceSchema.methods.generateBarcode = async function() {
   }
 };
 
-module.exports = mongoose.model("invoice", invoiceSchema);
+module.exports = mongoose.model("client-invoice", ClientinvoiceSchema);

@@ -223,14 +223,16 @@ function hideSidebar() {
 
 
 //CREATE API FUNCTION
-document.myForm.onsubmit = async (e) => {
+document.myForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const invoiceData = new FormData(document.myForm);
   const newinvoice = Object.fromEntries(invoiceData.entries());
 
+  console.log("Invoice Data being sent:", newinvoice); // Debugging Line
+
   try {
-    const response = await fetch('/api/invoices/', {
+    const response = await fetch('/api/client-invoices/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -240,21 +242,21 @@ document.myForm.onsubmit = async (e) => {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.error("Error Response from API:", errorData); // Debugging Line
       throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
     }
 
     const newinvoiceData = await response.json();
-    console.log('invoice added successfully:', newinvoiceData);
+    console.log('Invoice added successfully:', newinvoiceData);
 
-    //refresh the product list here
+    // Refresh the page or update the UI
     hideSidebar();
     document.myForm.reset();
     window.location.href = '/';
   } catch (error) {
     console.error('Error creating invoice:', error);
   }
-};
-
+});
 
 // document.addEventListener("DOMContentLoaded", async () => {
 //   const cleaningPriceInput = document.getElementById("cleaning-price");
@@ -281,7 +283,7 @@ document.myForm.onsubmit = async (e) => {
 
 //       const formData = new FormData(form);
 //       try {
-//         const response = await fetch('/api/invoices', {
+//         const response = await fetch('/api/client-invoices', {
 //           method: 'POST',
 //           body: formData
 //         });
@@ -359,7 +361,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 //! Invoice Card Generator
 // document.addEventListener("DOMContentLoaded", async () => {
 //   try {
-//     response = await fetch("/api/invoices");
+//     response = await fetch("/api/client-invoices");
 //     if (!response.ok) {
 //       throw new Error(`HTTP error! status: ${response.status}`);
 //     }
@@ -463,3 +465,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add event listener to the Name input field with debounce
   contactInput.addEventListener('input', debounce(handleInput, 300));
 })
+
+
+//Tab Content effect
+document.addEventListener('DOMContentLoaded', function () {
+  let tabs = document.querySelectorAll('.tab');
+  let contents = document.querySelectorAll('.tab-content');
+
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function (e) {
+      let targetId = tab.id.replace('Tab', 'Content');
+
+      // Hide all content divs
+      contents.forEach(function (content) {
+        content.classList.add('hidden');
+      });
+
+      // Remove active class from all tabs
+      tabs.forEach(function (tab) {
+        tab.classList.remove('bg-white', 'text-blue-500');
+      });
+
+      // Show the target content
+      document.getElementById(targetId).classList.remove('hidden');
+
+      // Add active class to the clicked tab
+      tab.classList.add('bg-white', 'text-blue-500');
+    });
+  });
+});

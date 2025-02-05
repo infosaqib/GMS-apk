@@ -31,7 +31,7 @@ export async function openInvoice(event) {
   const invoiceId = event.target.dataset.id;
 
   try {
-    const response = await fetch(`/api/invoices/${invoiceId}`);
+    const response = await fetch(`/api/client-invoices/${invoiceId}`);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -107,7 +107,8 @@ export async function openInvoice(event) {
     console.error("Error fetching invoice:", error);
   }
 }
-
+// Make it global
+window.openInvoice = openInvoice;
 
 //? Close invoice
 export function closeInvoice() {
@@ -133,7 +134,7 @@ async function deleteInvoice(event) {
   const invoiceAction = confirm("Are you sure to delete this invoice?");
   if (invoiceAction) {
     try {
-      const response = await fetch(`/api/invoices/${invoiceId}`, { method: "DELETE" });
+      const response = await fetch(`/api/client-invoices/${invoiceId}`, { method: "DELETE" });
 
       if (!response.ok) {
         const errorData = await response.json();

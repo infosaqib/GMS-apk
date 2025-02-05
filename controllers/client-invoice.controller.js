@@ -1,12 +1,11 @@
 "use strict";
 
-const Invoice = require('../models/invoice.model')
+const clientInvoiceModel = require('../models/client-invoice.model')
 const clientModel = require('../models/client.model')
-const vendorModel = require('../models/vendor.model')
 
 const getInvoices = async (req, res) => {
   try {
-    const invoices = await Invoice.find();
+    const invoices = await clientInvoiceModel.find();
     res.status(200).json(invoices)
 
   } catch (error) {
@@ -17,7 +16,7 @@ const getInvoices = async (req, res) => {
 const getInvoiceById = async (req, res) => {
   try {
     const { id } = req.params;
-    const invoices = await Invoice.findById(id)
+    const invoices = await clientInvoiceModel.findById(id)
 
     if (!invoices) {
       return res.status(404).json({ message: "Invoice not found" })
@@ -35,9 +34,9 @@ const createInvoice = async (req, res) => {
 
     // Find client and vendor using CNIC
     const client = await clientModel.findOne({ cnic: cnic });
-    const vendor = await vendorModel.findOne({ cnic: cnic });
+    // const vendor = await vendorModel.findOne({ cnic: cnic });
 
-    const invoiceData = new Invoice({
+    const invoiceData = new clientInvoiceModel({
       name,
       father_name,
       contact,
@@ -46,7 +45,7 @@ const createInvoice = async (req, res) => {
       item_weight: remaining,
       total_price: total,
       client: client?._id || null,    // Use null if client not found
-      vendor: vendor?._id || null     // Use null if vendor not found
+      // vendor: vendor?._id || null     // Use null if vendor not found
     });
 
     // Only push and save if client exists
@@ -56,10 +55,10 @@ const createInvoice = async (req, res) => {
     }
 
     // Only push and save if vendor exists
-    if (vendor) {
-      await vendor.invoices.push(invoiceData._id);
-      await vendor.save();
-    }
+    // if (vendor) {
+    //   await vendor.invoices.push(invoiceData._id);
+    //   await vendor.save();
+    // }
 
     await invoiceData.save();
 
@@ -85,7 +84,7 @@ const scanBarcode = async (req, res) => {
       });
     }
 
-    const invoice = await Invoice.findById(barcode_data);
+    const invoice = await clientInvoiceModel.findById(barcode_data);
 
     if (!invoice) {
       return res.status(404).json({
@@ -189,7 +188,7 @@ const updateInvoice = async (req, res) => {
   // }
 
   try {
-    const result = await Invoice.findByIdAndUpdate(
+    const result = await clientInvoiceModel.findByIdAndUpdate(
       id, { status }, { new: true }
     );
 
@@ -218,7 +217,7 @@ const updateInvoice = async (req, res) => {
 const deleteInvoice = async (req, res) => {
   try {
     const { id } = req.params;
-    const invoice = await Invoice.findByIdAndDelete(id)
+    const invoice = await clientInvoiceModel.findByIdAndDelete(id)
 
     if (!invoice) {
       return res.status(404).json({ message: "Invoice not found" });
