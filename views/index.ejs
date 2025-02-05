@@ -115,9 +115,9 @@
   <title>Invoices - GMS</title>
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center">
-  <div class=" w-[90vw] grid items-center justify-center ">
-    <%-include('aside', {activeOption: 'index' })%>
+<body class="flex  h-screen w-screen bg-gray-100 relative">
+  <%-include('aside', {activeOption: 'index' })%>
+  <div class="flex flex-col   w-[85%] px-[5%]">
       <div class=" flex flex-row items-center justify-around py-12 gap-8">
         <div class="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
           <div class="relative overflow-hidden bg-white shadow-md rounded-lg border border-gray-200">
@@ -160,7 +160,7 @@
         .toString()
         .padStart(2, "0")}-${date.getFullYear()}`;
         %>
-        <div onclick="openInvoice(event)" data-id="<%= _id %>"
+        <div id="openInvoice" data-id="<%= _id %>"
           class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
           <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
             <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b>
@@ -437,12 +437,17 @@
 
           <!-- SCRIPTS -->
           <script type="module">
-            import { capitalizeText } from '/javascripts/utils.js';
+            import { capitalizeText, openInvoice, closeInvoice } from '/javascripts/utils.js';
 
-            // Select all inputs with the class "capitalize-input"
+            // Apply Capitalization of Text
             document.querySelectorAll(".capitalize-input").forEach(input => {
               input.addEventListener("input", capitalizeText);
             });
+
+            //Apply Open Invoice
+            document.getElementById('openInvoice').addEventListener('click', openInvoice)
+            //Apply Close Invoice
+            document.getElementById('overlay').addEventListener('click', closeInvoice)
           </script>
           <script src="/javascripts/invoice.js"></script>
           <script src="https://cdn.tailwindcss.com"></script>

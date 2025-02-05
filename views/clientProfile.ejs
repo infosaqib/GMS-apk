@@ -31,9 +31,9 @@
   </style>
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center">
-  <div class=" w-[90vw] grid items-center justify-center ">
-    <%-include('aside', {activeOption: 'clients' })%>
+<body class="flex h-screen w-screen bg-gray-100 relative">
+  <%-include('aside', {activeOption: 'clients' })%>
+  <div class=" flex flex-col   w-[85%] px-[5%]">
       <header class=" flex flex-row items-center justify-around py-12 gap-8">
         <h1 class="text-black text-xl md:text-3xl font-bold">Client Profile</h1>
       </header>
@@ -81,7 +81,14 @@
         class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
       </div>
       <!-- Javascripts -->
-      <script src="/javascripts/client-profile.js"></script>
+      <script type="module">
+        import { closeInvoice } from '/javascripts/utils.js';
+
+
+        //Apply Close Invoice
+        document.getElementById('overlay').addEventListener('click', closeInvoice)
+      </script>
+      <script type="module" src="/javascripts/client-profile.js"></script>
       <script src="https://cdn.tailwindcss.com"></script>
 </body>
 

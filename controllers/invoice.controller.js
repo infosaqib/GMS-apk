@@ -67,8 +67,7 @@ const createInvoice = async (req, res) => {
     await invoiceData.generateBarcode();
 
     res.status(201).json({
-      success: true,
-      invoice: invoiceData
+      success: true
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

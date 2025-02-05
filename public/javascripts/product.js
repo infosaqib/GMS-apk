@@ -192,7 +192,7 @@ async function updateProduct(event) {
 
 
         const form = document.updateProductForm;
-        const priceFields = ['up_granding_price', 'up_cleaning_price', 'up_chrai_price', 'up_pinjai_price', 'up_filling_price', 'up_stiching_price'];
+        const priceFields = ['up_granding_price', 'up_cleaning_price', 'up_chrai_price', 'up_pinjai_price', 'up_filling_price', 'up_stiching_price', 'up_product_price'];
 
         const updateTotal = () => {
             const total = priceFields.reduce((sum, field) => sum + (parseFloat(form[field].value) || 0), 0);

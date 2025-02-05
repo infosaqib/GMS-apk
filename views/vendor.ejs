@@ -33,35 +33,43 @@
     </style>
 </head>
 
-<body class="flex items-center justify-center bg-gray-100 relative">
-    <main id="container" class="w-[90vw] flex flex-col place-content-center">
-        <%-include('aside', {activeOption: 'vendors' })%>
-            <div class="flex flex-row items-center justify-between">
-                <h1 class=" text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">
-                    vendors'
-                    Profiles
-
-                </h1>
-            </div>
+<body class="flex h-screen w-screen bg-gray-100 relative">
+    <%-include('aside', {activeOption: 'vendors' })%>
+        <main id="container" class="flex flex-col   w-[85%] px-[5%]">
+            <div class="flex flex-row justify-between p-4 space-x-4">
+                <div>
+                  <h5 class="text-xl font-semibold text-gray-900 mb-2">Vendors</h5>
+                  <p class="text-gray-500 text-sm">Manage all your vendors or add a new one</p>
+                </div>
+                <button 
+                  id="new-vendor-btn" 
+                  onclick="addVendor()"
+                  type="button" 
+                  class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300"
+                >
+                  <svg class="size-8 pr-1"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    class="h-4 w-4 mr-2 -ml-1" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    stroke-width="1.5"
+                  >
+                    <path 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" 
+                    />
+                  </svg>
+                  Add Vendor
+                </button>
+              </div>
+              
             <hr class="my-3 mr-8">
             <div id="vendor-container"
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-8 w-[90%] p-8">
-
-                 <!-- Creating vendors -->
-
-                 <div onclick="return addVendor()"
-                 class=" h-[22em] scale-95 flex flex-col justify-center items-center gap-y-4 border-[3px] border-dashed border-purple-400 bg-white  rounded-lg py-4 px-5 cursor-pointer">
-                 <svg class="size-12 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                     <path stroke-linecap="round" stroke-linejoin="round"
-                         d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
-                 </svg>
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-6 p-6">
 
 
-
-                 <h1 class="text-gray-500 text-2xl font-semibold">Add new Vendor</h1>
-
-             </div>
                 <!-- Fetching vendors -->
                 <%- vendors.map(({ _id, name, fatherName, contact, cnic })=> `
                     <div id="myVendor" data-id="${_id}"
@@ -70,7 +78,7 @@
                             <div class="mr-auto border border-gray-200  px-3 py-2 rounded-md ">
 
                                 <a href="/vendors/vendor-profile"
-                                   class="vendor-profile-btn flex flex-row gap-2 items-center justify-center cursor-pointer">
+                                    class="vendor-profile-btn flex flex-row gap-2 items-center justify-center cursor-pointer">
                                     <svg class="size-6 cursor-pointer" viewBox="0 0 512 512"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill="#9333ea"
@@ -119,7 +127,7 @@
                         </div>
                     </div>
                     `).join("") %>
-                   
+
             </div>
 
 
@@ -254,18 +262,18 @@
             <div onclick="hideAddVendor();hideUpdateVendor() " id="overlay"
                 class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
             </div>
-    </main>
+        </main>
 
-    <script type="module">
-        import { capitalizeText } from '/javascripts/utils.js';
-    
-        // Select all inputs with the class "capitalize-input"
-        document.querySelectorAll(".capitalize-input").forEach(input => {
-            input.addEventListener("input", capitalizeText);
-        });
-    </script>
-    <script src="/javascripts/vendor.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+        <script type="module">
+            import { capitalizeText } from '/javascripts/utils.js';
+
+            // Select all inputs with the class "capitalize-input"
+            document.querySelectorAll(".capitalize-input").forEach(input => {
+                input.addEventListener("input", capitalizeText);
+            });
+        </script>
+        <script src="/javascripts/vendor.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>
