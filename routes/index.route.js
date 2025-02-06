@@ -8,6 +8,7 @@ const bodyParser = require('body-parser')
 //* Database Connection
 const connectDB = require('../db');
 const clientInvoiceModel = require('../models/client-invoice.model');
+const vendorInvoiceModel = require('../models/vendor-invoice.model');
 const clientModel = require('../models/client.model');
 const vendorModel = require('../models/vendor.model');
 connectDB();
@@ -16,8 +17,11 @@ connectDB();
 //* Routes
 router.get('/', async function (req, res) {
   try {
-    const clientInvoices = await clientInvoiceModel.find(); // Fetch all users
-    res.render("index", { clientInvoices });
+    // Fetch clients and vendors
+    const clientInvoices = await clientInvoiceModel.find(); 
+    const vendorInvoices = await vendorInvoiceModel.find(); 
+    res.render("index", { clientInvoices, vendorInvoices });
+
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

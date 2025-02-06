@@ -3,12 +3,12 @@ let invoiceView = document.getElementById("invoice-view");
 let overlay = document.getElementById("overlay");
 
 async function openInvoice(event) {
-    
+
     if (!event || !event.target) {
         console.error("Invalid event object");
         return;
     }
-    
+
     invoiceView.classList.add("toggle");
     overlay.classList.add("toggle");
     document.body.style.overflowY = 'hidden'
@@ -17,26 +17,26 @@ async function openInvoice(event) {
 
     try {
         const response = await fetch(`/api/vendor-invoices/${invoiceId}`);
-    
+
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || `HTTP error! status: ${response.status}`
-          );
+            const errorData = await response.json();
+            throw new Error(
+                errorData.message || `HTTP error! status: ${response.status}`
+            );
         }
-    
+
         const invoice = await response.json();
-    
+
         let { _id, id, name, item_name, item_weight, total_price, createdAt, barcode } = invoice;
-    
+
         // Convert updatedAt to a readable date format DD-MM-YYYY
         const date = new Date(createdAt);
         const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
-          date.getMonth() + 1
+            date.getMonth() + 1
         )
-          .toString()
-          .padStart(2, "0")}-${date.getFullYear()}`;
-    
+            .toString()
+            .padStart(2, "0")}-${date.getFullYear()}`;
+
         const invoiceTemplate = ` <header
                  class="flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-start md:items-center bg-white py-3 md:py-6 px-4 my-3 rounded-lg">
                  <button onclick="closeInvoice()"
@@ -99,61 +99,61 @@ async function openInvoice(event) {
                  <img src="${barcode}" class="w-96">
                  </div>
              </main> `;
-    
+
         invoiceView.innerHTML = invoiceTemplate;
-      } catch (error) {
+    } catch (error) {
         console.error("Error fetching invoice:", error);
-      }
+    }
 }
 
 function closeInvoice() {
     invoiceView.classList.remove("toggle");
     overlay.classList.remove("toggle");
     document.body.style.overflowY = 'scroll'
-  }
-  
-  async function deleteInvoice(event) {
+}
+
+async function deleteInvoice(event) {
     event.preventDefault();
-  
+
     if (!event || !event.target) {
-      console.error("Invalid event object");
-      return;
+        console.error("Invalid event object");
+        return;
     }
-  
+
     const invoiceId = event.currentTarget.dataset.id;
     console.log(invoiceId);
-  
+
     const invoiceAction = confirm('Are you sure to delete this invoice?')
     if (invoiceAction) {
-      try {
-        const response = await fetch(`/api/vendor-invoices/${invoiceId}`, { method: 'DELETE' })
-  
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || `HTTP error! status: ${response.status}`
-          );
+        try {
+            const response = await fetch(`/api/vendor-invoices/${invoiceId}`, { method: 'DELETE' })
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(
+                    errorData.message || `HTTP error! status: ${response.status}`
+                );
+            }
+
+            const result = await response.json();
+            alert(result.message);
+
+            closeInvoice();
+            window.location.reload();
+
+
+
+        } catch (error) {
+            console.error("Error deleteing invoice:", error.message);
+            if (error.message.includes("404")) {
+                alert("invoice not Found")
+            } else {
+                console.error("Error deleteing invoice:" + error.message);
+            }
         }
-  
-        const result = await response.json();
-        alert(result.message);
-  
-        closeInvoice();
-        window.location.reload();
-  
-  
-  
-      } catch (error) {
-        console.error("Error deleteing invoice:", error.message);
-        if (error.message.includes("404")) {
-          alert("invoice not Found")
-        } else {
-          console.error("Error deleteing invoice:" + error.message);
-        }
-      }
     }
     return;
-  }
+}
 // Fetch invoices for the specific vendor ID
 const vendorId = sessionStorage.getItem("vendorId");
 
@@ -185,11 +185,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             .map(invoice => {
                 const {
                     _id,
-                    id,
                     name,
-                    item_name,
-                    item_weight,
-                    total_price,
+                    product,
+                    quantity,
+                    totalPrice,
                     updatedAt
                 } = invoice;
 
@@ -202,24 +201,31 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .padStart(2, "0")}-${date.getFullYear()}`;
 
                 return `
-                    <div onclick="openInvoice(event)" data-id="${_id}" 
-                        class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
-                        
-                        <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-                            <p class="text-black text-sm lg:text-base mb-2">
-                                <b class="text-blue-300">#</b>${id}
-                            </p>
-                            <p class="text-gray-400 text-sm lg:text-sm">${formattedDate}</p>
-                            <p class="text-gray-400 text-sm lg:text-sm capitalize">${name}</p>
-                        </div>
-                        <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-                            <p class="text-gray-400 text-sm lg:text-sm capitalize">${item_name}</p>
-                            <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.${total_price}</b></p>
-                            <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
+                     <div data-id="${_id}"
+            class=" flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
+            <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
+                <p class="text-gray-400 text-sm lg:text-sm">
+                    ${formattedDate}
+                </p>
+                <p class="text-gray-400 text-sm lg:text-sm capitalize">
+                    ${name}
+                </p>
+                <p class="text-gray-400 text-sm lg:text-sm capitalize">
+                    ${product}
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
+                <p class="text-gray-400 text-sm lg:text-sm capitalize">
+                    ${quantity} Kg
+                </p>
+                <p class="text-gray-400 text-sm lg:text-sm">
+                <b>Rs.${totalPrice}</b>
+                </p>
+                <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
+                </svg>
+            </div>
+        </div>
                 `;
             })
             .join("");
@@ -237,22 +243,22 @@ let vendorName = document.getElementById('vendorName'),
     vendorPhone = document.getElementById('vendorPhone'),
     vendorCnic = document.getElementById('vendorCnic');
 
-    document.addEventListener('DOMContentLoaded', async ()=>{
-        try {
-            
-            const response = await fetch(`/api/vendors/${vendorId}`);
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            const vendor = await response.json();
-            vendorName.textContent = vendor.name
-            vendorFatherName.textContent = vendor.fatherName
-            vendorPhone.textContent = vendor.contact
-            vendorCnic.textContent = vendor.cnic
-    
-        } catch (error) {
-            
+        const response = await fetch(`/api/vendors/${vendorId}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    })
+
+        const vendor = await response.json();
+        vendorName.textContent = vendor.name
+        vendorFatherName.textContent = vendor.fatherName
+        vendorPhone.textContent = vendor.contact
+        vendorCnic.textContent = vendor.cnic
+
+    } catch (error) {
+
+    }
+})

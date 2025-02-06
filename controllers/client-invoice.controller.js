@@ -3,7 +3,7 @@
 const clientInvoiceModel = require('../models/client-invoice.model')
 const clientModel = require('../models/client.model')
 
-const getInvoices = async (req, res) => {
+const getClientInvoices = async (req, res) => {
   try {
     const invoices = await clientInvoiceModel.find();
     res.status(200).json(invoices)
@@ -13,7 +13,7 @@ const getInvoices = async (req, res) => {
   }
 }
 
-const getInvoiceById = async (req, res) => {
+const getClientInvoiceById = async (req, res) => {
   try {
     const { id } = req.params;
     const invoices = await clientInvoiceModel.findById(id)
@@ -28,13 +28,12 @@ const getInvoiceById = async (req, res) => {
     res.status(500).json({ message: error.message })
   }
 }
-const createInvoice = async (req, res) => {
+const createClientInvoice = async (req, res) => {
   try {
     const { name, father_name, contact, cnic, items, remaining, total } = req.body;
 
-    // Find client and vendor using CNIC
-    const client = await clientModel.findOne({ cnic: cnic });
-    // const vendor = await vendorModel.findOne({ cnic: cnic });
+    // Find client using contact
+    const client = await clientModel.findOne({ contact: contact });
 
     const invoiceData = new clientInvoiceModel({
       name,
@@ -45,7 +44,6 @@ const createInvoice = async (req, res) => {
       item_weight: remaining,
       total_price: total,
       client: client?._id || null,    // Use null if client not found
-      // vendor: vendor?._id || null     // Use null if vendor not found
     });
 
     // Only push and save if client exists
@@ -53,12 +51,6 @@ const createInvoice = async (req, res) => {
       await client.invoices.push(invoiceData._id);
       await client.save();
     }
-
-    // Only push and save if vendor exists
-    // if (vendor) {
-    //   await vendor.invoices.push(invoiceData._id);
-    //   await vendor.save();
-    // }
 
     await invoiceData.save();
 
@@ -175,7 +167,7 @@ const scanBarcode = async (req, res) => {
 //     }
 // };
 
-const updateInvoice = async (req, res) => {
+const updateClientInvoice = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -214,7 +206,7 @@ const updateInvoice = async (req, res) => {
   }
 };
 
-const deleteInvoice = async (req, res) => {
+const deleteClientInvoice = async (req, res) => {
   try {
     const { id } = req.params;
     const invoice = await clientInvoiceModel.findByIdAndDelete(id)
@@ -230,4 +222,4 @@ const deleteInvoice = async (req, res) => {
   }
 }
 
-module.exports = { getInvoices, getInvoiceById, createInvoice, scanBarcode, deleteInvoice, updateInvoice }
+module.exports = { getClientInvoices, getClientInvoiceById, createClientInvoice, scanBarcode, deleteClientInvoice, updateClientInvoice }

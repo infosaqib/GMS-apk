@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getInvoices, getInvoiceById, createInvoice, scanBarcode, deleteInvoice, updateInvoice } = require('../controllers/client-invoice.controller');
+const { getClientInvoices, getClientInvoiceById, createClientInvoice, scanBarcode, deleteClientInvoice, updateClientInvoice } = require('../controllers/client-invoice.controller');
 
 // Test route
 router.get('/test', (req, res) => {
@@ -11,21 +11,21 @@ router.get('/test', (req, res) => {
 });
 
 //READ ALL
-router.get('/', getInvoices)
+router.get('/', getClientInvoices)
 
 //READ BY ID
-router.get('/:id', getInvoiceById)
+router.get('/:id', getClientInvoiceById)
 
 //CREATE API
-router.post('/', createInvoice)
+router.post('/', createClientInvoice)
 
 //SCAN QR CODE API
 router.post('/scan', scanBarcode)
 
 //DELETE API
-router.delete('/:id', deleteInvoice);
+router.delete('/:id', deleteClientInvoice);
 
 //UPDATE API
-router.put('/:id', updateInvoice);
+router.put('/:id', updateClientInvoice);
 
 module.exports = router;

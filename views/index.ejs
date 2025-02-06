@@ -133,385 +133,41 @@
 
       </header>
       <!-- ! Buy Tab -->
-      <div id="buyContent" class="tab-content hidden">
-        <div class="w-full max-w-screen-xl px-4 py-12 mx-auto lg:px-12">
-          <div class="relative overflow-hidden bg-white shadow-md rounded-lg border border-gray-200">
-            <div class="flex flex-row items-center justify-between p-4 space-x-4">
-              <div>
-                <h5 class="text-xl font-semibold text-gray-900 mb-2">Vendors' Invoices</h5>
-                <p class="text-gray-500 text-sm">Manage all your existing invoices or create a new one</p>
-              </div>
-              <button id="new-btn" onclick="showSidebar()" type="button"
-                class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300">
-                <svg xmlns="http://www.w3.org/2000/svg" class="size-6 mr-2 -ml-1" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                </svg>
-                New Invoice
-              </button>
-            </div>
-          </div>
-        </div>
-        <hr class="my-5">
-        <!-- Buy Form -->
-        <form id="vendorPurchaseForm" method="POST" action="/api/invoices" class="flex flex-col pt-4 px-12">
-          <hr class="my-3 mr-8">
-          
-          <!-- Product -->
-          <div class="flex flex-col my-2" id="product">
-            <label class="my-1 text-gray-500 font-semibold required" for="product">Product Name</label>
-            <input
-              class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-              type="text" name="product" required>
-            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-          </div>
-          
-          <!-- Quantity -->
-          <div class="flex flex-col my-2" id="quantity">
-            <label class="my-1 text-gray-500 font-semibold required" for="quantity">Quantity</label>
-            <input
-              class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-              type="number" name="quantity" required>
-            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-          </div>
-          
-          <!-- Price per Unit -->
-          <div class="flex flex-col my-2" id="pricePerUnit">
-            <label class="my-1 text-gray-500 font-semibold required" for="pricePerUnit">Price Per Unit</label>
-            <input
-              class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-              type="number" name="pricePerUnit" required>
-            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-          </div>
-        
-          <!-- Total Price -->
-          <div class="flex flex-col my-2" id="totalPrice">
-            <label class="my-1 text-gray-500 font-semibold required" for="totalPrice">Total Price</label>
-            <input
-              class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-              type="number" name="totalPrice" required readonly>
-            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-          </div>
-          
-          <!-- Submit Button -->
-          <div class="flex justify-start my-4">
-            <button type="submit" class="bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600">Submit</button>
-          </div>
-        </form>
-        
-        <!-- Fetching invoices -->
+      <%-include('buy-tab')%>
+
+        <!--! Sell TAB -->
+        <%-include('sell-tab')%>
+
+          <!-- SIDEBAR ... FORM-->
+          <%-include('sell-form')%>
 
 
-      </div>
-      <!--! Sell TAB -->
-      <div id="sellContent" class="tab-content">
-        <div class=" flex flex-row items-center justify-around py-12 gap-8">
-          <div class="w-full max-w-screen-xl px-4 mx-auto lg:px-12">
-            <div class="relative overflow-hidden bg-white shadow-md rounded-lg border border-gray-200">
-              <div class="flex flex-row items-center justify-between p-4 space-x-4">
-                <div>
-                  <h5 class="text-xl font-semibold text-gray-900 mb-2">Clients' Invoices</h5>
-                  <p class="text-gray-500 text-sm">Manage all your existing invoices or create a new one</p>
-                </div>
-                <button id="new-btn" onclick="showSidebar()" type="button"
-                  class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="size-6 mr-2 -ml-1" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                  New Invoice
-                </button>
-              </div>
+            <!-- INVOICE REVIEW -->
+            <div id="invoice-view"
+              class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
             </div>
-          </div>
-        </div>
-        <hr class="my-5">
-        <!-- Fetching invoices -->
-        <% clientInvoices.forEach(({ _id, id, name, item_name, item_weight, total_price, updatedAt })=> {
-          const date = new Date(updatedAt);
-          const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}-${date.getFullYear()}`;
-          %>
-          <div data-id="<%= _id %>"
-            class="openInvoice flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
-            <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-              <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b>
-                <%= id %>
-              </p>
-              <p class="text-gray-400 text-sm lg:text-sm">
-                <%= formattedDate %>
-              </p>
-              <p class="text-gray-400 text-sm lg:text-sm capitalize">
-                <%= name %>
-              </p>
-            </div>
-            <div>
-              <p class="text-green-400 text-lg lg:text-sm"></p>
-            </div>
-            <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-              <p class="text-gray-400 text-sm lg:text-sm capitalize">
-                <%= item_name %>
-              </p>
-              <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.<%= total_price %></b></p>
-              <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-              </svg>
-            </div>
-          </div>
-          <% }); %>
 
 
-            <!-- OVERLAY -->
-            <div id="overlay" onclick="hideSidebar();closeInvoice() "
-              class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
-            </div>
-      </div>
+            <!-- SCRIPTS -->
+            <script type="module">
+              import { capitalizeText, openInvoice, closeInvoice } from '/javascripts/utils.js';
 
-      <!-- SIDEBAR -->
-      <aside id="side-container"
-        class=" container bg-white w-[90vw] lg:w-[50vw] h-screen overflow-scroll border fixed top-0 right-[-730px] hidden transition-all">
-        <div class="flex flex-row items-center justify-between">
-          <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Create
-            Invoice
-          </h1>
-          <button onclick="hideSidebar()"
-            class=" text-gray-500 hover:text-gray-500 text-sm md:text-xl p-sm mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4 flex flex-row items-center justify-center gap-2">
-            Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-            </svg> </button>
-        </div> <!-- <p class="text-purple-400 text-lg my-3 mx-2"></p> -->
-        <form id="myForm" name="myForm" method="POST" action="/api/client-invoices" class=" flex flex-col pt-4 px-12">
-          <hr class="my-3 mr-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-            <div class="flex flex-col col-span-1 mr-8" id="name">
-              <label class=" label-red my-1 text-gray-500 font-semibold required" for="name">Curstomer
-                name</label>
-              <input
-                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="text" name="name" autocapitalize="words" required>
-              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8" id="father_name">
-              <label class=" label-red my-1 text-gray-500 font-semibold required" for="father_name">Father
-                name</label>
-              <input
-                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="text" name="father_name" autocapitalize="words" required>
-              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
-          </div>
+              // Apply Capitalization of Text
+              document.querySelectorAll(".capitalize-input").forEach(input => {
+                input.addEventListener("input", capitalizeText);
+              });
 
-          <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
-
-            <div class="flex flex-col col-span-1 mr-8" id="contact">
-              <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
-              <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="number" name="contact" required>
-              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8" id="cnic">
-              <label class=" label-red my-1 text-gray-500 font-semibold required" for="cnic">CNIC</label>
-              <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="number" name="cnic" required>
-              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-            <div class="flex flex-col col-span-1 mr-8" id="items">
-              <label class=" label-red my-1 text-gray-500 font-semibold required" for="items">Select item</label>
-              <select id="productMenu" name="items" aria-required="true"
-                class="block w-full border-[.2px]  py-3 px-4 rounded focus:outline-none cursor-pointer" required>
-                <option id="select-item" value="0">Select an item</option>
-              </select>
-              <span id="error" class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8" id="weight">
-              <label class="label-red my-1 text-gray-500 font-semibold required" for="weight">Item weight</label>
-              <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                id="item-weight" type="number" name="weight" min="1" required>
-              <span id="error" class="error text-red-500 text-[12px]   ml-2 mt-1"></span>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="label-red my-1 text-gray-500 font-semibold  " for="cutting">Cutt off weight</label>
-              <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="number" name="cutting" id="cutting" min="0" value="0">
-            </div>
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="my-1  text-gray-500 font-semibold" for="remaining">Remaining weight</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="text" name="remaining" id="remaining" readonly>
-            </div>
-          </div>
-
-          <!--? Type of Pinjai -->
-          <div class="grid grid-cols-1 border-b-[1px] border-b-gray-200 py-3 my-2" id="pinjaiGrid">
-            <p class="my-3  text-gray-500 font-semibold">Type of Pinjai:</p>
-            <div class=" grid grid-cols-1 lg:grid-cols-3  gap-4 my-4">
-              <div class="flex items-center ps-4 border-[.2px] border-gray-300 rounded ">
-                <input id="type-radio-1" type="radio" value="pillow" name="type-radio"
-                  class="w-4 h-4 text-purple-400 bg-gray-100 border-gray-300 focus:ring-purple-400 dark:focus:ring-purple-400 ">
-                <label for="type-radio-1"
-                  class="w-full py-2 ms-2 text-sm font-semibold text-gray-500 dark:text-gray-500">Pillow</label>
-              </div>
-              <div class="flex items-center ps-4 border-[.2px] border-gray-300 rounded">
-                <input id="type-radio-2" type="radio" value="razai" name="type-radio"
-                  class="w-4 h-4 text-purple-400 bg-gray-100 border-gray-300 focus:ring-purple-400 dark:focus:ring-purple-400 ">
-                <label for="type-radio-2"
-                  class="w-full py-2 ms-2 text-sm font-semibold text-gray-500 dark:text-gray-500">Razai</label>
-              </div>
-              <div class="flex items-center ps-4 border-[.2px] border-gray-300 rounded">
-                <input id="type-radio-3" type="radio" value="gadda" name="type-radio"
-                  class="w-4 h-4 text-purple-400 bg-gray-100 border-gray-300 focus:ring-purple-400 dark:focus:ring-purple-400 ">
-                <label for="type-radio-3"
-                  class="w-full py-2 ms-2 text-sm font-semibold text-gray-500 dark:text-gray-500">Gadda</label>
-              </div>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="my-1 text-gray-500 font-semibold" for="pinjai-price">Pinjai price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="pinjai-price" id="pinjai-price" readonly>
-            </div>
-          </div>
-          <!--? Filling -->
-          <div class="grid grid-cols-1 md:grid-cols-2 my-2" id="fillingGrid">
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="my-1 text-gray-500 font-semibold" for="filling-price">Filling price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="filling-price" id="filling-price" value="0" readonly>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="my-1 text-gray-500 font-semibold" for="filling-quantity">Add Quantity</label>
-              <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="number" name="filling-quantity" id="filling-quantity">
-            </div>
-          </div>
-          <!--? Stiching -->
-          <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2" id="stichingGrid">
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="my-1 text-gray-500 font-semibold" for="stiching-price">Stiching price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="stiching-price" id="stiching-price" value="0" readonly>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8">
-              <label class="my-1 text-gray-500 font-semibold" for="stiching-quantity">Add Quantity</label>
-              <input class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="number" name="stiching-quantity" id="stiching-quantity">
-            </div>
-          </div>
-
-
-          <!--? Cleaning & Granding -->
-          <div class="cleaningGrid flex items-start mb-5 ">
-            <label for="remember" class="me-2 text-sm font-medium text-gray-500">Cleaning of Product</label>
-            <div class="flex items-center h-5">
-              <input id="remember" type="checkbox" value=""
-                class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" />
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-            <div class="cleaningGrid flex flex-col col-span-1 mr-8">
-              <label class="my-1 text-gray-500 font-semibold" for="cleaning-price">Cleaning price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="cleaning-price" id="cleaning-price" readonly>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8" id="grandingGrid">
-              <label class="my-1 text-gray-500 font-semibold" for="granding-price">Granding price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="granding-price" id="granding-price" readonly>
-            </div>
-          </div>
-
-          <!--? Chrai & Product price -->
-          <div class="grid grid-cols-1 md:grid-cols-2 my-2">
-            <div class="flex flex-col col-span-1 mr-8" id="chraiGrid">
-              <label class="my-1 text-gray-500 font-semibold" for="chrai-price">Chrai price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="chrai-price" id="chrai-price" readonly>
-            </div>
-            <div class="flex flex-col col-span-1 mr-8" id="productPriceGrid">
-              <label class="my-1 text-gray-500 font-semibold" for="product-price">Product price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="number" name="product-price" id="product-price" readonly>
-            </div>
-          </div>
-          <!-- <div class="md:grid   md:grid-cols-2 my-4">
-                <div class="flex flex-col col-span-1 mr-8">
-                    <label class="my-1 text-gray-500 font-semibold " for="extra">Extra charges - %</label>
-                    <input oninput="extraCharge() " class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                        type="number" name="extra" id="extra" value="0" min="0">
-                </div>
-                <div class="flex flex-col col-span-1 mr-8">
-                    <label class="my-1 text-gray-500 font-semibold " for="discount">Discount - %</label>
-                    <input oninput="discountCharge()" class="border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                        type="number" name="discount" id="discount" value="0" min="0">
-                </div>
-            </div> -->
-
-          <div class="grid grid-cols-1 my-2">
-            <!-- <div class="flex flex-col col-span-1 mr-8">
-                    <label class="my-1 text-gray-500 font-semibold" for="product-price">Product price</label>
-                    <input
-                        class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                        type="text" name="product-price" id="product-price" readonly>
-                </div> -->
-            <div class="flex flex-col col-span-1 mr-6">
-              <label class="my-1 text-gray-500 font-semibold" for="total">Total price</label>
-              <input
-                class="bg-gray-100 border-[.2px] border-gray-300  py-1 md:py-2 px-4 rounded focus:outline-gray-300 focus:bg-gray-100"
-                type="text" name="total" id="total" value="0" readonly>
-            </div>
-          </div>
-          <div class="flex flex-col col-span-3 mr-8 my-6">
-            <input id="create-btn"
-              class="rounded cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white px-6 py-2 md:py-3"
-              type="submit" value="+ Create invoice">
-          </div>
-        </form>
-      </aside>
-
-      <!-- SIDEBAR ... END-->
-
-      <!-- INVOICE REVIEW -->
-      <div id="invoice-view"
-        class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
-
-      </div>
-
-      <!-- INVOICE RECIEPT ... END -->
-
-
-      <!-- SCRIPTS -->
-      <script type="module">
-        import { capitalizeText, openInvoice, closeInvoice } from '/javascripts/utils.js';
-
-        // Apply Capitalization of Text
-        document.querySelectorAll(".capitalize-input").forEach(input => {
-          input.addEventListener("input", capitalizeText);
-        });
-
-        //Apply Open Invoice
-        document.querySelectorAll('.openInvoice').forEach(invoice => {
-          invoice.addEventListener('click', openInvoice)
-        })
-        //Apply Close Invoice
-        document.getElementById('overlay').addEventListener('click', closeInvoice)
-      </script>
-      <script src="/javascripts/invoice.js"></script>
-      <script src="/javascripts/vendor-invoice.js"></script>
-      <script src="https://cdn.tailwindcss.com"></script>
+              //Apply Open Invoice
+              document.querySelectorAll('.openInvoice').forEach(invoice => {
+                invoice.addEventListener('click', openInvoice)
+              })
+              //Apply Close Invoice
+              document.getElementById('overlay').addEventListener('click', closeInvoice)
+            </script>
+            <script src="/javascripts/script.js"></script>
+            <script src="/javascripts/vendor-invoice.js"></script>
+            <script src="/javascripts/client-invoice.js"></script>
+            <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>

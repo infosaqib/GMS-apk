@@ -5,6 +5,22 @@ const vendorInvoiceSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Vendor"
     },
+    name: {
+        type: String,
+        required: true,
+      },
+      father_name: {
+        type: String,
+        required: true,
+      },
+      contact: {
+        type: String,
+        required: true,
+      },
+      cnic: {
+        type: String,
+        required: true,
+      },
     product: {
         type: String,
         required: true
