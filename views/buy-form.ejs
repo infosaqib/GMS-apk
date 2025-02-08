@@ -1,0 +1,91 @@
+<aside id="vendor-side-container"
+    class=" container bg-white w-[90vw] lg:w-[50vw] h-screen overflow-scroll border fixed top-0 right-[-730px] hidden transition-all z-40">
+    <div class="flex flex-row items-center justify-between">
+        <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Create
+            Invoice
+        </h1>
+        <button onclick="hideVendorSidebar()"
+            class=" text-gray-500 hover:text-gray-500 text-sm md:text-xl p-sm mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4 flex flex-row items-center justify-center gap-2">
+            Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
+            </svg> </button>
+    </div>
+    <form id="vendorForm" method="POST" action="/api/vendor-invoices" class="flex flex-col pt-4 px-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+            <!-- Name -->
+            <div class="flex flex-col col-span-1 mr-8" id="name">
+                <label class=" label-red my-1 text-gray-500 font-semibold required" for="name">Vendor
+                    name</label>
+                <input
+                    class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="name" autocapitalize="words" required>
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+            <!-- Father Name -->
+            <div class="flex flex-col col-span-1 mr-8" id="father_name">
+                <label class=" label-red my-1 text-gray-500 font-semibold required" for="father_name">Father
+                    name</label>
+                <input
+                    class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="father_name" autocapitalize="words" required>
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
+            <!-- Contact -->
+            <div class="flex flex-col col-span-1 mr-8" id="contact">
+                <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
+                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="number" name="contact" required>
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+            <!-- CNIC -->
+            <div class="flex flex-col col-span-1 mr-8" id="cnic">
+                <label class=" label-red my-1 text-gray-500 font-semibold required" for="cnic">CNIC</label>
+                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="number" name="cnic" required>
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+        </div>
+        <!-- Product -->
+        <div class="flex flex-col my-2" id="product">
+            <label class="my-1 text-gray-500 font-semibold required" for="product">Product Name</label>
+            <input
+                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text" name="product" required>
+            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 my-2 gap-8">
+            <!-- Quantity -->
+            <div class="flex flex-col my-2" id="quantity">
+                <label class="my-1 text-gray-500 font-semibold required" for="quantity">Quantity</label>
+                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="number" name="quantity" required value="0">
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+
+            <!-- Price per Unit -->
+            <div class="flex flex-col my-2" id="pricePerUnit">
+                <label class="my-1 text-gray-500 font-semibold required" for="pricePerUnit">Price Per Unit</label>
+                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="number" name="pricePerUnit" required value="0">
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+        </div>
+
+        <!-- Total Price -->
+        <div class="flex flex-col my-2" id="totalPrice">
+            <label class="my-1 text-gray-500 font-semibold required" for="totalPrice">Total Price</label>
+            <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="number" name="totalPrice" required readonly>
+            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-start my-4">
+            <button type="submit"
+                class="bg-purple-500 text-white py-2 px-4 rounded-md hover:bg-purple-600">Submit</button>
+        </div>
+    </form>
+</aside>

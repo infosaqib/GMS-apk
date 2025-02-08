@@ -1,7 +1,5 @@
 // Function to open invoice details
-let invoiceView = document.getElementById("invoice-view");
-let overlay = document.getElementById("overlay");
-import { openInvoice } from "./utils.js";
+import { openClientInvoice } from "./utils.js";
 
 // Fetch invoices for the specific client ID
 const clientId = sessionStorage.getItem("clientId");
@@ -37,7 +35,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                     id,
                     name,
                     item_name,
-                    item_weight,
                     total_price,
                     updatedAt
                 } = invoice;
@@ -51,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     .padStart(2, "0")}-${date.getFullYear()}`;
 
                 return `
-                    <div id="openInvoice" data-id="${_id}" 
+                    <div id="openClientInvoice" data-id="${_id}" 
                         class="flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
                         
                         <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
@@ -75,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
             //Apply openinvoice
-            document.getElementById('openInvoice').addEventListener('click', openInvoice )
+            document.getElementById('openClientInvoice').addEventListener('click', openClientInvoice )
     } catch (error) {
         console.error("Error fetching invoices:", error);
         invoiceContainer.innerHTML = "<p class='text-gray-400 text-center'>No invoices found</p>";

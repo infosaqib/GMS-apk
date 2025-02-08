@@ -7,7 +7,7 @@
               <h5 class="text-xl font-semibold text-gray-900 mb-2">Clients' Invoices</h5>
               <p class="text-gray-500 text-sm">Manage all your existing invoices or create a new one</p>
             </div>
-            <button id="new-btn" onclick="showSidebar()" type="button"
+            <button id="new-btn" onclick="showClientSidebar()" type="button"
               class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300">
               <svg xmlns="http://www.w3.org/2000/svg" class="size-6 mr-2 -ml-1" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="1.5">
@@ -29,7 +29,7 @@
       .padStart(2, "0")}-${date.getFullYear()}`;
       %>
       <div data-id="<%= _id %>"
-        class="openInvoice flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
+        class="openClientInvoice flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
         <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
           <p class="text-black text-sm lg:text-base mb-2"><b class="text-blue-300">#</b>
             <%= id %>
@@ -54,8 +54,5 @@
       <% }); %>
 
 
-        <!-- OVERLAY -->
-        <div id="overlay" onclick="hideSidebar();closeInvoice() "
-          class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
-        </div>
+       
   </div>

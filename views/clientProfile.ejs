@@ -25,13 +25,11 @@
 
     }
 
-    #overlay.toggle {
-      display: block;
-    }
+    
   </style>
 </head>
 
-<body class="flex h-screen w-screen bg-gray-100 relative">
+<body class="flex min-h-screen w-screen bg-gray-100 relative overflow-visible">
   <%-include('aside', {activeOption: 'clients' })%>
   <div class=" flex flex-col   w-[85%] px-[5%]">
       <header class=" flex flex-row items-center justify-around py-12 gap-8">
@@ -74,19 +72,19 @@
       <div class="p-4 w-[90vw] md:w-[70vw] flex flex-col-reverse " id="invoice-collection">
       </div>
       <!-- OVERLAY -->
-      <div id="overlay" onclick="closeInvoice() " class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
+      <div id="overlay" class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden z-30">
       </div>
       <!-- INVOICE RECIEPT -->
       <div id="invoice-view"
-        class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
+        class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%] z-40  hidden">
       </div>
       <!-- Javascripts -->
       <script type="module">
-        import { closeInvoice } from '/javascripts/utils.js';
+        import { closeClientInvoice } from '/javascripts/utils.js';
 
 
         //Apply Close Invoice
-        document.getElementById('overlay').addEventListener('click', closeInvoice)
+        document.getElementById('overlay').addEventListener('click', closeClientInvoice)
       </script>
       <script type="module" src="/javascripts/client-profile.js"></script>
       <script src="https://cdn.tailwindcss.com"></script>

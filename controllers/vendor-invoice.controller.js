@@ -1,5 +1,6 @@
 "use strict";
 
+const productModel = require('../models/product.model');
 const vendorInvoiceModel = require('../models/vendor-invoice.model')
 const vendorModel = require('../models/vendor.model')
 
@@ -52,8 +53,21 @@ const createVendorInvoice = async (req, res) => {
             await vendor.invoices.push(invoiceData._id);
             await vendor.save();
         }
-
         await invoiceData.save();
+
+        //Update quantity of product
+        const existingProduct = await productModel.findOne({ product_name: product })
+        if (existingProduct) {
+            existingProduct.stocked_qty += Number(quantity)
+            await existingProduct.save()
+        } else {
+            const productData = new productModel({
+                product_name: product,
+                stocked_qty: quantity
+            })
+            await productData.save()
+        }
+
         res.status(201).json({
             success: true
         });

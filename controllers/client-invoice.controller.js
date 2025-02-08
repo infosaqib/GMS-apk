@@ -1,6 +1,7 @@
 "use strict";
 
 const clientInvoiceModel = require('../models/client-invoice.model')
+const productModel = require('../models/product.model')
 const clientModel = require('../models/client.model')
 
 const getClientInvoices = async (req, res) => {
@@ -30,7 +31,7 @@ const getClientInvoiceById = async (req, res) => {
 }
 const createClientInvoice = async (req, res) => {
   try {
-    const { name, father_name, contact, cnic, items, remaining, total } = req.body;
+    const { name, father_name, contact, cnic, items, cutting, remaining, total } = req.body;
 
     // Find client using contact
     const client = await clientModel.findOne({ contact: contact });
@@ -51,8 +52,19 @@ const createClientInvoice = async (req, res) => {
       await client.invoices.push(invoiceData._id);
       await client.save();
     }
-
     await invoiceData.save();
+
+    // Update product stock (add cutting weight to stocked_qty)
+      let productToUpdate = items === "Gandam" ? "Floor" : items;
+
+      // Update product stock (add cutting weight to stocked_qty)
+      const product = await productModel.findOne({ product_name: productToUpdate });
+    if (product) {
+      product.stocked_qty += Number(cutting); // Add cutting weight to stocked_qty
+      await product.save();
+    } else {
+      return res.status(404).json({ success: false, message: "Product not found" });
+    }
 
     // Generate Barcode
     await invoiceData.generateBarcode();

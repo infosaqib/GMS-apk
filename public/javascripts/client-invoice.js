@@ -95,14 +95,14 @@ updateUI();
 
 //* Overlay and Sidebar
 let overlay = document.getElementById("overlay");
-let sideBar = document.getElementById("side-container");
+let clientSideBar = document.getElementById("client-side-container");
 
-function showSidebar() {
-  sideBar.classList.add("toggle");
+function showClientSidebar() {
+  clientSideBar.classList.add("toggle");
   overlay.classList.add("toggle");
 }
-function hideSidebar() {
-  sideBar.classList.remove("toggle");
+function hideClientSidebar() {
+  clientSideBar.classList.remove("toggle");
   overlay.classList.remove("toggle");
 }
 
@@ -134,7 +134,7 @@ document.clientForm.addEventListener('submit', async (e) => {
       console.log('Invoice added successfully:', newinvoiceData);
   
       // Refresh the page or update the UI
-      hideSidebar();
+      hideClientSidebar();
       document.clientForm.reset();
     } catch (error) {
       console.error('Error creating invoice:', error);

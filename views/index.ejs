@@ -12,12 +12,14 @@
       font-size: large;
     }
 
-    #side-container {
+    #client-side-container,
+    #vendor-side-container {
       overflow-x: hidden;
       overflow-y: scroll;
     }
 
-    #side-container.toggle {
+    #client-side-container.toggle,
+    #vendor-side-container.toggle {
       display: block;
       right: 0;
       animation: slider 400ms linear 1;
@@ -47,36 +49,38 @@
 
     }
 
-    #side-container::-webkit-scrollbar {
+    #client-side-container::-webkit-scrollbar,
+    #vendor-side-container::-webkit-scrollbar {
       background: transparent;
       width: 14px;
     }
 
-    #side-container::-webkit-scrollbar-track {
+    #client-side-container::-webkit-scrollbar-track,
+    #vendor-side-container::-webkit-scrollbar-track {
       right: 3px;
       background: 0 0;
       z-index: 200;
     }
 
-    #side-container::-webkit-scrollbar-thumb {
+    #client-side-container::-webkit-scrollbar-thumb,
+    #vendor-side-container::-webkit-scrollbar-thumb {
       background-color: #bababa;
       border-radius: 20px;
       border: 2px solid #fff;
     }
 
-    #side-container::-webkit-scrollbar-thumb:hover {
+    #client-side-container::-webkit-scrollbar-thumb:hover,
+    #vendor-side-container::-webkit-scrollbar-thumb:hover {
       background-color: #0000009e;
     }
 
     @keyframes dialog {
       from {
         opacity: 0;
-        /* transform: scale(0.95); */
       }
 
       to {
         opacity: 1;
-        /* transform: scale(1); */
       }
 
     }
@@ -115,7 +119,7 @@
   <title>Invoices - GMS</title>
 </head>
 
-<body class="flex  h-screen w-screen bg-gray-100 relative">
+<body class="flex  min-h-screen w-screen bg-gray-100 relative overflow-visible">
   <%-include('aside', {activeOption: 'index' })%>
     <div class="flex flex-col   w-[85%] px-[5%] pt-4">
       <!-- Header -->
@@ -141,33 +145,43 @@
           <!-- SIDEBAR ... FORM-->
           <%-include('sell-form')%>
 
-
-            <!-- INVOICE REVIEW -->
-            <div id="invoice-view"
-              class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%]  hidden">
-            </div>
+            <!-- SIDEBAR ... FORM-->
+            <%-include('buy-form')%>
 
 
-            <!-- SCRIPTS -->
-            <script type="module">
-              import { capitalizeText, openInvoice, closeInvoice } from '/javascripts/utils.js';
+              <!-- INVOICE REVIEW -->
+              <div id="invoice-view"
+                class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%] z-40  hidden">
+              </div>
+              <!-- OVERLAY -->
+              <div id="overlay" onclick="hideClientSidebar();hideVendorSidebar()"
+                class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden z-30">
+              </div>
 
-              // Apply Capitalization of Text
-              document.querySelectorAll(".capitalize-input").forEach(input => {
-                input.addEventListener("input", capitalizeText);
-              });
+              <!-- SCRIPTS -->
+              <script type="module">
+                import { capitalizeText, openClientInvoice, openVendorInvoice, closeClientInvoice, closeVendorInvoice } from '/javascripts/utils.js';
 
-              //Apply Open Invoice
-              document.querySelectorAll('.openInvoice').forEach(invoice => {
-                invoice.addEventListener('click', openInvoice)
-              })
-              //Apply Close Invoice
-              document.getElementById('overlay').addEventListener('click', closeInvoice)
-            </script>
-            <script src="/javascripts/script.js"></script>
-            <script src="/javascripts/vendor-invoice.js"></script>
-            <script src="/javascripts/client-invoice.js"></script>
-            <script src="https://cdn.tailwindcss.com"></script>
+                // Apply Capitalization of Text
+                document.querySelectorAll(".capitalize-input").forEach(input => {
+                  input.addEventListener("input", capitalizeText);
+                });
+
+                //Apply Open Client Invoice
+                document.querySelectorAll('.openClientInvoice').forEach(invoice => {
+                  invoice.addEventListener('click', openClientInvoice)
+                })
+                //Apply Open Client Invoice
+                document.querySelectorAll('.openVendorInvoice').forEach(invoice => {
+                  invoice.addEventListener('click', openVendorInvoice)
+                })
+                //Apply Close Invoice
+                document.getElementById('overlay').addEventListener('click', closeClientInvoice, closeVendorInvoice)
+              </script>
+              <script src="/javascripts/script.js"></script>
+              <script src="/javascripts/client-invoice.js"></script>
+              <script src="/javascripts/vendor-invoice.js"></script>
+              <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>
