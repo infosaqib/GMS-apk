@@ -5,6 +5,8 @@ let productMenu = document.getElementById("productMenu"),
   remainingWeight = document.clientForm.remaining,
   itemWeight = document.clientForm.weight,
   //Inputs
+  contactFormat = document.getElementById("contactInput"),
+  cnicFormat = document.getElementById("cnicInput"),
   cleaningPriceInput = document.getElementById("cleaning-price"),
   grandingPriceInput = document.getElementById("granding-price"),
   stichingPriceInput = document.getElementById("stiching-price"),
@@ -29,6 +31,40 @@ let productMenu = document.getElementById("productMenu"),
 //Default scripting
 cleaningGrid.forEach(element => {
   element.style.display = 'none'
+});
+
+//? CNIC & Contact formatting
+contactFormat.addEventListener('input', function(e) {
+    // Remove all non-digit characters
+    let input = e.target.value.replace(/\D/g, '');
+    
+    // Limit to 11 digits
+    input = input.slice(0, 11);
+    
+    // Add hyphen after 4 digits
+    if (input.length > 4) {
+        input = input.slice(0, 4) + '-' + input.slice(4);
+    }
+    
+    e.target.value = input;
+});
+
+cnicFormat.addEventListener('input', function(e) {
+    // Remove all non-digit characters
+    let input = e.target.value.replace(/\D/g, '');
+    
+    // Limit to 13 digits
+    input = input.slice(0, 13);
+    
+    // Add hyphens at correct positions
+    if (input.length > 5) {
+        input = input.slice(0, 5) + '-' + input.slice(5);
+    }
+    if (input.length > 13) {
+        input = input.slice(0, 13) + '-' + input.slice(13);
+    }
+    
+    e.target.value = input;
 });
 
 

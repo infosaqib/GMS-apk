@@ -153,3 +153,46 @@ function hideUpdateVendor() {
     document.body.style.overflowY = 'scroll';
 }
 
+
+//DELETE Vendor
+
+let deleteButton = document.querySelectorAll(".deleteButton");
+deleteButton.forEach((button) => {
+  button.addEventListener("click", deleteVendor);
+});
+
+async function deleteVendor(event) {
+  event.preventDefault();
+
+  if (!event || !event.target) {
+    console.error("Invalid event object");
+    return;
+  }
+
+  const vendorId = event.target.closest("#myVendor").dataset.id;
+  const vendorDiv = event.target.closest("#myVendor");
+
+  const vendorAction = confirm("Are you sure to delete this vendor?");
+  if (vendorAction) {
+    try {
+      const response = await fetch(`/api/vendors/${vendorId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || `HTTP error! status: ${response.status}`
+        );
+      }
+
+      const result = await response.json();
+      alert(result.message);
+      vendorDiv.remove();
+    } catch (error) {
+      if (error.message.includes("404")) {
+        alert("vendor not Found");
+      }
+      console.error("Error deleteing vendor:", error.message);
+    }
+  }
+}

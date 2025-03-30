@@ -160,7 +160,7 @@
 
               <!-- SCRIPTS -->
               <script type="module">
-                import { capitalizeText, openClientInvoice, openVendorInvoice, closeClientInvoice, closeVendorInvoice } from '/javascripts/utils.js';
+                import {openClientInvoice, openVendorInvoice, closeClientInvoice, closeVendorInvoice, capitalizeText } from '/javascripts/utils.js';
 
                 // Apply Capitalization of Text
                 document.querySelectorAll(".capitalize-input").forEach(input => {
@@ -171,9 +171,11 @@
                 document.querySelectorAll('.openClientInvoice').forEach(invoice => {
                   invoice.addEventListener('click', openClientInvoice)
                 })
-                //Apply Open Client Invoice
+                //Apply Open Vendor Invoice
                 document.querySelectorAll('.openVendorInvoice').forEach(invoice => {
-                  invoice.addEventListener('click', openVendorInvoice)
+                  invoice.addEventListener('click', openVendorInvoice => {
+                    console.log('Vendor Invoice successfully opened');
+                  })
                 })
                 //Apply Close Invoice
                 document.getElementById('overlay').addEventListener('click', closeClientInvoice, closeVendorInvoice)

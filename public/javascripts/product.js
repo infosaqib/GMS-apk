@@ -349,6 +349,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching products', error);
     }
 
+    //DELETE PRODUCT
     let deleteButton = document.querySelectorAll('.deleteButton');
     deleteButton.forEach(button => { button.addEventListener('click', deleteProduct) })
 

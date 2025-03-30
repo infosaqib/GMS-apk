@@ -1,5 +1,6 @@
 //* Capitalize Text
 export function capitalizeText(event) {
+  event.preventDefault();
   let text = event.target.value;
 
   // Split by spaces, capitalize each word, and rejoin
@@ -209,7 +210,7 @@ function printDiv() {
 let invoiceView = document.getElementById("invoice-view");
 let overlay = document.getElementById("overlay");
 
-//todo -----------------------------> Client Invoices <--------------------------------- 
+//! -----------------------------> Client Invoices <--------------------------------- 
 export async function openClientInvoice(event) {
   if (!event || !event.target) {
     console.error("Invalid event object");
@@ -220,6 +221,89 @@ export async function openClientInvoice(event) {
   overlay.classList.add("toggle");
   document.body.style.overflowY = 'hidden'
   const invoiceId = event.target.dataset.id;
+
+  // Create loading animation SVG
+  const loadingAnimation = `
+    <svg class="container" viewBox="0 0 40 40" height="40" width="40">
+      <circle 
+        class="track"
+        cx="20" 
+        cy="20" 
+        r="17.5" 
+        pathlength="100" 
+        stroke-width="5px" 
+        fill="none" 
+      />
+      <circle 
+        class="car"
+        cx="20" 
+        cy="20" 
+        r="17.5" 
+        pathlength="100" 
+        stroke-width="5px" 
+        fill="none" 
+      />
+    </svg>
+    <style>
+      .container {
+        --uib-size: 40px;
+        --uib-color: black;
+        --uib-speed: 2s;
+        --uib-bg-opacity: 0;
+        height: var(--uib-size);
+        width: var(--uib-size);
+        transform-origin: center;
+        animation: rotate var(--uib-speed) linear infinite;
+        will-change: transform;
+        overflow: visible;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .car {
+        fill: none;
+        stroke: var(--uib-color);
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        animation: stretch calc(var(--uib-speed) * 0.75) ease-in-out infinite;
+        will-change: stroke-dasharray, stroke-dashoffset;
+        transition: stroke 0.5s ease;
+      }
+
+      .track {
+        fill: none;
+        stroke: var(--uib-color);
+        opacity: var(--uib-bg-opacity);
+        transition: stroke 0.5s ease;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes stretch {
+        0% {
+          stroke-dasharray: 0, 150;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 75, 150;
+          stroke-dashoffset: -25;
+        }
+        100% {
+          stroke-dashoffset: -100;
+        }
+      }
+    </style>
+  `;
+
+  // Clear previous content and add loading animation
+  invoiceView.innerHTML = loadingAnimation;
 
   try {
     const response = await fetch(`/api/client-invoices/${invoiceId}`);
@@ -297,6 +381,12 @@ export async function openClientInvoice(event) {
 
   } catch (error) {
     console.error("Error fetching invoice:", error);
+    // Optional: Show an error message in the invoiceView
+    invoiceView.innerHTML = `
+      <div class="flex flex-col items-center justify-center p-4">
+        <p class="text-red-500 text-lg">Failed to load invoice. Please try again.</p>
+      </div>
+    `;
   }
 }
 // Make it global

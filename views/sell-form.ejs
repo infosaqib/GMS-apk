@@ -15,6 +15,12 @@
         class=" flex flex-col pt-4 px-12">
         <hr class="my-3 mr-8">
         <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+            <div class="flex flex-col col-span-1 mr-8" id="contact">
+                <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
+                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="contact" id="contactInput" required>
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
             <div class="flex flex-col col-span-1 mr-8" id="name">
                 <label class=" label-red my-1 text-gray-500 font-semibold required" for="name">Customer
                     name</label>
@@ -23,6 +29,11 @@
                     type="text" name="name" autocapitalize="words" required>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
+
+
             <div class="flex flex-col col-span-1 mr-8" id="father_name">
                 <label class=" label-red my-1 text-gray-500 font-semibold required" for="father_name">Father
                     name</label>
@@ -31,20 +42,10 @@
                     type="text" name="father_name" autocapitalize="words" required>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
-
-            <div class="flex flex-col col-span-1 mr-8" id="contact">
-                <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
-                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="number" name="contact" required>
-                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
             <div class="flex flex-col col-span-1 mr-8" id="cnic">
-                <label class=" label-red my-1 text-gray-500 font-semibold required" for="cnic">CNIC</label>
+                <label class=" my-1 text-gray-500 font-semibold" for="cnic">CNIC</label>
                 <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="number" name="cnic" required>
+                    type="text" name="cnic" id="cnicInput">
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
         </div>
