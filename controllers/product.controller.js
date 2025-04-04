@@ -58,7 +58,7 @@ const createProduct = async (req, res) => {
         })
         await productData.save();
         // res.status(201);
-        res.redirect('http://localhost:3000/product')
+        res.redirect('/products')
     } catch (error) {
         if (error.code === 11000) {
             res.status(400).json({ message: "Product with this name already exists" })

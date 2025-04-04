@@ -39,7 +39,6 @@ const ClientinvoiceSchema = new mongoose.Schema(
     },
     cnic: {
       type: String,
-      required: true,
     },
     item_name: {
       type: String,

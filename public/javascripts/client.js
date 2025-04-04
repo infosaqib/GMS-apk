@@ -82,9 +82,6 @@ async function updateClient(event) {
           );
         }
 
-        const updatedClientData = await updateResponse.json();
-        console.log("Client updated successfully:", updatedClientData);
-
         // Close the update form
         hideUpdateClient();
         //refresh the client list here
@@ -121,12 +118,7 @@ document.addClientForm.addEventListener("submit", async (e) => {
       );
     }
 
-    const addedClientData = await addResponse.json();
-    console.log("Client added successfully:", addedClientData);
-
     //refresh the client list here
-    hideAddClient();
-    document.addClientForm.reset();
     window.location.reload();
   } catch (error) {
     console.error("Error adding client:", error);

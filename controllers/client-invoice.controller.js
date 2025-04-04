@@ -57,7 +57,6 @@ const createClientInvoice = async (req, res) => {
     // Update product stock (add cutting weight to stocked_qty)
       let productToUpdate = items === "Gandam" ? "Floor" : items;
 
-      // Update product stock (add cutting weight to stocked_qty)
       const product = await productModel.findOne({ product_name: productToUpdate });
     if (product) {
       product.stocked_qty += Number(cutting); // Add cutting weight to stocked_qty

@@ -19,7 +19,6 @@ const vendorInvoiceSchema = new mongoose.Schema({
       },
       cnic: {
         type: String,
-        required: true,
       },
     product: {
         type: String,

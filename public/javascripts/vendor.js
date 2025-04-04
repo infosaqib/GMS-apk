@@ -87,9 +87,6 @@ async function updateVendor(event) {
                     throw new Error(errorData.message || `HTTP error! status: ${updateResponse.status}`);
                 }
 
-                const updatedVendorData = await updateResponse.json();
-                console.log('Vendor updated successfully:', updatedVendorData);
-
                 // Close the update form 
                 hideUpdateVendor();
                 //refresh the Vendor list here
@@ -127,12 +124,7 @@ document.addVendorForm.addEventListener('submit', async (e) => {
             throw new Error(errorData.message || `HTTP error! status: ${addResponse.status}`);
         }
 
-        const addedVendorData = await addResponse.json();
-        console.log('Vendor added successfully:', addedVendorData);
-
         //refresh the Vendor list here
-        hideAddVendor();
-        document.addVendorForm.reset();
         window.location.reload();
     } catch (error) {
         console.error('Error adding Vendor:', error);

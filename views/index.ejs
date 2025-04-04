@@ -160,8 +160,16 @@
 
               <!-- SCRIPTS -->
               <script type="module">
-                import {openClientInvoice, openVendorInvoice, closeClientInvoice, closeVendorInvoice, capitalizeText } from '/javascripts/utils.js';
+                import {openClientInvoice, openVendorInvoice, closeClientInvoice, closeVendorInvoice, capitalizeText, contactFormat, cnicFormat } from '/javascripts/utils.js';
 
+                // Apply contact format
+                document.querySelectorAll('.contactInput').forEach(contact =>{
+                  contact.addEventListener('input', contactFormat)
+                })
+                // Apply cnic format
+                document.querySelectorAll('.cnicInput').forEach(cnic =>{
+                  cnic.addEventListener('input', cnicFormat)
+                })
                 // Apply Capitalization of Text
                 document.querySelectorAll(".capitalize-input").forEach(input => {
                   input.addEventListener("input", capitalizeText);
@@ -173,9 +181,7 @@
                 })
                 //Apply Open Vendor Invoice
                 document.querySelectorAll('.openVendorInvoice').forEach(invoice => {
-                  invoice.addEventListener('click', openVendorInvoice => {
-                    console.log('Vendor Invoice successfully opened');
-                  })
+                  invoice.addEventListener('click', openVendorInvoice )
                 })
                 //Apply Close Invoice
                 document.getElementById('overlay').addEventListener('click', closeClientInvoice, closeVendorInvoice)

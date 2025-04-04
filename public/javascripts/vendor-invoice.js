@@ -61,6 +61,7 @@ vendorForm.addEventListener('submit', async (e) => {
     // Refresh the page or update the UI
     hideVendorSidebar()
     vendorForm.reset();
+    window.location.reload();
   } catch (error) {
     console.error('Error creating invoice:', error);
   }

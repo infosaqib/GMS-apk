@@ -100,12 +100,8 @@ document.addProductForm.addEventListener('submit', async (e) => {
             throw new Error(errorData.message || `HTTP error! status: ${addResponse.status}`);
         }
 
-        const addedProductData = await addResponse.json();
-        console.log('Product added successfully:', addedProductData);
-
         //refresh the product list here
-        // window.location.href = '/product';
-        // document.addProductForm.reset();
+        window.location.reload();
     } catch (error) {
         console.error('Error adding product:', error);
     }
@@ -119,44 +115,7 @@ function hideAddProduct() {
     document.body.style.overflowY = 'scroll';
 }
 
-// async function updateProduct(event) {
-//     event.preventDefault();
-
-//     if (!event || !event.target) {
-//         console.error("Invalid event object");
-//         return;
-//     }
-
-//     updatePage.classList.toggle('show')
-//     overlay.classList.add('show')
-//     document.body.style.overflowY = 'hidden';
-
-//     const productId = event.target.closest('#myProduct').dataset.id
-//     console.log(productId);
-
-
-//     try {
-//         const response = await fetch(`/api/products/${productId}`)
-//         if (!response.ok) {
-//             const errorData = await response.json()
-//             throw new Error(errorData.message || `HTTP error! status:${response.status}`)
-//         }
-
-//         const product = await response.json();
-
-//         let { product_name, granding_price, cleaning_price, total_price } = product
-
-//         document.updateProductForm.up_product_name.value = product_name;
-//         document.updateProductForm.up_granding_price.value = granding_price;
-//         document.updateProductForm.up_cleaning_price.value = cleaning_price;
-//         document.updateProductForm.up_total_price.value = total_price;
-
-//     } catch (error) {
-//         console.log('Error fetching product:', error)
-//     }
-//     // await fetch(`/api/products/${productId}`, { method: 'PUT' })
-
-// }
+// UPDATE PRODUCT
 async function updateProduct(event) {
     event.preventDefault();
 
@@ -237,9 +196,6 @@ async function updateProduct(event) {
                     const errorData = await updateResponse.json();
                     throw new Error(errorData.message || `HTTP error! status: ${updateResponse.status}`);
                 }
-
-                const updatedProductData = await updateResponse.json();
-                console.log('Product updated successfully:', updatedProductData);
 
                 // Close the update form and refresh the product list
                 hideUpdateProduct();
@@ -376,7 +332,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 const result = await response.json();
-                alert(result.message);
+                // alert(result.message);
                 productDiv.remove();
 
             } catch (error) {

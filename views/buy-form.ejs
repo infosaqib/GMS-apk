@@ -1,5 +1,5 @@
 <aside id="vendor-side-container"
-    class=" container bg-white w-[90vw] lg:w-[50vw] h-screen overflow-scroll border fixed top-0 right-[-730px] hidden transition-all z-40">
+    class=" container bg-white w-[90vw] lg:w-[50vw] h-full py-4 overflow-scroll border fixed top-0 right-[-730px] hidden transition-all z-40">
     <div class="flex flex-row items-center justify-between">
         <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12 mt-6 md:mt-12 mb-2 md:mb-4">Create
             Invoice
@@ -12,6 +12,13 @@
     </div>
     <form id="vendorForm" method="POST" action="/api/vendor-invoices" class="flex flex-col pt-4 px-12">
         <div class="grid grid-cols-1 md:grid-cols-2 my-2">
+            <!-- Contact -->
+            <div class="flex flex-col col-span-1 mr-8" id="contact">
+                <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
+                <input class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="contact" required>
+                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
             <!-- Name -->
             <div class="flex flex-col col-span-1 mr-8" id="name">
                 <label class=" label-red my-1 text-gray-500 font-semibold required" for="name">Vendor
@@ -21,6 +28,11 @@
                     type="text" name="name" autocapitalize="words" required>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
+
             <!-- Father Name -->
             <div class="flex flex-col col-span-1 mr-8" id="father_name">
                 <label class=" label-red my-1 text-gray-500 font-semibold required" for="father_name">Father
@@ -30,21 +42,11 @@
                     type="text" name="father_name" autocapitalize="words" required>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 border-b-[1px] border-b-gray-200 py-3 my-2">
-            <!-- Contact -->
-            <div class="flex flex-col col-span-1 mr-8" id="contact">
-                <label class="label-red my-1 text-gray-500 font-semibold required" for="contact">Contact</label>
-                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="number" name="contact" required>
-                <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-            </div>
             <!-- CNIC -->
             <div class="flex flex-col col-span-1 mr-8" id="cnic">
-                <label class=" label-red my-1 text-gray-500 font-semibold required" for="cnic">CNIC</label>
-                <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="number" name="cnic" required>
+                <label class="my-1 text-gray-500 font-semibold" for="cnic">CNIC</label>
+                <input class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="cnic">
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
         </div>

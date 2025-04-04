@@ -19,38 +19,39 @@
         </div>
     </div>
     <hr class="my-5">
-
-    <!-- Fetching invoices -->
-    <% vendorInvoices.forEach(({_id, name, product, quantity, totalPrice, updatedAt })=> {
-        const date = new Date(updatedAt);
-        const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}-${date.getFullYear()}`;
-        %>
-        <div data-id="<%= _id %>"
-            class="openVendorInvoice flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-6 px-4 bg-white gap-7">
-            <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-                <p class="text-gray-400 text-sm lg:text-sm">
-                    <%= formattedDate %>
-                </p>
-                <p class="text-gray-400 text-sm lg:text-sm capitalize">
-                    <%= name %>
-                </p>
-                <p class="text-gray-400 text-sm lg:text-sm capitalize">
-                    <%= product %>
-                </p>
+    <!-- invoice collection -->
+    <div class="flex flex-col-reverse py-6 px-4 border-2 border-red-600">
+        <!-- Fetching invoices -->
+        <% vendorInvoices.forEach(({_id, name, product, quantity, totalPrice, updatedAt })=> {
+            const date = new Date(updatedAt);
+            const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${date.getFullYear()}`;
+            %>
+            <div data-id="<%= _id %>"
+                class="openVendorInvoice flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-4 px-3 bg-white gap-7">
+                <div class="flex flex-row gap-3 md:gap-6 items-center justify-center">
+                    <p class="text-gray-400 text-xs lg:text-sm">
+                        <%= formattedDate %>
+                    </p>
+                    <p class="text-gray-400 text-xs lg:text-sm capitalize">
+                        <%= name %>
+                    </p>
+                    <p class="text-gray-400 text-xs lg:text-sm capitalize">
+                        <%= product %>
+                    </p>
+                </div>
+                <div class="flex flex-row gap-3 md:gap-6 items-center justify-center">
+                    <p class="text-gray-400 text-xs lg:text-sm capitalize">
+                        <%= quantity %> Kg
+                    </p>
+                    <p class="text-gray-400 text-xs lg:text-sm"><b>Rs.<%= totalPrice %></b></p>
+                    <svg class="hidden md:block" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
+                    </svg>
+                </div>
             </div>
-            <div class="flex flex-col md:flex-row gap-3 md:gap-12 items-center justify-center">
-                <p class="text-gray-400 text-sm lg:text-sm capitalize">
-                    <%= quantity %> Kg
-                </p>
-                <p class="text-gray-400 text-sm lg:text-sm"><b>Rs.<%= totalPrice %></b></p>
-                <svg class="svgicon" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-                </svg>
-            </div>
-        </div>
-        <% }); %>
+            <% }); %>
 
-
+    </div>
 </div>

@@ -173,8 +173,8 @@
                         <div class="flex flex-col col-span-1 mr-8" id="contact">
                             <label class="label-red my-1 text-gray-500 font-semibold  " for="contact">Contact</label>
                             <input
-                                class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="tel" name="contact" required>
+                                class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                                type="text" name="contact" required>
                             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
                         </div>
 
@@ -182,8 +182,8 @@
                         <div class="flex flex-col col-span-1 mr-8" id="cnic">
                             <label class=" label-red my-1 text-gray-500 font-semibold  " for="cnic">CNIC</label>
                             <input
-                                class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="number" name="cnic" required>
+                                class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                                type="text" name="cnic" required>
                             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
                         </div>
                     </div>
@@ -236,8 +236,8 @@
                         <div class="flex flex-col col-span-1 mr-8" id="up_contact">
                             <label class="label-red my-1 text-gray-500 font-semibold  " for="contact">Contact</label>
                             <input
-                                class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="tel" name="up_contact" required>
+                                class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                                type="text" name="up_contact" required>
                             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
                         </div>
 
@@ -245,8 +245,8 @@
                         <div class="flex flex-col col-span-1 mr-8" id="cnic">
                             <label class=" label-red my-1 text-gray-500 font-semibold  " for="up_cnic">CNIC</label>
                             <input
-                                class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="number" name="up_cnic" required>
+                                class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                                type="text" name="up_cnic" required>
                             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
                         </div>
                     </div>
@@ -265,12 +265,20 @@
         </main>
 
         <script type="module">
-            import { capitalizeText } from '/javascripts/utils.js';
+            import { capitalizeText, contactFormat, cnicFormat } from '/javascripts/utils.js';
 
-            // Select all inputs with the class "capitalize-input"
-            document.querySelectorAll(".capitalize-input").forEach(input => {
+             // Apply text capitalization 
+             document.querySelectorAll(".capitalize-input").forEach(input => {
                 input.addEventListener("input", capitalizeText);
             });
+            // Apply contact format
+            document.querySelectorAll('.contactInput').forEach(contact => {
+                contact.addEventListener('input', contactFormat)
+            })
+            // Apply cnic format
+            document.querySelectorAll('.cnicInput').forEach(cnic => {
+                cnic.addEventListener('input', cnicFormat)
+            })
         </script>
         <script src="/javascripts/vendor.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
