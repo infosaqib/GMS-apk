@@ -1,12 +1,6 @@
 const { format } = require("morgan");
 const mongoose = require('mongoose');
 
-//* Database Connection
-const connectDB = require('../db');
-connectDB();
-
-
-
 const vendorSchema = new mongoose.Schema(
     {
         name: {

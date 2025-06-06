@@ -12,7 +12,49 @@ export function capitalizeText(event) {
 
   event.target.value = capitalizedText;
 }
+// Counting animations
+export function animateCounters(elements, options = {}) {
+  const {
+    threshold = 0.5,
+    rootMargin = '0px',
+    duration = 2000 // duration in ms
+  } = options;
 
+  const numComma = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const targetValue = parseInt(el.getAttribute('data-target') || el.textContent, 10);
+        const currencySymbol = el.getAttribute('data-currency') || '';
+
+        if (isNaN(targetValue)) {
+          console.error('Invalid number for counter:', el);
+          return;
+        }
+
+        let startValue = 0;
+        const increment = targetValue / (duration / 16);
+
+        const updateCounter = () => {
+          startValue += increment;
+          if (startValue < targetValue) {
+            el.textContent = currencySymbol + Math.floor(startValue);
+            requestAnimationFrame(updateCounter);
+          } else {
+            el.textContent = currencySymbol + numComma(Math.floor(targetValue));
+          }
+        };
+
+        updateCounter();
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold, rootMargin });
+
+  elements.forEach(el => observer.observe(el));
+}
 
 //? Contact formatting
 export function contactFormat(e) {
@@ -275,7 +317,7 @@ const loadingAnimation = `
   .container {
   background: transparent;
     --uib-size: 40px;
-    --uib-color: black;
+    --uib-color: #212529;
     --uib-speed: 2s;
     --uib-bg-opacity: 0;
     height: var(--uib-size);

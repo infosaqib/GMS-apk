@@ -94,7 +94,7 @@
                         <label class="my-1 text-gray-400 text-xl font-light" for="product-name">Product name</label>
                         <input type="text" name="product_name"
                             class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                        autocapitalize="words"    required>
+                        autocapitalize="words" required>
                     </div>
 
                     <!--? Granding and Cleaning price -->
@@ -105,14 +105,14 @@
                                 price</label>
                             <input type="number" name="granding_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                         <div id="product-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
                             <label class="my-1 text-gray-400 font-light text-xl" for="cleaningPrice">Cleaning
                                 price</label>
                             <input type="number" name="cleaning_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                     </div>
 
@@ -124,14 +124,14 @@
                                 price</label>
                             <input type="number" name="chrai_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                         <div id="pinjai-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
                             <label class="my-1 text-gray-400 font-light text-xl" for="pinjaiPrice">Pinjai
                                 price</label>
                             <input type="number" name="pinjai_price"
                                 class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                     </div>
 
@@ -142,7 +142,7 @@
                                 price</label>
                             <input type="number" name="filling_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
 
                         </div>
                         <div id="product-stiching" class="flex flex-col col-span-1 mr-8 gap-2">
@@ -150,7 +150,7 @@
                                 price</label>
                             <input type="number" name="stiching_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                     </div>
 
@@ -161,7 +161,7 @@
                                 Qty</label>
                             <input type="number" name="stocked_qty"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                         <!--? Product price -->
                         <div id="product-price" class="flex flex-col col-span-1 mr-8 gap-2">
@@ -169,7 +169,7 @@
                                 price</label>
                             <input type="number" name="product_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                     </div>
                     <!--? Total price -->
@@ -177,7 +177,7 @@
                         <label class="my-1 text-gray-400 font-light text-xl" for="total-price">Total price</label>
                         <input type="number" name="total_price"
                             class="bg-gray-100 border-gray-300  border-[.2px] py-1 md:py-3 px-4 rounded-lg  focus:outline-gray-300 focus:bg-gray-100"
-                            readonly>
+                            readonly step="any">
                     </div>
                     <input onclick="hideAddProduct()"
                         class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
@@ -218,14 +218,14 @@
                                 price</label>
                             <input type="number" name="up_granding_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="" required>
+                                min="0" value=""  step="any" required>
                         </div>
                         <div id="product-cleaning" class="flex flex-col col-span-1 mr-8 gap-2">
                             <label class="my-1 text-gray-400 font-light text-xl" for="up_cleaning-price">Cleaning
                                 price</label>
                             <input type="number" name="up_cleaning_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="">
+                                min="0" value="" step="any">
                         </div>
                     </div>
 
@@ -236,14 +236,14 @@
                                 price</label>
                             <input type="number" name="up_chrai_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="">
+                                min="0" value="" step="any">
                         </div>
                         <div id="product-pinjai" class="flex flex-col col-span-1 mr-8 gap-2">
                             <label class="my-1 text-gray-400 font-light text-xl" for="up_pinjai-price">Pinjai
                                 price</label>
                             <input type="number" name="up_pinjai_price"
                                 class="pinjaiPrice border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="">
+                                min="0" value="" step="any">
                         </div>
                     </div>
                     <!--? Filling and Stiching price -->
@@ -253,14 +253,14 @@
                                 price</label>
                             <input type="number" name="up_filling_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="">
+                                min="0" value="" step="any">
                         </div>
                         <div id="product-stiching" class="flex flex-col col-span-1 mr-8 gap-2">
                             <label class="my-1 text-gray-400 font-light text-xl" for="up_stiching-price">Stiching
                                 price</label>
                             <input type="number" name="up_stiching_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="">
+                                min="0" value="" step="any">
                         </div>
                     </div>
                     <!--? Stocked quantity -->
@@ -270,7 +270,7 @@
                                 Qty</label>
                             <input type="number" name="up_stocked_qty"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                         <!--? Product price -->
                         <div id="product-price" class="flex flex-col col-span-1 mr-8 gap-2">
@@ -278,7 +278,7 @@
                                 price</label>
                             <input type="number" name="up_product_price"
                                 class=" border-[.2px] border-gray-300 py-1 md:py-3 px-4 rounded-lg focus:outline-purple-400"
-                                min="0" value="0">
+                                min="0" value="0" step="any">
                         </div>
                     </div>
                     <!--? Total Price -->
@@ -286,7 +286,7 @@
                         <label class="my-1 text-gray-400 font-light text-xl" for="up_total-price">Total price</label>
                         <input type="number" name="up_total_price"
                             class="bg-gray-100 border-gray-300  border-[.2px] py-1 md:py-3 px-4 rounded-lg  focus:outline-gray-300 focus:bg-gray-100"
-                            value="" readonly>
+                            value="" step="any" readonly>
                     </div>
                     <input id=""
                         class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"

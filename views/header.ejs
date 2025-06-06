@@ -15,7 +15,8 @@
 
       <select id="Tab" class="w-full rounded-md border-gray-200">
         <% const activeOption=locals.activeOption %>
-          <option <%=activeOption==='index' ? 'select' : '' %> >Invoices</option>
+          <option <%=activeOption==='dashboard' ? 'select' : '' %> >Dashboard</option>
+          <option <%=activeOption==='invoices' ? 'select' : '' %> >Invoices</option>
           <option <%=activeOption==='users' ? 'select' : '' %> >Users</option>
           <option <%=activeOption==='tracking' ? 'select' : '' %> >Tracking</option>
           <option <%=activeOption==='products' ? 'select' : '' %> >Products</option>
@@ -26,8 +27,12 @@
         <div class="border-b border-gray-200">
           <nav class="-mb-px flex gap-20 flex-row items-center justify-center" aria-label="Tabs">
           <a href="/"
-            class=" <%=activeOption==='index' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2  px-3 py-4 text-lg text-center font-medium "
+            class=" <%=activeOption==='dashboard' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2  px-3 py-4 text-lg text-center font-medium "
             aria-current="page">
+            Dashboard
+          </a>
+          <a href="/invoices"
+            class=" <%=activeOption==='invoices' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2  px-3 py-4 text-lg text-center font-medium ">
             Invoices
           </a>
           <a href="/clients"

@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-//* Database Connection
-const connectDB = require('../db');
-connectDB();
-
 //? Schema
 const productSchema = new mongoose.Schema({
   product_name: {

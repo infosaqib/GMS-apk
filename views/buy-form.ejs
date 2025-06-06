@@ -21,11 +21,11 @@
             </div>
             <!-- Name -->
             <div class="flex flex-col col-span-1 mr-8" id="name">
-                <label class=" label-red my-1 text-gray-500 font-semibold required" for="name">Vendor
+                <label class=" my-1 text-gray-500 font-semibold required" for="name">Vendor
                     name</label>
                 <input
-                    class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="text" name="name" autocapitalize="words" required>
+                    class="capitalize-input bg-gray-100 border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="name" autocapitalize="words" readonly>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
 
@@ -35,18 +35,18 @@
 
             <!-- Father Name -->
             <div class="flex flex-col col-span-1 mr-8" id="father_name">
-                <label class=" label-red my-1 text-gray-500 font-semibold required" for="father_name">Father
+                <label class="my-1 text-gray-500 font-semibold required" for="father_name">Father
                     name</label>
                 <input
-                    class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="text" name="father_name" autocapitalize="words" required>
+                    class="capitalize-input bg-gray-100 border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="father_name" autocapitalize="words" readonly>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
             <!-- CNIC -->
             <div class="flex flex-col col-span-1 mr-8" id="cnic">
                 <label class="my-1 text-gray-500 font-semibold" for="cnic">CNIC</label>
-                <input class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="text" name="cnic">
+                <input class="cnicInput bg-gray-100 border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                    type="text" name="cnic" readonly>
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
         </div>
@@ -71,7 +71,7 @@
             <div class="flex flex-col my-2" id="pricePerUnit">
                 <label class="my-1 text-gray-500 font-semibold required" for="pricePerUnit">Price Per Unit</label>
                 <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                    type="number" name="pricePerUnit" required value="0">
+                    type="number" name="pricePerUnit" step="any" required value="0">
                 <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
         </div>
@@ -79,8 +79,8 @@
         <!-- Total Price -->
         <div class="flex flex-col my-2" id="totalPrice">
             <label class="my-1 text-gray-500 font-semibold required" for="totalPrice">Total Price</label>
-            <input class="border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                type="number" name="totalPrice" required readonly>
+            <input class="bg-gray-100 border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="number" name="totalPrice" readonly>
             <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
         </div>
 

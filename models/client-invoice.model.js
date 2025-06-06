@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const bwipjs = require('bwip-js');
 
-//* Database Connection
-const connectDB = require('../db');
-connectDB();
 //? Schema
 const generateUniqueId = () => {
   const timestamp = Date.now().toString();

@@ -20,7 +20,7 @@
     </div>
     <hr class="my-5">
     <!-- invoice collection -->
-    <div class="flex flex-col-reverse py-6 px-4 border-2 border-red-600">
+    <div class="flex flex-col-reverse py-6 px-4">
         <!-- Fetching invoices -->
         <% vendorInvoices.forEach(({_id, name, product, quantity, totalPrice, updatedAt })=> {
             const date = new Date(updatedAt);

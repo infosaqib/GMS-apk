@@ -21,6 +21,9 @@ let clientInvoicesRouter = require('./routes/client-invoice.route');
 let vendorInvoicesRouter = require('./routes/vendor-invoice.route');
 let clientRouter = require('./routes/client.route');
 let vendorRouter = require('./routes/vendor.route');
+let weightRecordRouter = require('./routes/weightRecord.route');
+let caloriesRecordRouter = require('./routes/caloriesRecord.route');
+let mealRecordRouter = require('./routes/mealRecord.route');
 
 let app = express();
 
@@ -41,6 +44,9 @@ app.use('/api/vendor-invoices', vendorInvoicesRouter);
 app.use('/api/products', productRouter)
 app.use('/api/clients', clientRouter)
 app.use('/api/vendors', vendorRouter)
+app.use('/api/calories',caloriesRecordRouter)
+app.use('/api/weight', weightRecordRouter)
+app.use('/api/meal', mealRecordRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

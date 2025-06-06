@@ -47,7 +47,7 @@ const calculateRemainingWeight = () => {
 
 //* Calculate total price based on selected options
 const calculateTotalPrice = () => {
-  const remainingWeight = calculateRemainingWeight();
+  // const remainingWeight = calculateRemainingWeight();
   let price = 0;
 
   // Base price calculation
@@ -56,8 +56,9 @@ const calculateTotalPrice = () => {
   const chraiPrice = parseFloatSafe(chraiPriceInput.value);
   const pinjaiPrice = parseFloatSafe(pinjaiPriceInput.value);
   const productPrice = parseFloatSafe(productPriceInput.value);
+  const totalWeightValue = parseFloatSafe(itemWeight.value);
 
-  price += (cleaningPrice + grandingPrice + chraiPrice + pinjaiPrice + productPrice) * remainingWeight;
+  price += (cleaningPrice + grandingPrice + chraiPrice + pinjaiPrice + productPrice) * totalWeightValue;
 
   // Additional prices
   const stichingQuantity = parseFloatSafe(stichingQuantityInput.value);
