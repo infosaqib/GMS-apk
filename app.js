@@ -3,6 +3,8 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+const { setupErrorHandlers } = require('./middlewares/errorHandler.middleware');
+const { connectDB, disconnectDB } = require('./config/db.config');
 require('dotenv').config();
 
 // In app.js, before mounting routes
@@ -44,7 +46,7 @@ app.use('/api/vendor-invoices', vendorInvoicesRouter);
 app.use('/api/products', productRouter)
 app.use('/api/clients', clientRouter)
 app.use('/api/vendors', vendorRouter)
-app.use('/api/calories',caloriesRecordRouter)
+app.use('/api/calories', caloriesRecordRouter)
 app.use('/api/weight', weightRecordRouter)
 app.use('/api/meal', mealRecordRouter)
 
@@ -56,15 +58,27 @@ app.use(function (req, res, next) {
 
 
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// Error handling middleware should be after all routes
+setupErrorHandlers(app);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+const startServer = async () => {
+  try {
+    await connectDB();
+    const server = app.listen(process.env.PORT || 3000, () => {
+      console.log(`Server running on http://localhost:${process.env.PORT || 3000}`);
+    });
+
+  } catch (err) {
+    console.error("Failed to start server:", err.message);
+    process.exit(1);
+  }
+};
+
+startServer();
+
+process.on('SIGINT', async () => {
+  console.log("\nShutting down gracefully...");
+  await disconnectDB();
+  process.exit(0);
 });
 
-module.exports = app;

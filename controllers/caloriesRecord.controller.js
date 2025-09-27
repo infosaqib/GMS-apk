@@ -1,21 +1,25 @@
-const CaloriesRecord = require('../models/caloriesRecord.model.js')
+const CaloriesRecord = require('../models/caloriesRecord.model.js');
+const mongoose = require('mongoose');
+const ApiError = require('../services/ApiError.service');
 
 const storeCalories = async (req, res, next) => {
     try {
         const { calories } = req.body;
 
         if (calories === undefined || calories === null) {
-            return res.status(400).json({ error: 'Calories are required' });
+            throw new ApiError(400, 'Calories are required');
         }
         if (typeof calories !== 'number' || calories <= 0) {
-            return res.status(400).json({ error: 'Calories must be a positive number' });
+            throw new ApiError(400, 'Calories must be a positive number');
         }
 
         const newCaloriesRecord = new CaloriesRecord({ calories });
         await newCaloriesRecord.save();
 
         return res.status(201).json({
-            message: 'Calories stored successfully'
+            success: true,
+            message: 'Calories stored successfully',
+            data: newCaloriesRecord
         });
     } catch (error) {
         next(error);
@@ -27,10 +31,11 @@ const getAllCalories = async (req, res, next) => {
         const calories = await CaloriesRecord.find().sort({ createdAt: -1 });
 
         if (!calories || calories.length === 0) {
-            return res.status(404).json({ error: 'No calories are found' });
+            throw new ApiError(404, 'No calories records found');
         }
 
         res.status(200).json({
+            success: true,
             message: 'Calories retrieved successfully',
             data: calories
         });
@@ -45,14 +50,14 @@ const updateCalories = async (req, res, next) => {
         const { calories } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ error: 'Invalid calories record ID' });
+            throw new ApiError(400, 'Invalid calories record ID');
         }
 
         if (calories === undefined || calories === null) {
-            return res.status(400).json({ error: 'calories is required' });
+            throw new ApiError(400, 'Calories are required');
         }
         if (typeof calories !== 'number' || calories <= 0) {
-            return res.status(400).json({ error: 'Calories must be a positive number' });
+            throw new ApiError(400, 'Calories must be a positive number');
         }
 
         const updatedRecord = await CaloriesRecord.findByIdAndUpdate(
@@ -62,11 +67,12 @@ const updateCalories = async (req, res, next) => {
         );
 
         if (!updatedRecord) {
-            return res.status(404).json({ error: 'Calories are not found' });
+            throw new ApiError(404, 'Calories record not found');
         }
 
         return res.status(200).json({
-            message: 'Calories stored successfully',
+            success: true,
+            message: 'Calories updated successfully',
             data: updatedRecord
         });
     } catch (error) {
@@ -74,4 +80,4 @@ const updateCalories = async (req, res, next) => {
     }
 };
 
-module.exports = {storeCalories, getAllCalories, updateCalories}
+module.exports = { storeCalories, getAllCalories, updateCalories }

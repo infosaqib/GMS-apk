@@ -1,14 +1,17 @@
 const MealRecord = require('../models/mealRecord.model.js');
+const ApiError = require('../services/ApiError.service');
 
 const getMealRecords = async (req, res, next) => {
     try {
         const mealRecords = await MealRecord.find().sort({ createdAt: -1 });
 
         if (!mealRecords || mealRecords.length === 0) {
-            return res.status(404).json({ error: 'No meal records found' });
+            throw new ApiError(404, 'No meal records found');
         }
 
         res.status(200).json({
+            success: true,
+            message: 'Meal records retrieved successfully',
             data: mealRecords
         });
     } catch (error) {
@@ -40,7 +43,7 @@ const storeMealRecords = async (req, res, next) => {
         !calories || !totalFat || !satFat || !cholesterol ||
         !sodium || !carbs || !fiber || !sugars || !protein
     ) {
-        return res.status(400).json({ error: 'All fields are required.' });
+        throw new ApiError(400, 'All fields are required');
     }
 
     try {
@@ -64,6 +67,7 @@ const storeMealRecords = async (req, res, next) => {
         await meal.save();
 
         res.status(201).json({
+            success: true,
             message: 'Food data saved successfully',
             data: meal
         });
@@ -73,4 +77,4 @@ const storeMealRecords = async (req, res, next) => {
     }
 };
 
-module.exports = {getMealRecords, storeMealRecords}
+module.exports = { getMealRecords, storeMealRecords }

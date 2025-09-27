@@ -1,36 +1,51 @@
 "use strict";
 
-const Product = require('../models/product.model')
+const Product = require('../models/product.model');
+const ApiError = require('../services/ApiError.service');
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
     try {
         const products = await Product.find();
-        res.status(200).json(products);
-
+        res.status(200).json({
+            success: true,
+            message: 'Products retrieved successfully',
+            data: products
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(new ApiError(500, 'Failed to retrieve products', [], error.stack));
     }
 }
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const product = await Product.findById(id)
 
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" })
+        if (!id) {
+            throw new ApiError(400, 'Product ID is required');
         }
 
-        res.status(200).json(product);
-    }
-    catch (error) {
-        res.status(500).json({ message: error.message });
+        const product = await Product.findById(id);
+
+        if (!product) {
+            throw new ApiError(404, 'Product not found');
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Product retrieved successfully',
+            data: product
+        });
+    } catch (error) {
+        if (error instanceof ApiError) {
+            next(error);
+        } else {
+            next(new ApiError(500, 'Failed to retrieve product', [], error.stack));
+        }
     }
 }
 
-const createProduct = async (req, res) => {
+const createProduct = async (req, res, next) => {
     try {
-
         const {
             product_name,
             cleaning_price,
@@ -44,6 +59,11 @@ const createProduct = async (req, res) => {
             total_price
         } = req.body;
 
+        // Input validation
+        if (!product_name) {
+            throw new ApiError(400, 'Product name is required');
+        }
+
         const productData = new Product({
             product_name,
             cleaning_price,
@@ -55,21 +75,27 @@ const createProduct = async (req, res) => {
             stocked_qty,
             product_price,
             total_price
-        })
+        });
+
         await productData.save();
-        // res.status(201);
-        res.redirect('/products')
+
+        res.status(201).json({
+            success: true,
+            message: 'Product created successfully',
+            data: productData
+        });
     } catch (error) {
         if (error.code === 11000) {
-            res.status(400).json({ message: "Product with this name already exists" })
-            return;
+            next(new ApiError(400, 'Product with this name already exists'));
+        } else if (error instanceof ApiError) {
+            next(error);
         } else {
-            res.status(500).json({ message: error.message })
+            next(new ApiError(500, 'Failed to create product', [], error.stack));
         }
     }
 }
 
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
         const {
@@ -85,9 +111,13 @@ const updateProduct = async (req, res) => {
             up_total_price
         } = req.body;
 
+        if (!id) {
+            throw new ApiError(400, 'Product ID is required');
+        }
+
         // Input validation
-        if (!up_product_name || [up_cleaning_price || up_granding_price || up_chrai_price || up_pinjai_price || up_filling_price || up_stiching_price || up_total_price].some(isNaN)) {
-            return res.status(400).json({ message: 'Invalid input data' });
+        if (!up_product_name) {
+            throw new ApiError(400, 'Product name is required');
         }
 
         const product = await Product.findByIdAndUpdate(id, {
@@ -101,32 +131,50 @@ const updateProduct = async (req, res) => {
             stocked_qty: up_stocked_qty,
             product_price: up_product_price,
             total_price: up_total_price,
-        }, { new: true })
+        }, { new: true, runValidators: true });
 
         if (!product) {
-            return res.status(404).json('Product not found')
+            throw new ApiError(404, 'Product not found');
         }
-        res.status(201).json(product)
-        // res.redirect('/product')
+
+        res.status(200).json({
+            success: true,
+            message: 'Product updated successfully',
+            data: product
+        });
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        if (error instanceof ApiError) {
+            next(error);
+        } else {
+            next(new ApiError(500, 'Failed to update product', [], error.stack));
+        }
     }
 }
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const product = await Product.findByIdAndDelete(id)
 
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" })
+        if (!id) {
+            throw new ApiError(400, 'Product ID is required');
         }
 
-        res.status(200).json({ message: "Product deleted successfully" })
-    }
-    catch (error) {
-        // console.error("Server error:", error);
-        res.status(500).json({ message: error.message });
+        const product = await Product.findByIdAndDelete(id);
+
+        if (!product) {
+            throw new ApiError(404, 'Product not found');
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Product deleted successfully'
+        });
+    } catch (error) {
+        if (error instanceof ApiError) {
+            next(error);
+        } else {
+            next(new ApiError(500, 'Failed to delete product', [], error.stack));
+        }
     }
 }
 
