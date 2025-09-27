@@ -1,36 +1,27 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
 require('dotenv').config();
+const express = require('express');
+const connectDB = require('./config/db.config');
+const routes = require('./routes/index.route');
+const ApiError = require('./services/ApiError.service');
+const globalErrorHandler = require('./middlewares/globalErrorHandler.middleware');
 
-let indexRouter = require('./routes/index.route');
-let weightRecordRouter = require('./routes/weightRecord.route');
-let caloriesRecordRouter = require('./routes/caloriesRecord.route');
-let mealRecordRouter = require('./routes/mealRecord.route');
+const app = express();
 
-let app = express();
-
-// view engine setup
-
-
-app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
+connectDB();
 
-app.use('/', indexRouter);
-app.use('/api/calories',caloriesRecordRouter)
-app.use('/api/weight', weightRecordRouter)
-app.use('/api/meal', mealRecordRouter)
+app.use('/api', routes);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  res.status(404).send('Route not found');
-  next(createError(404));
+// 404 handler
+app.use((req, res, next) => {
+    next(new ApiError(404, 'Resource not found'));
 });
 
+// Global error handler
+app.use(globalErrorHandler);
 
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port http://localhost:${PORT}`);
+});
