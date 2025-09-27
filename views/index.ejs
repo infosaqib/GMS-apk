@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+</head>
+
+<body class="flex  min-h-screen w-screen bg-gray-100 relative overflow-visible">
+    <%-include('aside', {activeOption: 'dashboard' })%>
+        <main id="container" class="flex flex-col w-[85%] px-[5%]">
+            <div class="flex flex-row items-center justify-between p-4 space-x-4">
+                <div>
+                    <h5 class="text-xl font-semibold text-gray-900 mb-2">Dashboard</h5>
+                    <p class="text-gray-500 text-sm">Overview of spending, revenue, and profits.</p>
+                    <hr class="my-3 mr-8">
+                    <div class="my-8">
+                        <div class="flex flex-wrap gap-2 mb-8">
+                            <div class="px-16 pt-4 pb-2 border-r-2 -skew-x-12">
+                                <div class="skew-x-12 flex gap-2 items-end">
+                                    <div class="text-6xl font-extralight num-count" data-target="<%=clients%>">0</div>
+                                    <div class="mb-2 text-gray-400">Clients</div>
+                                </div>
+                            </div>
+                            <div class="px-16 pt-4 pb-2 border-r-2 -skew-x-12">
+                                <div class="skew-x-12 flex gap-2 items-end">
+                                    <div class="text-6xl font-extralight num-count" data-target="<%=vendors%>">0</div>
+                                    <div class="mb-2 text-gray-400">Vendors</div>
+                                </div>
+                            </div>
+                            <div class="px-16 pt-4 pb-2 -skew-x-12">
+                                <div class="skew-x-12 flex gap-2 items-end">
+                                    <div class="text-6xl font-extralight num-count" data-target="<%=products%>">0</div>
+                                    <div class="mb-2 text-gray-400">Products</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-2 mx-auto">
+                            <div class="flex flex-wrap items-baseline justify-between  bg-white p-12 gap-2 border-[1.5px]">
+                                <div class="text-gray-500 font-medium leading-6 text-sm">Revenue</div>
+                                <div class="text-4xl text-gray-900 tracking-tight font-medium leading-10 w-full flex-none num-count" data-currency="Rs." data-target="<%=totalProfit%>">0
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap items-baseline justify-between  bg-white p-12 gap-2 border-[1.5px]">
+                                <div class="text-gray-500 font-medium leading-6 text-sm">Expenses</div>
+                                <div class="text-4xl text-gray-900 tracking-tight font-medium leading-10 w-full flex-none num-count"
+                                   data-currency="Rs." data-target="<%=totalSpending%>">0</div>
+                            </div>
+                            <div class="flex flex-wrap items-baseline justify-between  bg-white p-12 gap-2 border-[1.5px]">
+                                <div class="text-gray-500 font-medium leading-6 text-sm">Sales</div>
+                                <div class="text-4xl text-gray-900 tracking-tight font-medium leading-10 w-full flex-none num-count"  data-target="<%=totalSales%>">0
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap items-baseline justify-between  bg-white p-12 gap-2 border-[1.5px]">
+                                <div class="text-gray-500 font-medium leading-6 text-sm">Purchases</div>
+                                <div class="text-4xl text-gray-900 tracking-tight font-medium leading-10 w-full flex-none num-count"
+                                    data-target="<%=totalPurchases%>">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+        </main>
+        <script src="https://cdn.tailwindcss.com"></script>
+</body>
+<script type="module">
+    import { animateCounters } from '/javascripts/utils.js';
+
+    const counters = document.querySelectorAll('.num-count');
+    animateCounters([...counters], { duration: 1600 }); // Converts NodeList to array
+
+</script>
+
+</html>

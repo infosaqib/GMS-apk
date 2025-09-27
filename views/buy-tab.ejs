@@ -1,0 +1,57 @@
+<div id="buyContent" class="tab-content hidden">
+    <div class="w-full max-w-screen-xl px-4 py-12 mx-auto lg:px-12">
+        <div class="relative overflow-hidden bg-white shadow-md rounded-lg border border-gray-200">
+            <div class="flex flex-row items-center justify-between p-4 space-x-4">
+                <div>
+                    <h5 class="text-xl font-semibold text-gray-900 mb-2">Vendors' Invoices</h5>
+                    <p class="text-gray-500 text-sm">Manage all your existing invoices or create a new one</p>
+                </div>
+                <button id="new-btn" onclick="showVendorSidebar()" type="button"
+                    class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-6 mr-2 -ml-1" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    New Invoice
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr class="my-5">
+    <!-- invoice collection -->
+    <div class="flex flex-col-reverse py-6 px-4">
+        <!-- Fetching invoices -->
+        <% vendorInvoices.forEach(({_id, name, product, quantity, totalPrice, updatedAt })=> {
+            const date = new Date(updatedAt);
+            const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+            .toString()
+            .padStart(2, "0")}-${date.getFullYear()}`;
+            %>
+            <div data-id="<%= _id %>"
+                class="openVendorInvoice flex flex-row items-center justify-between border border-gray-200 hover:border-purple-500 cursor-pointer rounded-lg my-4 py-4 px-3 bg-white gap-7">
+                <div class="flex flex-row gap-3 md:gap-6 items-center justify-center">
+                    <p class="text-gray-400 text-xs lg:text-sm">
+                        <%= formattedDate %>
+                    </p>
+                    <p class="text-gray-400 text-xs lg:text-sm capitalize">
+                        <%= name %>
+                    </p>
+                    <p class="text-gray-400 text-xs lg:text-sm capitalize">
+                        <%= product %>
+                    </p>
+                </div>
+                <div class="flex flex-row gap-3 md:gap-6 items-center justify-center">
+                    <p class="text-gray-400 text-xs lg:text-sm capitalize">
+                        <%= quantity %> Kg
+                    </p>
+                    <p class="text-gray-400 text-xs lg:text-sm"><b>Rs.<%= totalPrice %></b></p>
+                    <svg class="hidden md:block" width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+            <% }); %>
+
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <div>
+    <div class="sm:hidden">
+      <label for="Tab" class="sr-only">Tab</label>
+
+      <select id="Tab" class="w-full rounded-md border-gray-200">
+        <% const activeOption=locals.activeOption %>
+          <option <%=activeOption==='dashboard' ? 'select' : '' %> >Dashboard</option>
+          <option <%=activeOption==='invoices' ? 'select' : '' %> >Invoices</option>
+          <option <%=activeOption==='users' ? 'select' : '' %> >Users</option>
+          <option <%=activeOption==='tracking' ? 'select' : '' %> >Tracking</option>
+          <option <%=activeOption==='products' ? 'select' : '' %> >Products</option>
+        </select>
+      </div>
+      
+      <div class="hidden sm:block">
+        <div class="border-b border-gray-200">
+          <nav class="-mb-px flex gap-20 flex-row items-center justify-center" aria-label="Tabs">
+          <a href="/"
+            class=" <%=activeOption==='dashboard' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2  px-3 py-4 text-lg text-center font-medium "
+            aria-current="page">
+            Dashboard
+          </a>
+          <a href="/invoices"
+            class=" <%=activeOption==='invoices' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2  px-3 py-4 text-lg text-center font-medium ">
+            Invoices
+          </a>
+          <a href="/clients"
+            class="<%=activeOption==='clients' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2 px-3 py-4 text-lg text-center font-medium">
+            Clients
+          </a>
+          <a href="/vendors"
+            class="<%=activeOption==='vendors' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2 px-3 py-4 text-lg text-center font-medium">
+            Vendors
+          </a>
+
+          <a href="/tracking"
+            class="<%=activeOption==='tracking' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2 px-3 py-4 text-lg text-center font-medium">
+            Tracking
+          </a>
+
+          <a href="/products"
+            class="<%=activeOption==='products' ? 'border-sky-500 text-sky-600 ' : 'border-transparent, text-gray-500' %> shrink-0 border-b-2  px-3 py-4 text-lg text-center font-medium">
+            Products
+          </a>
+
+        </nav>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

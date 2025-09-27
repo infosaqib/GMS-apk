@@ -1,15 +1,14 @@
 const WeightRecord = require('../models/weightRecord.model.js');
-const ApiError = require('../services/ApiError.service');
 
 const storeWeight = async (req, res, next) => {
     try {
         const { weight } = req.body;
 
         if (weight === undefined || weight === null) {
-            throw new ApiError(400, 'Weight is required');
+            return res.status(400).json({ error: 'Weight is required' });
         }
         if (typeof weight !== 'number' || weight <= 0) {
-            throw new ApiError(400, 'Weight must be a positive number');
+            return res.status(400).json({ error: 'Weight must be a positive number' });
         }
 
         const newWeightRecord = new WeightRecord({ weight });
@@ -28,7 +27,7 @@ const getAllWeight = async (req, res, next) => {
         const weights = await WeightRecord.find().sort({ createdAt: -1 });
 
         if (!weights || weights.length === 0) {
-            throw new ApiError(404, 'No weight is found');
+            return res.status(404).json({ error: 'No weight is found' });
         }
 
         res.status(200).json({
@@ -46,14 +45,14 @@ const updateWeight = async (req, res, next) => {
         const { weight } = req.body;
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw new ApiError(400, 'Invalid weight record ID');
+            return res.status(400).json({ error: 'Invalid weight record ID' });
         }
 
         if (weight === undefined || weight === null) {
-            throw new ApiError(400, 'Weight is required');
+            return res.status(400).json({ error: 'Weight is required' });
         }
         if (typeof weight !== 'number' || weight <= 0) {
-            throw new ApiError(400, 'Weight must be a positive number');
+            return res.status(400).json({ error: 'Weight must be a positive number' });
         }
 
         const updatedRecord = await WeightRecord.findByIdAndUpdate(
@@ -63,7 +62,7 @@ const updateWeight = async (req, res, next) => {
         );
 
         if (!updatedRecord) {
-            throw new ApiError(404, 'Weight is not found');
+            return res.status(404).json({ error: 'Weight is not found' });
         }
 
         return res.status(200).json({

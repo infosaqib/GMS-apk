@@ -2,12 +2,20 @@
   "name": "gms-app",
   "version": "0.0.0",
   "private": true,
-  "main": "app.js",
+  "main": "bin/www",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start": "nodemon bin/www",
     "build": "tailwindcss build ./src/index.css -o ./src/style.css",
-    "watch": "tailwindcss -i ./src/index.css -o ./src/style.css --watch"
+    "watch": "tailwindcss -i ./src/index.css -o ./src/style.css --watch",
+    "electron": "electron .",
+     "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "productName": "MyApp",
+    "files": [
+      "**/*"
+    ]
   },
   "dependencies": {
     "autoprefixer": "^10.4.19",
@@ -33,15 +41,7 @@
     "sessionstorage": "^0.0.2",
     "tailwindcss": "^3.4.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/infosaqib/GMS-apk.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/infosaqib/GMS-apk.git/issues"
-  },
-  "homepage": "https://github.com/infosaqib/GMS-apk#readme"
+  "devDependencies": {
+    "electron": "^35.2.1"
+  }
 }
