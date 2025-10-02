@@ -4,15 +4,12 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser')
 
-
 //* Database Connection
-const connectDB = require('../db');
 const clientInvoiceModel = require('../models/client-invoice.model');
 const vendorInvoiceModel = require('../models/vendor-invoice.model');
 const clientModel = require('../models/client.model');
 const vendorModel = require('../models/vendor.model');
 const productModel = require('../models/product.model');
-connectDB();
 
 
 //* Routes

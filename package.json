@@ -2,9 +2,9 @@
   "name": "gms-app",
   "version": "0.0.0",
   "private": true,
-  "main": "bin/www",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon bin/www",
+    "start": "nodemon app.js",
     "build": "tailwindcss build ./src/index.css -o ./src/style.css",
     "watch": "tailwindcss -i ./src/index.css -o ./src/style.css --watch",
     "electron": "electron .",
