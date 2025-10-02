@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetch('/api/vendors')
     .then(response => response.json())
-    .then(data => vendors = data)
+    .then(result => vendors = result.data || [])
     .catch(error => console.log('Error fetching vendor data:', error))
 
   const handleInput = () => {

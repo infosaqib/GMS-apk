@@ -43,7 +43,8 @@ async function updateClient(event) {
       );
     }
 
-    const client = await response.json();
+    const result = await response.json();
+    const client = result.data;
 
     const { name, fatherName, contact, cnic } = client;
 

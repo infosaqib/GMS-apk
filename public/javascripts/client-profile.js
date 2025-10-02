@@ -71,8 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             .join("");
 
 
-            //Apply openinvoice
-            document.getElementById('openClientInvoice').addEventListener('click', openClientInvoice )
+        //Apply openinvoice
+        document.getElementById('openClientInvoice').addEventListener('click', openClientInvoice)
     } catch (error) {
         console.error("Error fetching invoices:", error);
         invoiceContainer.innerHTML = "<p class='text-gray-400 text-center'>No invoices found</p>";
@@ -86,22 +86,23 @@ let clientName = document.getElementById('clientName'),
     clientPhone = document.getElementById('clientPhone'),
     clientCnic = document.getElementById('clientCnic');
 
-    document.addEventListener('DOMContentLoaded', async ()=>{
-        try {
-            
-            const response = await fetch(`/api/clients/${clientId}`);
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-    
-            const client = await response.json();
-            clientName.textContent = client.name
-            clientFatherName.textContent = client.fatherName
-            clientPhone.textContent = client.contact
-            clientCnic.textContent = client.cnic
-    
-        } catch (error) {
-            
+        const response = await fetch(`/api/clients/${clientId}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    })
+
+        const result = await response.json();
+        const client = result.data;
+        clientName.textContent = client.name
+        clientFatherName.textContent = client.fatherName
+        clientPhone.textContent = client.contact
+        clientCnic.textContent = client.cnic
+
+    } catch (error) {
+
+    }
+})

@@ -147,7 +147,8 @@ document.clientForm.addEventListener('submit', async (e) => {
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const response = await fetch("/api/products");
-    const products = await response.json();
+    const result = await response.json();
+    const products = result.data || [];
 
     productMenu.addEventListener("change", () => {
       document.getElementById("select-item").setAttribute("disabled", true);
@@ -210,7 +211,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     response = await fetch("/api/products");
-    const products = await response.json();
+    const result = await response.json();
+    const products = result.data || [];
 
     products.forEach((product) => {
       let { product_name } = product;
@@ -238,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetch('/api/clients')
     .then(response => response.json())
-    .then(data => clients = data)
+    .then(result => clients = result.data || [])
     .catch(error => console.log('Error fetching client data:', error))
 
   const nameInput = document.clientForm.name

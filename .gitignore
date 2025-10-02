@@ -2,3 +2,4 @@
 *.txt
 .vercel
 .env
+logs/*

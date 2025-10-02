@@ -138,7 +138,8 @@ async function updateProduct(event) {
             throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
         }
 
-        const product = await response.json();
+        const result = await response.json();
+        const product = result.data;
 
         const { product_name, granding_price, cleaning_price, chrai_price, pinjai_price, filling_price, stiching_price, total_price } = product;
 
@@ -225,7 +226,8 @@ function hideUpdateProduct() {
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('/api/products');
-        const products = await response.json();
+        const result = await response.json();
+        const products = result.data || [];
         const productContainer = document.getElementById('product-container');
 
         productContainer.innerHTML += products.map(product => {

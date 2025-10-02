@@ -1,11 +1,13 @@
+require('dotenv').config();
 let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+const { setupMiddlewares } = require('./middlewares/index.middleware');
 const { setupErrorHandlers } = require('./middlewares/errorHandler.middleware');
 const { connectDB, disconnectDB } = require('./config/db.config');
-require('dotenv').config();
+const PORT = process.env.PORT;
 
 // In app.js, before mounting routes
 // app.use((req, res, next) => {
@@ -52,20 +54,20 @@ app.use('/api/meal', mealRecordRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  res.status(404).send('Route not found');
   next(createError(404));
 });
 
 
 
 // Error handling middleware should be after all routes
+setupMiddlewares(app)
 setupErrorHandlers(app);
 
 const startServer = async () => {
   try {
     await connectDB();
-    const server = app.listen(process.env.PORT || 3000, () => {
-      console.log(`Server running on http://localhost:${process.env.PORT || 3000}`);
+    const server = app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
     });
 
   } catch (err) {

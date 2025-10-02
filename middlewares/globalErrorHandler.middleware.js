@@ -12,7 +12,8 @@ function errorHandler(err, req, res, next) {
         console.log('   Cookies:', req.cookies ? Object.keys(req.cookies) : 'None');
         console.log('   Timestamp:', new Date().toISOString());
         console.log('   ======================================\n');
-    } else {
+    } else if (err.status !== 404 && err.statusCode !== 404) {
+        // Only log errors that are not 404s (to reduce noise for missing resources)
         console.error('Global Error Handler:', err);
     }
 

@@ -99,7 +99,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const vendor = await response.json();
+        const result = await response.json();
+        const vendor = result.data;
         vendorName.textContent = vendor.name
         vendorFatherName.textContent = vendor.fatherName
         vendorPhone.textContent = vendor.contact
