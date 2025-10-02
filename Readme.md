@@ -441,23 +441,22 @@ All API endpoints return data in the following format:
 
 ## 📸 Screenshots
 
-> **Note**: Add screenshots of your application here to showcase the UI and features.
 
 ### Dashboard
 
-![Dashboard](https://via.placeholder.com/800x400?text=Dashboard+Screenshot)
+![Dashboard](https://github.com/infosaqib/GMS-apk/blob/master/public/images/dashboard.png)
 
 ### Product Management
 
-![Products](https://via.placeholder.com/800x400?text=Products+Screenshot)
+![Products](https://github.com/infosaqib/GMS-apk/blob/master/public/images/products.png)
 
 ### Invoice Creation
 
-![Invoice](https://via.placeholder.com/800x400?text=Invoice+Screenshot)
+![Invoice](https://github.com/infosaqib/GMS-apk/blob/master/public/images/invoice.png)
 
 ### Order Tracking
 
-![Tracking](https://via.placeholder.com/800x400?text=Tracking+Screenshot)
+![Tracking](https://github.com/infosaqib/GMS-apk/blob/master/public/images/tracking.png)
 
 ---
 
