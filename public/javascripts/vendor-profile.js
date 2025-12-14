@@ -1,6 +1,6 @@
 // Fetch invoices for the specific vendor ID
+// Utils are loaded via utils.bundle.js
 const vendorId = sessionStorage.getItem("vendorId");
-import { openVendorInvoice } from './utils.js'
 
 document.addEventListener("DOMContentLoaded", async () => {
     const invoiceContainer = document.getElementById("invoice-collection");
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             })
             .join("");
 
-        document.getElementById('openVendorInvoice').addEventListener('click', openVendorInvoice)
+        document.getElementById('openVendorInvoice').addEventListener('click', window.openVendorInvoice)
 
     } catch (error) {
         console.error("Error fetching invoices:", error);

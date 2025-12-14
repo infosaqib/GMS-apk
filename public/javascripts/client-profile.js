@@ -1,5 +1,5 @@
 // Function to open invoice details
-import { openClientInvoice } from "./utils.js";
+// Utils are loaded via utils.bundle.js
 
 // Fetch invoices for the specific client ID
 const clientId = sessionStorage.getItem("clientId");
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         //Apply openinvoice
-        document.getElementById('openClientInvoice').addEventListener('click', openClientInvoice)
+        document.getElementById('openClientInvoice').addEventListener('click', window.openClientInvoice)
     } catch (error) {
         console.error("Error fetching invoices:", error);
         invoiceContainer.innerHTML = "<p class='text-gray-400 text-center'>No invoices found</p>";

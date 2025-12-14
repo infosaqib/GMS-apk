@@ -117,9 +117,38 @@
     }
   </style>
   <title>Invoices - GMS</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/hourglass.js"></script>
+  <style>
+    #page-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease-out;
+    }
+    #page-loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 
 <body class="flex  min-h-screen w-screen bg-gray-100 relative overflow-visible">
+  <!-- Page Loader -->
+  <div id="page-loader">
+    <l-hourglass
+      size="40"
+      bg-opacity="0.1"
+      speed="1.75"
+      color="#9333EA"
+    ></l-hourglass>
+  </div>
   <%-include('aside', {activeOption: 'invoices' })%>
     <div class="flex flex-col   w-[85%] px-[5%] pt-4">
       <!-- Header -->
@@ -159,32 +188,45 @@
               </div>
 
               <!-- SCRIPTS -->
-              <script type="module">
-                import {openClientInvoice, openVendorInvoice, closeClientInvoice, closeVendorInvoice, capitalizeText, contactFormat, cnicFormat } from '/javascripts/utils.js';
+              <script src="/javascripts/utils.bundle.js"></script>
+              <script>
+                // Hide loader when everything is loaded
+                window.addEventListener('load', function() {
+                  const loader = document.getElementById('page-loader');
+                  if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(() => {
+                      loader.style.display = 'none';
+                    }, 300);
+                  }
+                });
 
                 // Apply contact format
                 document.querySelectorAll('.contactInput').forEach(contact =>{
-                  contact.addEventListener('input', contactFormat)
+                  contact.addEventListener('input', Utils.contactFormat)
                 })
                 // Apply cnic format
                 document.querySelectorAll('.cnicInput').forEach(cnic =>{
-                  cnic.addEventListener('input', cnicFormat)
+                  cnic.addEventListener('input', Utils.cnicFormat)
                 })
                 // Apply Capitalization of Text
                 document.querySelectorAll(".capitalize-input").forEach(input => {
-                  input.addEventListener("input", capitalizeText);
+                  input.addEventListener("input", Utils.capitalizeText);
                 });
 
                 //Apply Open Client Invoice
                 document.querySelectorAll('.openClientInvoice').forEach(invoice => {
-                  invoice.addEventListener('click', openClientInvoice)
+                  invoice.addEventListener('click', Utils.openClientInvoice)
                 })
                 //Apply Open Vendor Invoice
                 document.querySelectorAll('.openVendorInvoice').forEach(invoice => {
-                  invoice.addEventListener('click', openVendorInvoice )
+                  invoice.addEventListener('click', Utils.openVendorInvoice )
                 })
                 //Apply Close Invoice
-                document.getElementById('overlay').addEventListener('click', closeClientInvoice, closeVendorInvoice)
+                document.getElementById('overlay').addEventListener('click', function() {
+                  Utils.closeClientInvoice();
+                  Utils.closeVendorInvoice();
+                })
               </script>
               <script src="/javascripts/script.js"></script>
               <script src="/javascripts/client-invoice.js"></script>

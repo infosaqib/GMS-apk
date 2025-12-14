@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>vendor Profile</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/hourglass.js"></script>
   <style>
     #invoice-view.toggle {
       display: block;
@@ -28,10 +29,37 @@
     #overlay.toggle {
       display: block;
     }
+
+    #page-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease-out;
+    }
+    #page-loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 
 <body class="flex min-h-screen w-screen bg-gray-100 relative overflow-visible">
+  <!-- Page Loader -->
+  <div id="page-loader">
+    <l-hourglass
+      size="40"
+      bg-opacity="0.1"
+      speed="1.75"
+      color="#9333EA"
+    ></l-hourglass>
+  </div>
   <%-include('aside', {activeOption: 'vendors' })%>
   <div class="flex flex-col   w-[85%] px-[5%]">
       <header class=" flex flex-row items-center justify-around py-12 gap-8">
@@ -81,14 +109,23 @@
         class="container bg-white w-[90vw] sm:w-[45vw] rounded p-3 fixed top-[50%] left-0 translate-y-[-50%] translate-x-[5%] sm:translate-x-[50%] z-40  hidden">
       </div>
       <!-- Javascripts -->
-      <script type="module">
-        import { closeVendorInvoice } from '/javascripts/utils.js';
-
+      <script src="/javascripts/utils.bundle.js"></script>
+      <script>
+        // Hide loader when everything is loaded
+        window.addEventListener('load', function() {
+          const loader = document.getElementById('page-loader');
+          if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => {
+              loader.style.display = 'none';
+            }, 300);
+          }
+        });
 
         //Apply Close Invoice
-        document.getElementById('overlay').addEventListener('click', closeVendorInvoice)
+        document.getElementById('overlay').addEventListener('click', Utils.closeVendorInvoice)
       </script>
-      <script type="module" src="/javascripts/vendor-profile.js"></script>
+      <script src="/javascripts/vendor-profile.js"></script>
       <script src="https://cdn.tailwindcss.com"></script>
 </body>
 

@@ -1,287 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vendor Catalog</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/hourglass.js"
+    ></script>
     <style>
-        #overlay.show {
-            display: block;
+      #overlay.show {
+        display: block;
+      }
+
+      #add-vendor-page.show,
+      #update-vendor-page.show {
+        display: block;
+        animation: dialog 250ms linear 1;
+        z-index: 1;
+      }
+
+      @keyframes dialog {
+        from {
+          opacity: 0;
+          /* transform: scale(0.55); */
         }
 
-        #add-vendor-page.show,
-        #update-vendor-page.show {
-            display: block;
-            animation: dialog 250ms linear 1;
-            z-index: 1
+        to {
+          opacity: 1;
+          /* transform: scale(0.70); */
         }
+      }
 
-        @keyframes dialog {
-            from {
-                opacity: 0;
-                /* transform: scale(0.55); */
-            }
-
-            to {
-                opacity: 1;
-                /* transform: scale(0.70); */
-            }
-
-        }
+      #page-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.95);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.3s ease-out;
+      }
+      #page-loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
     </style>
-</head>
+  </head>
 
-<body class="flex min-h-screen w-screen bg-gray-100 relative overflow-visible">
+  <body
+    class="flex min-h-screen w-screen bg-gray-100 relative overflow-visible"
+  >
+    <!-- Page Loader -->
+    <div id="page-loader">
+      <l-hourglass
+        size="40"
+        bg-opacity="0.1"
+        speed="1.75"
+        color="#9333EA"
+      ></l-hourglass>
+    </div>
     <%-include('aside', {activeOption: 'vendors' })%>
-        <main id="container" class="flex flex-col   w-[85%] px-[5%]">
-            <div class="flex flex-row justify-between p-4 space-x-4">
-                <div>
-                  <h5 class="text-xl font-semibold text-gray-900 mb-2">Vendors</h5>
-                  <p class="text-gray-500 text-sm">Manage all your vendors or add a new one</p>
-                </div>
-                <button 
-                  id="new-vendor-btn" 
-                  onclick="addVendor()"
-                  type="button" 
-                  class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300"
+    <main id="container" class="flex flex-col w-[85%] px-[5%]">
+      <div class="flex flex-row justify-between p-4 space-x-4">
+        <div>
+          <h5 class="text-xl font-semibold text-gray-900 mb-2">Vendors</h5>
+          <p class="text-gray-500 text-sm">
+            Manage all your vendors or add a new one
+          </p>
+        </div>
+        <button
+          id="new-vendor-btn"
+          onclick="addVendor()"
+          type="button"
+          class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-lg focus:ring-4 focus:ring-purple-300"
+        >
+          <svg
+            class="size-8 pr-1"
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 mr-2 -ml-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+          Add Vendor
+        </button>
+      </div>
+
+      <hr class="my-3 mr-8" />
+      <div
+        id="vendor-container"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-6 p-6"
+      >
+        <!-- Fetching vendors -->
+        <%- vendors.map(({ _id, name, fatherName, contact, cnic })=> `
+        <div
+          id="myVendor"
+          data-id="${_id}"
+          class="h-full scale-95 flex flex-col justify-center border border-gray-300 bg-white rounded-lg py-4 px-5"
+        >
+          <div class="flex flex-row justify-start items-center gap-4 py-6">
+            <div class="mr-auto border border-gray-200 px-3 py-2 rounded-md">
+              <a
+                href="/vendors/vendor-profile"
+                class="vendor-profile-btn flex flex-row gap-2 items-center justify-center cursor-pointer"
+              >
+                <svg
+                  class="size-6 cursor-pointer"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg class="size-8 pr-1"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    class="h-4 w-4 mr-2 -ml-1" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor" 
-                    stroke-width="1.5"
-                  >
-                    <path 
-                      stroke-linecap="round" 
-                      stroke-linejoin="round" 
-                      d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" 
-                    />
-                  </svg>
-                  Add Vendor
-                </button>
-              </div>
-              
-            <hr class="my-3 mr-8">
-            <div id="vendor-container"
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center justify-center gap-x-6 p-6">
+                  <path
+                    fill="#9333ea"
+                    d="m256 288c79.5 0 144-64.5 144-144s-64.5-144-144-144-144 64.5-144 144 64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-55.1c-70.7 0-128 57.3-128 128v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z"
+                  />
+                </svg>
+                <p class="text-gray-500 text-base">Profile</p>
+              </a>
+            </div>
+            <div
+              onclick="updateVendor(event)"
+              class="flex flex-row items-center justify-center cursor-pointer border border-purple-500 bg-purple-600 hover:bg-purple-500 rounded-[100px] px-4 py-1 gap-3"
+            >
+              <svg
+                class="size-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                />
+              </svg>
+            </div>
+            <div
+              class="deleteButton flex flex-row items-center justify-center cursor-pointer border border-red-500 hover:bg-gray-50 rounded-[100px] px-3 py-1 gap-3"
+            >
+              <svg
+                class="size-4 text-red-500 cursor-pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="flex flex-row justify-between items-center px-3 py-4">
+            <h1 class="text-gray-400 text-base">Name</h1>
+            <p class="text-black text-base font-semibold">${name}</p>
+          </div>
+          <hr />
+          <div class="flex flex-row justify-between items-center px-3 py-4">
+            <h1 class="text-gray-400 text-base">Father name</h1>
+            <p class="text-black text-base font-semibold">${fatherName}</p>
+          </div>
+          <hr />
+          <div class="flex flex-row justify-between items-center px-3 py-4">
+            <h1 class="text-gray-400 text-base">Contact</h1>
+            <p class="text-black text-base font-semibold">${contact}</p>
+          </div>
+          <hr />
+          <div class="flex flex-row justify-between items-center px-3 py-4">
+            <h1 class="text-gray-400 text-base">CNIC</h1>
+            <p class="text-black text-base font-semibold">${cnic}</p>
+          </div>
+        </div>
+        `).join("") %>
+      </div>
 
+      <!--! ADD vendor FORM-->
 
-                <!-- Fetching vendors -->
-                <%- vendors.map(({ _id, name, fatherName, contact, cnic })=> `
-                    <div id="myVendor" data-id="${_id}"
-                        class="h-full scale-95 flex flex-col justify-center border border-gray-300 bg-white rounded-lg py-4 px-5">
-                        <div class="flex flex-row justify-start items-center gap-4 py-6">
-                            <div class="mr-auto border border-gray-200  px-3 py-2 rounded-md ">
+      <div
+        id="add-vendor-page"
+        class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg"
+      >
+        <div class="flex flex-row items-center justify-between mb-4">
+          <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">
+            Add Vendor
+          </h1>
+          <button
+            onclick="hideAddVendor()"
+            class="text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2"
+          >
+            Go back
+            <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1 1l4 4-4 4"
+                stroke="#7C5DFA"
+                stroke-width="2"
+                fill="none"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <hr class="my-3 mr-8 h-[.2px]" />
 
-                                <a href="/vendors/vendor-profile"
-                                    class="vendor-profile-btn flex flex-row gap-2 items-center justify-center cursor-pointer">
-                                    <svg class="size-6 cursor-pointer" viewBox="0 0 512 512"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="#9333ea"
-                                            d="m256 288c79.5 0 144-64.5 144-144s-64.5-144-144-144-144 64.5-144 144 64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-55.1c-70.7 0-128 57.3-128 128v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z" />
-                                    </svg>
-                                    <p class="text-gray-500 text-base">Profile</p>
-                                </a>
-                            </div>
-                            <div onclick="updateVendor(event)"
-                                class=" flex flex-row items-center justify-center cursor-pointer border border-purple-500 bg-purple-600 hover:bg-purple-500 rounded-[100px] px-4 py-1 gap-3">
-
-                                <svg class="size-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                </svg>
-                            </div>
-                            <div
-                                class="deleteButton flex flex-row items-center justify-center cursor-pointer border border-red-500 hover:bg-gray-50 rounded-[100px] px-3 py-1 gap-3">
-
-                                <svg class="size-4 text-red-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div class="flex flex-row justify-between items-center px-3 py-4">
-                            <h1 class="text-gray-400 text-base">Name</h1>
-                            <p class="text-black text-base font-semibold">${name}</p>
-                        </div>
-                        <hr>
-                        <div class="flex flex-row justify-between items-center px-3 py-4">
-                            <h1 class="text-gray-400 text-base">Father name</h1>
-                            <p class="text-black text-base font-semibold">${fatherName}</p>
-                        </div>
-                        <hr>
-                        <div class="flex flex-row justify-between items-center px-3 py-4">
-                            <h1 class="text-gray-400 text-base">Contact</h1>
-                            <p class="text-black text-base font-semibold">${contact}</p>
-                        </div>
-                        <hr>
-                        <div class="flex flex-row justify-between items-center px-3 py-4">
-                            <h1 class="text-gray-400 text-base">CNIC</h1>
-                            <p class="text-black text-base font-semibold">${cnic}</p>
-                        </div>
-                    </div>
-                    `).join("") %>
-
+        <form
+          method="POST"
+          action="/api/vendors"
+          name="addVendorForm"
+          class="gap-4 flex flex-col pt-4 md:px-12 h-[50%]"
+        >
+          <div class="flex flex-col my-2">
+            <!-- Name -->
+            <div class="flex flex-col col-span-1 mr-8" id="name">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="name"
+                >Name</label
+              >
+              <input
+                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="name"
+                autocapitalize="words"
+                required
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+            <!-- Father Name -->
+            <div class="flex flex-col col-span-1 mr-8" id="father_name">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="fatherName"
+                >Father name</label
+              >
+              <input
+                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="fatherName"
+                autocapitalize="words"
+                required
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
 
-
-            <!--! ADD vendor FORM-->
-
-            <div id="add-vendor-page"
-                class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
-                <div class="flex flex-row items-center justify-between mb-4">
-                    <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Add Vendor
-                    </h1>
-                    <button onclick="hideAddVendor()"
-                        class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
-                        Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-                        </svg> </button>
-                </div>
-                <hr class="my-3 mr-8 h-[.2px]">
-
-                <form method="POST" action="/api/vendors" name="addVendorForm"
-                    class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
-
-
-                    <div class="flex flex-col my-2">
-                        <!-- Name -->
-                        <div class="flex flex-col col-span-1 mr-8" id="name">
-                            <label class=" label-red my-1 text-gray-500 font-semibold  " for="name">Name</label>
-                            <input
-                                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="name" autocapitalize="words" required>
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-                        <!-- Father Name -->
-                        <div class="flex flex-col col-span-1 mr-8" id="father_name">
-                            <label class=" label-red my-1 text-gray-500 font-semibold  " for="fatherName">Father
-                                name</label>
-                            <input
-                                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="fatherName" autocapitalize="words" required>
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-
-                        <!-- Contact -->
-                        <div class="flex flex-col col-span-1 mr-8" id="contact">
-                            <label class="label-red my-1 text-gray-500 font-semibold  " for="contact">Contact</label>
-                            <input
-                                class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="contact" required>
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-
-                        <!-- CNIC -->
-                        <div class="flex flex-col col-span-1 mr-8" id="cnic">
-                            <label class=" label-red my-1 text-gray-500 font-semibold  " for="cnic">CNIC</label>
-                            <input
-                                class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="cnic" >
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-                    </div>
-
-                    <!-- BUTTON -->
-                    <input onclick="hideAddVendor()"
-                        class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
-                        type="submit" value="+ Add new Vendor">
-                </form>
+            <!-- Contact -->
+            <div class="flex flex-col col-span-1 mr-8" id="contact">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="contact"
+                >Contact</label
+              >
+              <input
+                class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="contact"
+                required
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
 
+            <!-- CNIC -->
+            <div class="flex flex-col col-span-1 mr-8" id="cnic">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="cnic"
+                >CNIC</label
+              >
+              <input
+                class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="cnic"
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+          </div>
 
-            <!--! Update vendor FORM-->
-            <div id="update-vendor-page"
-                class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg">
-                <div class="flex flex-row items-center justify-between mb-4">
-                    <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">Update vendor
-                    </h1>
-                    <button onclick="hideUpdateVendor()"
-                        class=" text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2">
-                        Go back <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1l4 4-4 4" stroke="#7C5DFA" stroke-width="2" fill="none" fill-rule="evenodd" />
-                        </svg> </button>
-                </div>
-                <hr class="my-3 mr-8 h-[.2px]">
+          <!-- BUTTON -->
+          <input
+            onclick="hideAddVendor()"
+            class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
+            type="submit"
+            value="+ Add new Vendor"
+          />
+        </form>
+      </div>
 
-                <form method="POST" name="updateVendorForm" class=" gap-4 flex flex-col pt-4 md:px-12 h-[50%]">
+      <!--! Update vendor FORM-->
+      <div
+        id="update-vendor-page"
+        class="w-[85 md:w-[70vw] hidden bg-white scale-[0.70] p-12 fixed top-[50%] left-[-25%] translate-y-[-50%] translate-x-[50%] rounded-lg"
+      >
+        <div class="flex flex-row items-center justify-between mb-4">
+          <h1 class="text-black text-base md:text-2xl font-bold mx-4 md:mx-12">
+            Update vendor
+          </h1>
+          <button
+            onclick="hideUpdateVendor()"
+            class="text-gray-500 hover:text-gray-400 text-sm md:text-xl p-sm mx-4 md:mx-12 flex flex-row items-center justify-center gap-2"
+          >
+            Go back
+            <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M1 1l4 4-4 4"
+                stroke="#7C5DFA"
+                stroke-width="2"
+                fill="none"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+        <hr class="my-3 mr-8 h-[.2px]" />
 
-
-                    <div class="flex flex-col my-2">
-                        <!-- Name -->
-                        <div class="flex flex-col col-span-1 mr-8" id="name">
-                            <label class=" label-red my-1 text-gray-500 font-semibold  " for="up_name">Name</label>
-                            <input
-                                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="up_name" autocapitalize="words" required>
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-                        <!-- Father Name -->
-                        <div class="flex flex-col col-span-1 mr-8" id="father_name">
-                            <label class=" label-red my-1 text-gray-500 font-semibold  " for="up_fatherName">Father
-                                name</label>
-                            <input
-                                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="up_fatherName" autocapitalize="words" required>
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-
-                        <!-- Contact -->
-                        <div class="flex flex-col col-span-1 mr-8" id="up_contact">
-                            <label class="label-red my-1 text-gray-500 font-semibold  " for="contact">Contact</label>
-                            <input
-                                class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="up_contact" required>
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-
-                        <!-- CNIC -->
-                        <div class="flex flex-col col-span-1 mr-8" id="cnic">
-                            <label class=" label-red my-1 text-gray-500 font-semibold  " for="up_cnic">CNIC</label>
-                            <input
-                                class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
-                                type="text" name="up_cnic" >
-                            <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
-                        </div>
-                    </div>
-
-                    <!-- BUTTON -->
-                    <input onclick="hideUpdateVendor()"
-                        class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
-                        type="submit" value="Save changes">
-                </form>
+        <form
+          method="POST"
+          name="updateVendorForm"
+          class="gap-4 flex flex-col pt-4 md:px-12 h-[50%]"
+        >
+          <div class="flex flex-col my-2">
+            <!-- Name -->
+            <div class="flex flex-col col-span-1 mr-8" id="name">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="up_name"
+                >Name</label
+              >
+              <input
+                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="up_name"
+                autocapitalize="words"
+                required
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+            <!-- Father Name -->
+            <div class="flex flex-col col-span-1 mr-8" id="father_name">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="up_fatherName"
+                >Father name</label
+              >
+              <input
+                class="capitalize-input border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="up_fatherName"
+                autocapitalize="words"
+                required
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
 
-            <!-- OVERLAY -->
-            <div onclick="hideAddVendor();hideUpdateVendor() " id="overlay"
-                class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden">
+            <!-- Contact -->
+            <div class="flex flex-col col-span-1 mr-8" id="up_contact">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="contact"
+                >Contact</label
+              >
+              <input
+                class="contactInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="up_contact"
+                required
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
             </div>
-        </main>
 
-        <script type="module">
-            import { capitalizeText, contactFormat, cnicFormat } from '/javascripts/utils.js';
+            <!-- CNIC -->
+            <div class="flex flex-col col-span-1 mr-8" id="cnic">
+              <label
+                class="label-red my-1 text-gray-500 font-semibold"
+                for="up_cnic"
+                >CNIC</label
+              >
+              <input
+                class="cnicInput border-[.2px] border-gray-300 py-1 md:py-2 px-4 rounded focus:outline-purple-400"
+                type="text"
+                name="up_cnic"
+              />
+              <span class="error text-red-500 text-[12px] ml-2 mt-1"></span>
+            </div>
+          </div>
 
-             // Apply text capitalization 
-             document.querySelectorAll(".capitalize-input").forEach(input => {
-                input.addEventListener("input", capitalizeText);
-            });
-            // Apply contact format
-            document.querySelectorAll('.contactInput').forEach(contact => {
-                contact.addEventListener('input', contactFormat)
-            })
-            // Apply cnic format
-            document.querySelectorAll('.cnicInput').forEach(cnic => {
-                cnic.addEventListener('input', cnicFormat)
-            })
-        </script>
-        <script src="/javascripts/vendor.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-</body>
+          <!-- BUTTON -->
+          <input
+            onclick="hideUpdateVendor()"
+            class="rounded-lg cursor-pointer bg-purple-700 hover:opacity-[0.8] text-white text-xl px-20 py-2 md:py-3"
+            type="submit"
+            value="Save changes"
+          />
+        </form>
+      </div>
 
+      <!-- OVERLAY -->
+      <div
+        onclick="hideAddVendor();hideUpdateVendor() "
+        id="overlay"
+        class="bg-gray-800 bg-opacity-40 w-screen h-screen fixed inset-0 hidden"
+      ></div>
+    </main>
+
+    <script src="/javascripts/utils.bundle.js"></script>
+    <script>
+      // Hide loader when everything is loaded
+      window.addEventListener("load", function () {
+        const loader = document.getElementById("page-loader");
+        if (loader) {
+          loader.classList.add("hidden");
+          setTimeout(() => {
+            loader.style.display = "none";
+          }, 300);
+        }
+      });
+
+      // Apply text capitalization
+      document.querySelectorAll(".capitalize-input").forEach((input) => {
+        input.addEventListener("input", Utils.capitalizeText);
+      });
+      // Apply contact format
+      document.querySelectorAll(".contactInput").forEach((contact) => {
+        contact.addEventListener("input", Utils.contactFormat);
+      });
+      // Apply cnic format
+      document.querySelectorAll(".cnicInput").forEach((cnic) => {
+        cnic.addEventListener("input", Utils.cnicFormat);
+      });
+    </script>
+    <script src="/javascripts/vendor.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </body>
 </html>
