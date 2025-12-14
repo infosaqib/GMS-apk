@@ -1,4 +1,4 @@
-//* Capitalize Text
+git//* Capitalize Text
 
 export function capitalizeText(event) {
   event.preventDefault();
